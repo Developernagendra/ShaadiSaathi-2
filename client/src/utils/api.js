@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 // Production Ready API Base URL
 // ============================================
 
-const rawApiUrl = import.meta.env.VITE_API_URL || "https://shaadisaathi-backend.onrender.com";
+const rawApiUrl = import.meta.env.VITE_API_URL || "https://shaadisaathi-2.onrender.com";
 let BASE_URL = rawApiUrl;
 
 // Ensure BASE_URL ends with /api

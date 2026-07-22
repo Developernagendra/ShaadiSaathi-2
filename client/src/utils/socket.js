@@ -5,12 +5,12 @@ let socket = null
 export const initSocket = (user) => {
   let socketUrl = import.meta.env.VITE_SOCKET_URL;
   if (!socketUrl) {
-    const rawApiUrl = import.meta.env.VITE_API_URL || 'https://shaadisaathi-backend.onrender.com';
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'https://shaadisaathi-2.onrender.com';
     if (rawApiUrl.startsWith('http')) {
       // Strip /api if it exists at the end
       socketUrl = rawApiUrl.replace(/\/api\/?$/, '');
     } else {
-      socketUrl = 'https://shaadisaathi-backend.onrender.com';
+      socketUrl = 'https://shaadisaathi-2.onrender.com';
     }
   }
   

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 import io from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_API_URL?.replace('/api/v1', '').replace('/api', '') || 'https://shaadisaathi-backend.onrender.com';
+const SOCKET_URL = import.meta.env.VITE_API_URL?.replace('/api/v1', '').replace('/api', '') || 'https://shaadisaathi-2.onrender.com';
 
 const AuthSoundListener = () => {
 
