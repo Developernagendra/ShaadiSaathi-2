@@ -50,9 +50,11 @@ process.on('unhandledRejection', (err) => {
 /* ---------------- CORS & DIAGNOSTIC REQUEST LOGGING (PLACED AT TOP OF MIDDLEWARE STACK) ---------------- */
 const allowedOrigins = [
   "https://shaadi-saathi.vercel.app",
+  "https://shaadi-saathi-2.vercel.app",
   // Development origins — safe to include since production mode is gated by NODE_ENV checks
   "http://localhost:5173",
   "http://localhost:5174",
+  "http://localhost:3000",
   "http://127.0.0.1:5173",
 ];
 

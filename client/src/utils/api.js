@@ -5,9 +5,13 @@ import toast from "react-hot-toast";
 // Production Ready API Base URL
 // ============================================
 
-const BASE_URL =
-   import.meta.env.VITE_API_URL ||
-   "https://shaadisaathi-backend.onrender.com/api";
+const rawApiUrl = import.meta.env.VITE_API_URL || "https://shaadisaathi-backend.onrender.com";
+let BASE_URL = rawApiUrl;
+
+// Ensure BASE_URL ends with /api
+if (BASE_URL && !BASE_URL.endsWith('/api')) {
+   BASE_URL = `${BASE_URL.replace(/\/$/, '')}/api`;
+}
 
 if (import.meta.env.DEV) {
    console.log('API URL:', BASE_URL);
