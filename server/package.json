@@ -1,0 +1,49 @@
+{
+  "name": "shaadisaathi-server",
+  "version": "1.0.0",
+  "description": "ShaadiSaathi Wedding Marketplace Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test-perf": "node testPerformance.js",
+    "test-db": "node testAPI.js",
+    "check-cat": "node check-categories.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.10.0",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "csv-parser": "^3.2.1",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^7.2.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.0",
+    "morgan": "^1.10.1",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary-v2": "^1.0.3",
+    "node-cron": "^3.0.3",
+    "openai": "^4.52.0",
+    "razorpay": "^2.9.6",
+    "socket.io": "^4.7.5",
+    "uuid": "^10.0.0",
+    "xss-clean": "^0.1.4"
+  },
+  "overrides": {
+    "multer-storage-cloudinary-v2": {
+      "multer": "$multer"
+    }
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

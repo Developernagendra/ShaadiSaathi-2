@@ -1,0 +1,55 @@
+{
+  "name": "shaadisaathi-client",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "axios": "^1.16.0",
+    "date-fns": "^4.1.0",
+    "formik": "^2.4.6",
+    "framer-motion": "^11.18.2",
+    "html2canvas": "^1.4.1",
+    "i18next": "^23.11.0",
+    "i18next-browser-languagedetector": "^8.0.0",
+    "i18next-http-backend": "^4.0.0",
+    "jspdf": "^4.2.1",
+    "quill": "^2.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-i18next": "^14.1.2",
+    "react-icons": "^5.3.0",
+    "react-lazy-load-image-component": "^1.6.2",
+    "react-quill": "^2.0.0",
+    "react-redux": "^9.3.0",
+    "react-router-dom": "^6.30.3",
+    "recharts": "^2.15.4",
+    "socket.io-client": "^4.7.5",
+    "swiper": "^12.2.0",
+    "yup": "^1.4.0"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "postcss": "^8.5.15",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^3.4.19",
+    "vite": "^5.4.11",
+    "vite-plugin-pwa": "^0.19.8"
+  }
+}

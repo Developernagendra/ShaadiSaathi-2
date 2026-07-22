@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - ShaadiSaathi</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #FFF8F0; color: #2D2D2D; text-align: center; }
+        h1 { font-size: 3rem; color: #C2185B; margin-bottom: 1rem; }
+        p { font-size: 1.2rem; color: #666; margin-bottom: 2rem; }
+        a { display: inline-block; background-color: #C2185B; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>404</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+        <a href="/">Go back home</a>
+    </div>
+    <script>
+      // Single Page Application routing fallback
+      if (window.location.pathname !== '/') {
+        window.location.replace('/?redirect=' + window.location.pathname);
+      }
+    </script>
+</body>
+</html>

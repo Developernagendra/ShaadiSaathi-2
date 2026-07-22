@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "home": "होम",
+    "services": "सेवाएं",
+    "vendors": "वेंडर",
+    "tools": "टूल्स",
+    "about": "हमारे बारे में",
+    "contact": "संपर्क करें",
+    "blog": "ब्लॉग",
+    "userDashboard": "डैशबोर्ड",
+    "vendorDashboard": "वेंडर डैशबोर्ड",
+    "booking": "बुकिंग"
+  },
+  "auth": {
+    "login": "लॉग इन करें",
+    "register": "रजिस्टर करें",
+    "logout": "लॉग आउट",
+    "forgot_password": "पासवर्ड भूल गए?",
+    "reset_password": "पासवर्ड रीसेट करें",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "submit": "जमा करें"
+  },
+  "common": {
+    "book_now": "अभी बुक करें",
+    "view_details": "विवरण देखें",
+    "dashboard": "डैशबोर्ड",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स",
+    "language": "भाषा",
+    "save": "सेव करें",
+    "cancel": "रद्द करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं"
+  },
+  "languages": {
+    "en": "English",
+    "hi": "हिन्दी (Hindi)",
+    "bho": "भोजपुरी (Bhojpuri)",
+    "mai": "मैथिली (Maithili)"
+  },
+  "home": {
+    "title": "अपने खास दिन के लिए भरोसेमंद वेडिंग सर्विस खोजें",
+    "premium_marketplace": "प्रीमियम वेडिंग मार्केटप्लेस",
+    "subtitle": "भरोसेमंद वेंडर्स, स्मार्ट टूल्स और आसान बुकिंग के साथ अपनी शादी की तैयारी को आसान बनाएं।",
+    "explore": "खोजें",
+    "wedding_services": "वेडिंग सेवाएं",
+    "featured": "चुनिंदा",
+    "vendors": "वेंडर्स",
+    "luxury": "लग्ज़री",
+    "baraat_cabs": "बारात कैब्स",
+    "why_choose": "क्यों चुनें",
+    "ready_to_plan": "क्या आप अपनी",
+    "dream_wedding": "ड्रीम वेडिंग प्लान करने के लिए तैयार हैं?"
+  },
+  "astrology": {
+    "manglikNone": "कोई मांगलिक दोष नहीं।",
+    "manglikBothCancelled": "दोनों मांगलिक हैं। दोष रद्द हो गया है। उत्तम जोड़ी।",
+    "manglikBrideOnly": "वधू को आंशिक मांगलिक दोष है। विवाह से पहले शांति पूजा की सलाह दी जाती है।",
+    "manglikGroomOnly": "वर को आंशिक मांगलिक दोष है। विवाह से पहले शांति पूजा की सलाह दी जाती है।",
+    "rashi": {
+      "aries": "मेष",
+      "taurus": "वृषभ",
+      "gemini": "मिथुन",
+      "cancer": "कर्क",
+      "leo": "सिंह",
+      "virgo": "कन्या",
+      "libra": "तुला",
+      "scorpio": "वृश्चिक",
+      "sagittarius": "धनु",
+      "capricorn": "मकर",
+      "aquarius": "कुंभ",
+      "pisces": "मीन"
+    },
+    "koota": {
+      "varna": "वर्ण",
+      "vashya": "वश्य",
+      "tara": "तारा",
+      "yoni": "योनि",
+      "grahaMaitri": "ग्रह मैत्री",
+      "gana": "गण",
+      "bhakoot": "भकूट",
+      "nadi": "नाड़ी"
+    },
+    "conclusionExcellent": "विवाह की अत्यधिक अनुशंसा की जाती है। उत्तम जोड़ी।",
+    "conclusionBelowAverage": "अनुकूलता औसत से कम है। ज्योतिषीय उपाय सुझाए गए हैं।",
+    "days": {
+      "sunday": "रविवार",
+      "monday": "सोमवार",
+      "tuesday": "मंगलवार",
+      "wednesday": "बुधवार",
+      "thursday": "गुरुवार",
+      "friday": "शुक्रवार",
+      "saturday": "शनिवार"
+    },
+    "nakshatra": {
+      "rohini": "रोहिणी",
+      "mrigashira": "मृगशिरा",
+      "magha": "मघा",
+      "uttara_phalguni": "उत्तरा फाल्गुनी",
+      "hasta": "हस्त",
+      "swati": "स्वाति",
+      "anuradha": "अनुराधा",
+      "moola": "मूल",
+      "uttara_ashadha": "उत्तराषाढ़ा",
+      "uttara_bhadrapada": "उत्तर भाद्रपद",
+      "revati": "रेवती"
+    },
+    "lagna": {
+      "taurus": "वृषभ लग्न",
+      "gemini": "मिथुन लग्न",
+      "virgo": "कन्या लग्न",
+      "libra": "तुला लग्न",
+      "sagittarius": "धनु लग्न"
+    },
+    "tithi": {
+      "shukla_panchami": "शुक्ल पक्ष पंचमी",
+      "shukla_ekadashi": "शुक्ल पक्ष एकादशी",
+      "krishna_ekadashi": "कृष्ण पक्ष एकादशी",
+      "shukla_purnima": "शुक्ल पक्ष पूर्णिमा",
+      "shukla_navami": "शुक्ल पक्ष नवमी"
+    },
+    "significanceExcellent": "पाणिग्रहण और सप्तपदी के लिए उत्तम समय।",
+    "labels": {
+      "totalGun": "कुल गुण",
+      "compatibility": "अनुकूलता",
+      "manglikAnalysis": "मांगलिक स्थिति",
+      "rashiDetails": "राशि विवरण",
+      "ashtaKoota": "अष्टकूट विवरण",
+      "downloadPdf": "पीडीएफ डाउनलोड",
+      "saveToProfile": "प्रोफ़ाइल में सहेजें",
+      "shareWhatsapp": "WhatsApp पर शेयर करें",
+      "print": "प्रिंट करें",
+      "searchParams": "खोज मापदंड",
+      "found": "पाया गया",
+      "auspiciousDates": "शुभ तिथियां",
+      "auspiciousTiming": "मुहूर्त समय",
+      "nakshatra": "नक्षत्र",
+      "lagna": "लग्न",
+      "tithi": "तिथि",
+      "rahuKaal": "राहुकाल",
+      "abhijitMuhurat": "अभिजित मुहूर्त",
+      "auspiciousRating": "शुभता रेटिंग"
+    }
+  }
+}
