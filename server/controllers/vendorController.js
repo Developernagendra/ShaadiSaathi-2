@@ -1287,7 +1287,26 @@ const getFeaturedVendors = catchAsync(async (req, res, next) => {
         }
       }
     },
-    { $sort: { featuredScore: -1, createdAt: -1 } }
+    { $sort: { featuredScore: -1, createdAt: -1 } },
+    { $limit: 10 },
+    {
+      $project: {
+        businessName: 1,
+        tagline: 1,
+        images: 1,
+        coverImage: 1,
+        basePrice: 1,
+        location: 1,
+        rating: 1,
+        category: 1,
+        isFeatured: 1,
+        isTrending: 1,
+        yearsOfExperience: 1,
+        responseTime: 1,
+        user: 1,
+        featuredScore: 1
+      }
+    }
   ];
 
   let vendors = await Vendor.aggregate(pipeline);

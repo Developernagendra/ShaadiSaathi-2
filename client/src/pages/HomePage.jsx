@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategories } from '../store/slices/vendorSlice'
@@ -6,15 +6,17 @@ import { motion } from 'framer-motion'
 import VendorCard from '../components/vendor/VendorCard'
 import FeaturedVendorCard from '../components/vendor/FeaturedVendorCard'
 import { SkeletonCard } from '../components/common/Skeleton'
-import PackageSection from '../components/packages/PackageSection'
-import PremiumTestimonials from '../components/home/PremiumTestimonials'
 import { INDIAN_CITIES } from '../utils/helpers'
 import { FiSearch, FiMapPin, FiArrowRight, FiShield, FiDollarSign, FiStar, FiCalendar, FiHeadphones } from 'react-icons/fi';
 import { FaCrown, FaCheckCircle } from 'react-icons/fa';
 import api from '../utils/api'
-import WhyChooseUsCarousel from '../components/home/WhyChooseUsCarousel'
 import { getSocket } from '../utils/socket'
 import { useTranslation } from 'react-i18next'
+
+// Lazy load below-the-fold components
+const PackageSection = lazy(() => import('../components/packages/PackageSection'))
+const PremiumTestimonials = lazy(() => import('../components/home/PremiumTestimonials'))
+const WhyChooseUsCarousel = lazy(() => import('../components/home/WhyChooseUsCarousel'))
 
 const HERO_IMAGES = [
   'https://images.unsplash.com/photo-1587271636175-90d58cdad458?auto=format&fit=crop&w=1200&q=70', // Wedding Mandap
@@ -313,7 +315,9 @@ export default function HomePage() {
       </section>
 
       {/* ── Wedding Packages ── */}
-      <PackageSection />
+      <Suspense fallback={<div className="py-24 text-center">Loading Packages...</div>}>
+        <PackageSection />
+      </Suspense>
 
       {/* ── 4. Baraat Cabs (USP Section) ── */}
       <section className="py-12 md:py-24 px-4 bg-[#FFF8F0]">
@@ -413,13 +417,17 @@ export default function HomePage() {
           </div>
 
           {/* Features Carousel */}
-          <WhyChooseUsCarousel cards={WHY_US_CARDS} />
+          <Suspense fallback={<div className="py-12 text-center">Loading Features...</div>}>
+            <WhyChooseUsCarousel cards={WHY_US_CARDS} />
+          </Suspense>
 
         </div>
       </section>
 
       {/* ── 5.5 Premium Testimonials ── */}
-      <PremiumTestimonials />
+      <Suspense fallback={<div className="py-12 text-center">Loading Testimonials...</div>}>
+        <PremiumTestimonials />
+      </Suspense>
 
       {/* ── 6. Final CTA Section ── */}
       <section className="py-12 md:py-16 lg:py-24 px-4 bg-gradient-to-br from-[#C2185B] to-[#8E244D] text-center relative overflow-hidden">

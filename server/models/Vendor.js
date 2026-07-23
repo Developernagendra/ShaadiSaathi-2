@@ -181,6 +181,8 @@ vendorSchema.index({ createdAt: -1 });
 vendorSchema.index({ basePrice: 1 });
 vendorSchema.index({ isFeatured: 1 });
 vendorSchema.index({ 'subscription.plan': 1, 'subscription.status': 1 });
+// Compound index for getFeaturedVendors aggregation
+vendorSchema.index({ approvalStatus: 1, isActive: 1, isFeatured: -1, 'subscription.plan': 1 });
 vendorSchema.index({ totalBookings: -1 });
 vendorSchema.index({ views: -1 });
 vendorSchema.index({ businessName: 'text', description: 'text', tagline: 'text' });

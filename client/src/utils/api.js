@@ -33,6 +33,11 @@ const API = axios.create({
 });
 
 // ============================================
+// Simple In-Memory Cache for GET Requests
+// ============================================
+const apiCache = new Map();
+
+// ============================================
 // Request Interceptor
 // ============================================
 
@@ -42,6 +47,16 @@ API.interceptors.request.use(
 
       if (token) {
          config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      // Check cache for GET requests that specify cache: true
+      if (config.method === 'get' && config.cache) {
+         const key = config.url + JSON.stringify(config.params || {});
+         const cached = apiCache.get(key);
+         if (cached && Date.now() - cached.timestamp < (config.cacheTime || 5 * 60 * 1000)) {
+            // Return cached data by rejecting with a special signature
+            return Promise.reject({ __isCached: true, data: cached.data });
+         }
       }
 
       return config;
@@ -54,9 +69,21 @@ API.interceptors.request.use(
 // ============================================
 
 API.interceptors.response.use(
-   (response) => response,
+   (response) => {
+      // Save to cache if config specifies it
+      if (response.config && response.config.method === 'get' && response.config.cache) {
+         const key = response.config.url + JSON.stringify(response.config.params || {});
+         apiCache.set(key, { data: response, timestamp: Date.now() });
+      }
+      return response;
+   },
 
    async (error) => {
+      // Handle Cached Response
+      if (error.__isCached) {
+         return Promise.resolve(error.data);
+      }
+
       const { config } = error;
 
       // Handle cases where request config is missing (cannot retry)
@@ -152,12 +179,12 @@ export const AuthAPI = {
 };
 
 export const VendorAPI = {
-   featured: () => API.get("/vendors/featured"),
+   featured: () => API.get("/vendors/featured", { cache: true, cacheTime: 5 * 60 * 1000 }), // Cache for 5 mins
    all: (params) => API.get("/vendors", { params }),
 };
 
 export const CategoryAPI = {
-   all: () => API.get("/categories"),
+   all: () => API.get("/categories", { cache: true, cacheTime: 60 * 60 * 1000 }), // Cache for 1 hour
 };
 
 export const FeatureAPI = {

@@ -9,9 +9,10 @@ const {
   updateVendorApproval, getVendorDashboard, updateAvailability, getFeaturedVendors, activateSubscription, getVendorContact
 } = require('../controllers/vendorController');
 const { getVendorBlogs, saveVendorBlog, deleteVendorBlog } = require('../controllers/vendorBlogController');
+const { cacheMiddleware } = require('../middleware/cacheMiddleware');
 
 router.get('/', optionalAuth, getAllVendors);
-router.get('/featured', getFeaturedVendors);
+router.get('/featured', cacheMiddleware(300), getFeaturedVendors);
 router.get('/profile', protect, getMyVendorProfile);
 router.get('/services', protect, restrictTo('vendor', 'admin'), async (req, res, next) => {
   try {
