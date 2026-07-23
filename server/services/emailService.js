@@ -672,6 +672,7 @@ const getExpertAdminEmailHTML = (consultation) => {
        <p><strong>Email:</strong> ${consultation.email || 'N/A'}</p>
        <p><strong>City:</strong> ${consultation.city || 'N/A'}</p>
        ${consultation.package ? `<p><strong>Package Context:</strong> ${consultation.package}</p>` : ''}
+       ${consultation.service ? `<p><strong>Service Context:</strong> ${consultation.service}</p>` : ''}
        ${consultation.weddingDate ? `<p><strong>Wedding Date:</strong> ${new Date(consultation.weddingDate).toLocaleDateString()}</p>` : ''}
        ${consultation.preferredDate ? `<p><strong>Preferred Contact:</strong> ${new Date(consultation.preferredDate).toLocaleDateString()} at ${consultation.preferredTime || 'Any time'}</p>` : ''}
        <p><strong>Message:</strong> ${consultation.message || 'None provided'}</p>

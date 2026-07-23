@@ -687,6 +687,16 @@ const Package = require('./Package');
 const PackageInquiry = require('./PackageInquiry');
 const ExpertConsultation = require('./ExpertConsultation');
 const Invitation = require('./Invitation');
+const { 
+  WeddingPlan, 
+  WeddingEvent, 
+  WeddingBudget, 
+  BudgetPlan, 
+  CostPrediction, 
+  BaraatBookingRequest, 
+  SavedKundli, 
+  SavedMuhurat 
+} = require('./ToolModels');
 
 module.exports = {
   User,
@@ -715,6 +725,14 @@ module.exports = {
   ExpertConsultation,
   Invitation,
   RealWedding,
-  Gallery
+  Gallery,
+  WeddingPlan,
+  WeddingEvent,
+  WeddingBudget,
+  BudgetPlan,
+  CostPrediction,
+  BaraatBookingRequest,
+  SavedKundli,
+  SavedMuhurat
 };
 

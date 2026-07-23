@@ -1,11 +1,9 @@
-const NodeCache = require('node-cache');
-
-// Create cache with stdTTL of 300 seconds (5 minutes) and checkperiod of 320 seconds
-const cache = new NodeCache({ stdTTL: 300, checkperiod: 320 });
+// Simple in-memory cache using a native Map
+const cache = new Map();
 
 /**
  * Express middleware to cache API responses
- * @param {number} duration - TTL in seconds for this specific route (overrides stdTTL)
+ * @param {number} duration - TTL in seconds for this specific route
  */
 const cacheMiddleware = (duration) => {
   return (req, res, next) => {
@@ -18,9 +16,14 @@ const cacheMiddleware = (duration) => {
     const key = `__express__${req.originalUrl || req.url}`;
     const cachedResponse = cache.get(key);
 
-    if (cachedResponse) {
+    if (cachedResponse && Date.now() < cachedResponse.expiry) {
       console.log(`[CACHE HIT] Returning cached response for ${key}`);
-      return res.status(200).json(cachedResponse);
+      return res.status(200).json(cachedResponse.data);
+    }
+
+    // Clean up expired entry if it exists
+    if (cachedResponse && Date.now() >= cachedResponse.expiry) {
+        cache.delete(key);
     }
 
     console.log(`[CACHE MISS] Fetching fresh data for ${key}`);
@@ -35,11 +38,11 @@ const cacheMiddleware = (duration) => {
 
       // Only cache successful responses (HTTP 2xx)
       if (res.statusCode >= 200 && res.statusCode < 300) {
-        if (duration) {
-          cache.set(key, body, duration);
-        } else {
-          cache.set(key, body);
-        }
+        const ttl = duration ? duration * 1000 : 300 * 1000;
+        cache.set(key, {
+            data: body,
+            expiry: Date.now() + ttl
+        });
       }
 
       return res.json(body);
@@ -52,14 +55,14 @@ const cacheMiddleware = (duration) => {
 // Helper function to manually clear cache if needed (e.g. after data updates)
 const clearCache = (keyPattern) => {
   if (!keyPattern) {
-    cache.flushAll();
+    cache.clear();
     console.log('[CACHE CLEARED] All cache cleared');
     return;
   }
   
-  const keys = cache.keys();
+  const keys = Array.from(cache.keys());
   const keysToDelete = keys.filter(k => k.includes(keyPattern));
-  cache.del(keysToDelete);
+  keysToDelete.forEach(k => cache.delete(k));
   console.log(`[CACHE CLEARED] Cleared cache for pattern: ${keyPattern}`);
 };
 

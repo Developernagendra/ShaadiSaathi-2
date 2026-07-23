@@ -19,7 +19,12 @@ const expertConsultationSchema = new mongoose.Schema({
   },
   package: {
     type: String,
-    enum: ['silver', 'gold', 'royal', null],
+    trim: true,
+    default: null,
+  },
+  service: {
+    type: String,
+    trim: true,
     default: null,
   },
   weddingDate: {

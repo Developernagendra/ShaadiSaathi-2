@@ -1,45 +1,57 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { FiHome, FiSearch, FiCalendar, FiStar, FiUser, FiGrid, FiUsers, FiBriefcase } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 export default function MobileBottomNav() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const location = useLocation();
+  const { t } = useTranslation();
+
+  // Hide bottom nav on specific routes where it interferes with UX or where a sidebar exists
+  const hideOnRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
+  const hidePrefixes = ['/admin', '/vendor'];
+
+  const shouldHide = hideOnRoutes.includes(location.pathname) || 
+                     hidePrefixes.some(prefix => location.pathname.startsWith(prefix));
+
+  if (shouldHide) return null;
 
   let navItems = [];
 
   if (isAuthenticated) {
     if (user?.role === 'admin') {
       navItems = [
-        { to: "/", icon: FiHome, label: "Home" },
-        { to: "/admin", icon: FiGrid, label: "Admin" },
-        { to: "/admin/vendors", icon: FiUsers, label: "Vendors" },
-        { to: "/admin/users", icon: FiUser, label: "Users" }
+        { to: "/", icon: FiHome, label: t('nav.home', 'Home') },
+        { to: "/admin", icon: FiGrid, label: t('nav.admin', 'Admin') },
+        { to: "/admin/vendors", icon: FiUsers, label: t('nav.vendors', 'Vendors') },
+        { to: "/admin/users", icon: FiUser, label: t('nav.users', 'Users') }
       ];
     } else if (user?.role === 'vendor') {
       navItems = [
-        { to: "/", icon: FiHome, label: "Home" },
-        { to: "/vendor/dashboard", icon: FiGrid, label: "Dashboard" },
-        { to: "/vendor/bookings", icon: FiCalendar, label: "Bookings" },
-        { to: "/vendor/services", icon: FiStar, label: "Services" }
+        { to: "/", icon: FiHome, label: t('nav.home', 'Home') },
+        { to: "/vendor/dashboard", icon: FiGrid, label: t('nav.dashboard', 'Dashboard') },
+        { to: "/vendor/bookings", icon: FiCalendar, label: t('nav.bookings', 'Bookings') },
+        { to: "/vendor/services", icon: FiStar, label: t('nav.services', 'Services') }
       ];
     } else {
       // Customer
       navItems = [
-        { to: "/", icon: FiHome, label: "Home" },
-        { to: "/services", icon: FiSearch, label: "Explore" },
-        { to: "/bookings", icon: FiCalendar, label: "मेरी बुकिंग" },
-        { to: "/wishlist", icon: FiStar, label: "पसंद" },
-        { to: "/dashboard", icon: FiUser, label: "Profile" }
+        { to: "/", icon: FiHome, label: t('nav.home', 'Home') },
+        { to: "/services", icon: FiSearch, label: t('nav.explore', 'Explore') },
+        { to: "/bookings", icon: FiCalendar, label: t('nav.bookings', 'मेरी बुकिंग') },
+        { to: "/wishlist", icon: FiStar, label: t('nav.wishlist', 'पसंद') },
+        { to: "/dashboard", icon: FiUser, label: t('nav.profile', 'Profile') }
       ];
     }
   } else {
     // Guest
     navItems = [
-      { to: "/", icon: FiHome, label: "Home" },
-      { to: "/services", icon: FiSearch, label: "Explore" },
-      { to: "/login", icon: FiUser, label: "Login" }
+      { to: "/", icon: FiHome, label: t('nav.home', 'Home') },
+      { to: "/services", icon: FiSearch, label: t('nav.explore', 'Explore') },
+      { to: "/login", icon: FiUser, label: t('nav.login', 'Login') }
     ];
   }
 

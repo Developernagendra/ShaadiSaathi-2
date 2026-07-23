@@ -143,7 +143,7 @@ export default function AdminExpertConsultationsPage() {
                       </td>
                       <td className="p-4">
                         <span className="inline-block px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-bold uppercase tracking-wider">
-                          {c.package || 'General'}
+                          {c.service || c.package || 'General'}
                         </span>
                       </td>
                       <td className="p-4">
@@ -244,8 +244,8 @@ export default function AdminExpertConsultationsPage() {
                     <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Event Requirements</h4>
                     <div className="bg-gray-50 rounded-xl p-4 space-y-2 border border-gray-100">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Context:</span>
-                        <span className="font-bold text-gray-900 capitalize">{selectedConsultation.package || 'General'}</span>
+                        <span className="text-gray-500">Service:</span>
+                        <span className="font-bold text-gray-900 capitalize">{selectedConsultation.service || selectedConsultation.package || 'General'}</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-500">Wedding Date:</span>

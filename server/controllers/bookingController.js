@@ -470,7 +470,7 @@ exports.createCabBooking = catchAsync(async (req, res, next) => {
 
       const overlappingBookings = await Booking.find({
         eventDate: { $gte: startOfDay, $lte: endOfDay },
-        status: { $in: ['confirmed', 'in_progress', 'on_the_way'] },
+        status: { $in: ['pending', 'accepted', 'confirmed', 'in_progress', 'on_the_way'] },
         bookingType: { $in: ['cab', 'baraat-cab'] },
         $or: [
           { "fleetSelection.cabId": cabDoc._id },
@@ -553,7 +553,7 @@ exports.createCabBooking = catchAsync(async (req, res, next) => {
 
     const overlappingBookings = await Booking.find({
       eventDate: { $gte: startOfDay, $lte: endOfDay },
-      status: { $in: ['confirmed', 'in_progress', 'on_the_way'] },
+      status: { $in: ['pending', 'accepted', 'confirmed', 'in_progress', 'on_the_way'] },
       bookingType: { $in: ['cab', 'baraat-cab'] },
       $or: [
         { "fleetSelection.cabId": cab._id },

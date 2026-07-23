@@ -4,7 +4,7 @@ import { FiX, FiCheckCircle } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitExpertConsultation, resetExpertSuccess } from '../../store/slices/expertSlice';
 
-export default function ExpertConsultationModal({ packageContext, onClose }) {
+export default function ExpertConsultationModal({ packageContext, serviceContext, onClose }) {
   const dispatch = useDispatch();
   const { loading, success, error } = useSelector(state => state.expert);
 
@@ -17,7 +17,8 @@ export default function ExpertConsultationModal({ packageContext, onClose }) {
     guestCount: '',
     preferredDate: '',
     preferredTime: '',
-    message: ''
+    message: '',
+    service: serviceContext || ''
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -53,7 +54,8 @@ export default function ExpertConsultationModal({ packageContext, onClose }) {
 
     dispatch(submitExpertConsultation({
       ...formData,
-      package: packageContext // 'silver', 'gold', 'royal', or null
+      package: packageContext,
+      service: serviceContext || formData.service
     }));
   };
 
@@ -92,6 +94,11 @@ export default function ExpertConsultationModal({ packageContext, onClose }) {
               {packageContext && (
                 <div className="mt-3 inline-block bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
                   {packageContext} Package Context
+                </div>
+              )}
+              {serviceContext && (
+                <div className="mt-3 inline-block bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                  {serviceContext}
                 </div>
               )}
             </div>

@@ -55,6 +55,32 @@ export default function Navbar() {
     if (isAuthenticated) dispatch(fetchNotifications())
   }, [isAuthenticated, dispatch])
 
+  // Mobile Drawer Effect (Scroll lock and ESC key)
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.classList.add('mobile-drawer-open');
+    } else {
+      document.body.classList.remove('mobile-drawer-open');
+    }
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+    };
+
+    if (mobileOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.classList.remove('mobile-drawer-open');
+    };
+  }, [mobileOpen]);
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleClick = (e) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setUserMenuOpen(false)
@@ -242,7 +268,7 @@ export default function Navbar() {
               {/* ── Mobile Actions (Login/Profile & Hamburger) ── */}
               <div className="flex lg:hidden items-center gap-2">
                 {isAuthenticated ? (
-                  <Link to={user?.role === 'vendor' ? '/vendor/dashboard' : '/dashboard'} className={`flex items-center justify-center w-[40px] h-[40px] rounded-full border shadow-sm transition-all active:scale-95 ${navTransparent ? 'border-white/20 bg-white/20 text-white' : 'border-gray-200 bg-gray-50'}`}>
+                  <Link to={user?.role === 'vendor' ? '/vendor/dashboard' : '/dashboard'} className={`hidden md:flex items-center justify-center w-[40px] h-[40px] rounded-full border shadow-sm transition-all active:scale-95 ${navTransparent ? 'border-white/20 bg-white/20 text-white' : 'border-gray-200 bg-gray-50'}`}>
                     {user?.avatar?.url ? (
                       <img src={user.avatar.url} alt={user.name} className="w-[36px] h-[36px] rounded-full object-cover" />
                     ) : (
@@ -250,7 +276,7 @@ export default function Navbar() {
                     )}
                   </Link>
                 ) : (
-                  <Link to="/login" className={`flex items-center justify-center h-12 min-h-[48px] text-[11px] font-black uppercase tracking-wider px-5 rounded-xl transition-all border ${navTransparent ? 'text-white border-white/30 bg-white/10' : 'text-primary-600 border-primary-100 bg-pink-50'}`}>
+                  <Link to="/login" className={`hidden md:flex items-center justify-center h-12 min-h-[48px] text-[11px] font-black uppercase tracking-wider px-5 rounded-xl transition-all border ${navTransparent ? 'text-white border-white/30 bg-white/10' : 'text-primary-600 border-primary-100 bg-pink-50'}`}>
                     Login
                   </Link>
                 )}
@@ -403,16 +429,22 @@ export default function Navbar() {
         {mobileOpen && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110]" aria-hidden="true" />
-            <motion.div id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-[20rem] bg-white/95 backdrop-blur-2xl rounded-l-[2.5rem] z-[120] shadow-[0_0_60px_rgba(194,24,91,0.15)] overflow-hidden flex flex-col border-l border-white/50 pt-safe pb-safe">
-              <div className="absolute inset-0 floral-pattern opacity-[0.03] pointer-events-none" />
+            <motion.div id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-[420px] bg-white rounded-l-[2rem] z-[120] shadow-[-10px_0_40px_rgba(0,0,0,0.08)] overflow-hidden flex flex-col pt-safe pb-safe">
+              <div className="absolute inset-0 floral-pattern opacity-[0.02] pointer-events-none" />
 
-              <div className="p-5 flex items-center justify-between border-b border-pink-50 relative z-10 pt-safe">
-                <div className="transform scale-[0.8] origin-left">
-                  <BrandLogo asLink={false} />
+              <div className="px-5 py-5 flex flex-col gap-5 relative z-10 pt-safe bg-white border-b border-gray-100/60">
+                <div className="flex items-center justify-between">
+                  <div className="transform scale-[0.85] origin-left">
+                    <BrandLogo asLink={false} />
+                  </div>
+                  <button onClick={() => setMobileOpen(false)} aria-label="Close navigation menu" className="p-2.5 bg-gray-50 hover:bg-gray-100 rounded-full text-gray-500 active:scale-95 transition-all">
+                    <FiX size={20} />
+                  </button>
                 </div>
-                <button onClick={() => setMobileOpen(false)} aria-label="Close navigation menu" className="p-3 bg-gray-100 rounded-xl text-gray-500 active:scale-90 transition-transform">
-                  <FiX size={20} />
-                </button>
+                {/* Language Switcher in Drawer */}
+                <div className="w-full bg-gray-50/80 rounded-xl p-1 border border-gray-100">
+                  <LanguageSwitcher isMobile={true} />
+                </div>
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 relative z-10 scrollbar-hide flex flex-col gap-4">
@@ -420,27 +452,27 @@ export default function Navbar() {
                   // Public Navigation
                   <div className="space-y-2">
                     {[
-                      { to: '/', label: 'Home', icon: <FiHome /> },
-                      { to: '/services', label: 'Vendor खोजें', icon: <FiGrid /> },
+                      { to: '/', label: t('nav.home', 'Home'), icon: <FiHome /> },
+                      { to: '/services', label: t('nav.findVendors', 'Vendor खोजें'), icon: <FiGrid /> },
                       {
-                        label: 'Tools',
+                        label: t('nav.tools', 'Tools'),
                         icon: <FiGrid />,
                         children: [
-                          { to: '/tools', label: '🛠 All Tools Hub' },
-                          { to: '/tools/ai-planner', label: '🤖 AI Wedding Planner' },
-                          { to: '/tools/budget-planner', label: '💰 Budget Planner' },
-                          { to: '/tools/guest-manager', label: '👥 Guest List Manager' },
-                          { to: '/tools/checklist', label: '✅ Wedding Checklist' },
-                          { to: '/tools/vendor-availability', label: '📍 Vendor Availability' },
-                          { to: '/tools/package-builder', label: '📦 Package Builder' },
-                          { to: '/tools/invitation-generator', label: '💌 Invitation Generator' },
-                          { to: '/tools/vendor-compare', label: '⚖ Vendor Comparison' },
-                          { to: '/tools/baraat-calculator', label: '🚘 Baraat Fleet Calculator' },
-                          { to: '/tools/cost-predictor', label: '📈 Wedding Cost Predictor' }
+                          { to: '/tools', label: t('tools.allHub', '🛠 All Tools Hub') },
+                          { to: '/tools/ai-planner', label: t('tools.aiPlanner', '🤖 AI Wedding Planner') },
+                          { to: '/tools/budget-planner', label: t('tools.budget', '💰 Budget Planner') },
+                          { to: '/tools/guest-manager', label: t('tools.guestManager', '👥 Guest List Manager') },
+                          { to: '/tools/checklist', label: t('tools.checklist', '✅ Wedding Checklist') },
+                          { to: '/tools/vendor-availability', label: t('tools.vendorAvailability', '📍 Vendor Availability') },
+                          { to: '/tools/package-builder', label: t('tools.packageBuilder', '📦 Package Builder') },
+                          { to: '/tools/invitation-generator', label: t('tools.invitation', '💌 Invitation Generator') },
+                          { to: '/tools/vendor-compare', label: t('tools.vendorCompare', '⚖ Vendor Comparison') },
+                          { to: '/tools/baraat-calculator', label: t('tools.baraatCalculator', '🚘 Baraat Fleet Calculator') },
+                          { to: '/tools/cost-predictor', label: t('tools.costPredictor', '📈 Wedding Cost Predictor') }
                         ]
                       },
-                      { to: '/packages', label: 'Wedding Packages', icon: <FiBriefcase /> },
-                      { to: '/baraat-cabs', label: '🚗 Baraat Ride', icon: <FiSearch /> }
+                      { to: '/packages', label: t('nav.weddingPackages', 'Wedding Packages'), icon: <FiBriefcase /> },
+                      { to: '/baraat-cabs', label: t('nav.baraatRide', '🚗 Baraat Ride'), icon: <FiSearch /> }
                     ].map((link) => {
                       if (link.children) {
                         return (
@@ -467,20 +499,19 @@ export default function Navbar() {
                         )
                       }
                       return (
-                        <Link key={link.label} to={link.to} onClick={() => setMobileOpen(false)} className={`flex items-center gap-4 px-4 py-3 min-h-[48px] rounded-2xl text-sm font-bold transition-all active:scale-[0.98] ${location.pathname === link.to ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-600 hover:bg-gray-50'}`}>
-                          <span className={`text-xl ${location.pathname === link.to ? 'text-[#C2185B]' : 'text-gray-400'}`}>{link.icon}</span>
-                          {link.label}
+                        <Link key={link.label} to={link.to} onClick={() => setMobileOpen(false)} className={`flex items-center gap-4 px-4 py-3 min-h-[48px] rounded-xl text-sm font-bold transition-all active:scale-[0.98] ${location.pathname === link.to ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-50'}`}>
+                          <span className={`text-xl flex-shrink-0 ${location.pathname === link.to ? 'text-[#C2185B]' : 'text-gray-400'}`}>{link.icon}</span>
+                          <span className="truncate whitespace-normal">{link.label}</span>
                         </Link>
                       )
                     })}
 
-                    <Link to="/register/vendor" onClick={() => setMobileOpen(false)} className="flex items-center gap-4 px-5 py-4 mt-4 rounded-2xl text-sm font-bold bg-gradient-to-r from-[#D4AF37]/10 to-transparent text-[#D4AF37] border border-[#D4AF37]/20">
-                      <span className="text-xl">🏪</span>
-                      Vendor बनें
+                    <div className="h-px bg-gray-100 my-2 w-[90%] mx-auto" />
+                    
+                    <Link to="/register/vendor" onClick={() => setMobileOpen(false)} className="flex items-center justify-center gap-3 px-5 py-3.5 mt-2 rounded-xl text-[13px] font-bold bg-gradient-to-r from-[#D4AF37]/10 to-transparent text-[#D4AF37] border border-[#D4AF37]/20 active:scale-95 transition-all">
+                      <span className="text-lg">🏪</span>
+                      <span>{t('nav.becomeVendor', 'Vendor बनें')}</span>
                     </Link>
-                    <div className="mt-4 px-2">
-                      <LanguageSwitcher isMobile={true} />
-                    </div>
                   </div>
                 ) : (
                   // Authenticated Navigation
@@ -600,11 +631,11 @@ export default function Navbar() {
                 )}
               </div>
 
-              <div className="p-4 border-t border-pink-50 relative z-10 bg-gray-50 pb-safe">
+              <div className="p-4 border-t border-gray-100 relative z-10 bg-white pb-safe">
                 {!isAuthenticated ? (
-                  <div className="flex flex-col gap-3">
-                    <Link to="/login" onClick={() => setMobileOpen(false)} className="w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-widest text-center text-gray-700 bg-white border border-gray-200 shadow-sm active:scale-95 transition-all">{t('auth.login', 'Login')}</Link>
-                    <Link to="/register" onClick={() => setMobileOpen(false)} className="w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-widest text-center text-white bg-primary-600 shadow-lg shadow-primary-900/20 active:scale-95 transition-all">{t('auth.register', 'Join')}</Link>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Link to="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-center w-full py-3.5 rounded-xl text-[11px] font-black uppercase tracking-widest text-center text-gray-700 bg-gray-50 border border-gray-200 shadow-sm active:scale-95 transition-all">{t('auth.login', 'Login')}</Link>
+                    <Link to="/register" onClick={() => setMobileOpen(false)} className="flex items-center justify-center w-full py-3.5 rounded-xl text-[11px] font-black uppercase tracking-widest text-center text-white bg-primary-600 shadow-lg shadow-primary-900/20 active:scale-95 transition-all">{t('auth.register', 'Join')}</Link>
                   </div>
                 ) : (
                   <button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 min-h-[48px] rounded-2xl text-sm font-bold text-red-600 bg-white border border-red-50 shadow-sm active:scale-95 transition-all">

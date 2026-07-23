@@ -7,27 +7,21 @@ const { sendEmail, getExpertUserEmailHTML, getExpertAdminEmailHTML } = require('
 // @route   POST /api/expert-consultations
 // @access  Public
 exports.submitConsultation = catchAsync(async (req, res, next) => {
-  const { name, email, phone, package, weddingDate, city, guestCount, preferredDate, preferredTime, message } = req.body;
+  const { name, email, phone, package, service, weddingDate, city, guestCount, preferredDate, preferredTime, message } = req.body;
 
   if (!name || !email || !phone) {
     return next(new AppError('Name, email, and phone are required', 400));
   }
 
-  // Normalize and validate package
-  let normalizedPackage = null;
-  if (package) {
-    normalizedPackage = String(package).trim().toLowerCase();
-    const VALID_PACKAGES = ['silver', 'gold', 'royal'];
-    if (!VALID_PACKAGES.includes(normalizedPackage)) {
-      return next(new AppError('Invalid package selected', 400));
-    }
-  }
+  let normalizedPackage = package ? String(package).trim() : null;
+  let normalizedService = service ? String(service).trim() : null;
 
   const newConsultation = await ExpertConsultation.create({
     name,
-    email,
-    phone,
+    email: email.trim().toLowerCase(),
+    phone: phone.trim(),
     package: normalizedPackage,
+    service: normalizedService,
     weddingDate,
     city,
     guestCount,

@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 // Lazy load below-the-fold components
 const PackageSection = lazy(() => import('../components/packages/PackageSection'))
 const PremiumTestimonials = lazy(() => import('../components/home/PremiumTestimonials'))
-const WhyChooseUsCarousel = lazy(() => import('../components/home/WhyChooseUsCarousel'))
+const WhyShaadiSaathi = lazy(() => import('../components/home/WhyShaadiSaathi'))
 
 const HERO_IMAGES = [
   'https://images.unsplash.com/photo-1587271636175-90d58cdad458?auto=format&fit=crop&w=1200&q=70', // Wedding Mandap
@@ -175,7 +175,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <form onSubmit={handleSearch} className="bg-white rounded-[24px] p-4 md:p-6 lg:p-8 shadow-2xl flex flex-col md:flex-row gap-3 max-w-[1200px] w-[calc(100%-32px)] md:w-full mx-auto my-[16px] md:mb-6 border border-gold-100 relative overflow-hidden sticky top-[68px] z-50">
+          <form onSubmit={handleSearch} className="bg-white rounded-[24px] p-4 md:p-6 lg:p-8 shadow-2xl flex flex-col md:flex-row gap-3 max-w-[1200px] w-[calc(100%-32px)] md:w-full mx-auto my-[16px] md:mb-6 border border-gold-100 relative overflow-hidden z-20">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-400 via-pink-500 to-gold-400 opacity-50" />
 
             <div className="flex items-center gap-3 flex-1 px-3 md:px-4 w-full h-[56px] md:h-[64px] border-b border-gray-100 md:border-b-0">
@@ -189,7 +189,7 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="flex items-center gap-3 px-3 md:px-4 w-full md:w-auto md:min-w-[180px] h-[56px] md:h-[64px] md:border-l border-gray-100 mb-2 md:mb-0">
+            <div className="flex items-center gap-3 px-3 md:px-4 w-full md:w-auto md:min-w-[180px] h-[56px] md:h-[64px] md:border-l border-gray-100 border-b md:border-b-0">
               <FiMapPin className="text-[#C2185B] flex-shrink-0" size={18} />
               <select
                 value={searchCity}
@@ -201,7 +201,7 @@ export default function HomePage() {
               </select>
             </div>
 
-            <button type="submit" className="bg-primary-600 hover:bg-primary-700 text-white whitespace-nowrap rounded-[16px] h-[56px] px-8 text-sm font-bold shine-effect w-full md:w-auto flex-shrink-0 transition-colors flex items-center justify-center">
+            <button type="submit" className="bg-primary-600 hover:bg-primary-700 text-white rounded-[16px] h-[56px] px-8 text-sm font-bold shine-effect w-full md:w-auto flex-shrink-0 transition-colors flex items-center justify-center mt-2 md:mt-0">
               Vendor खोजें
             </button>
           </form>
@@ -394,35 +394,9 @@ export default function HomePage() {
       </section>
 
       {/* ── 5. Why Choose ShaadiSaathi ── */}
-      <section className="py-16 md:py-24 px-4 bg-gradient-to-b from-[#FFFBF9] to-[#FFF0F5] relative overflow-hidden">
-        {/* Subtle decorative elements */}
-        <div className="absolute top-10 left-10 text-[#C2185B]/10 text-6xl rotate-12 pointer-events-none">✨</div>
-        <div className="absolute bottom-20 right-10 text-[#C2185B]/10 text-6xl -rotate-12 pointer-events-none">🌸</div>
-
-        <div className="max-w-[1280px] mx-auto relative z-10">
-
-          <div className="text-center mb-12 md:mb-16">
-            <p className="text-[10px] md:text-xs font-black text-[#D4AF37] uppercase tracking-[0.2em] mb-4">
-              ✨ SHAADISAATHI ही क्यों?
-            </p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 tracking-tight">
-              ShaadiSaathi ही क्यों?
-            </h2>
-            <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto italic font-serif">
-              "आपकी शादी की तैयारियों का सबसे भरोसेमंद साथी।"
-            </p>
-            <p className="text-gray-500 text-sm max-w-3xl mx-auto mt-4 leading-relaxed">
-              बिहार के बेस्ट vendors ढूंढने से लेकर बुकिंग तक, सब कुछ एक ही जगह।
-            </p>
-          </div>
-
-          {/* Features Carousel */}
-          <Suspense fallback={<div className="py-12 text-center">Loading Features...</div>}>
-            <WhyChooseUsCarousel cards={WHY_US_CARDS} />
-          </Suspense>
-
-        </div>
-      </section>
+      <Suspense fallback={<div className="py-12 text-center">Loading...</div>}>
+        <WhyShaadiSaathi />
+      </Suspense>
 
       {/* ── 5.5 Premium Testimonials ── */}
       <Suspense fallback={<div className="py-12 text-center">Loading Testimonials...</div>}>

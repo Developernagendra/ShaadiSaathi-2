@@ -1,4 +1,4 @@
-const { Lead, Guest, Checklist, Blog, Contract, Category, Vendor, Service, Testimonial, HomeStats } = require('../models');
+const { Lead, Guest, Checklist, Blog, Category, Vendor, Service, Testimonial, HomeStats } = require('../models');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const { cloudinary } = require('../config/cloudinary');
