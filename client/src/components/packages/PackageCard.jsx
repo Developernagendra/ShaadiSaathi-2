@@ -205,7 +205,7 @@ export default function PackageCard({ pkg, tier = 'silver', onOpenDetails, onOpe
              </span>
           </div>
           <div className="space-y-0 relative">
-            <details className="group/details">
+            <details className="group/details" open>
               <summary className={`flex items-center justify-between cursor-pointer list-none text-sm font-bold uppercase tracking-widest py-2 border-b ${tier === 'royal' ? 'border-gray-800 text-gray-300' : 'border-gray-200 text-gray-500'}`}>
                 What's Included 
                 <span className="transition group-open/details:rotate-180">▼</span>

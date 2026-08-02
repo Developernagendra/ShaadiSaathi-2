@@ -91,6 +91,20 @@ exports.verifyOrder = catchAsync(async (req, res, next) => {
   const isAuthentic = expectedSignature === razorpay_signature;
 
   if (isAuthentic) {
+    // Update booking payment status if a matching booking exists
+    try {
+      const booking = await Booking.findOne({ razorpayOrderId: razorpay_order_id });
+      if (booking) {
+        booking.paymentStatus = 'paid';
+        booking.razorpayPaymentId = razorpay_payment_id;
+        booking.paidAt = new Date();
+        await booking.save();
+      }
+    } catch (dbErr) {
+      console.error('⚠️ Payment verified but failed to update booking:', dbErr.message);
+      // Don't fail the response — payment was verified successfully
+    }
+
     res.status(200).json({
       success: true,
       message: 'Payment verified successfully',

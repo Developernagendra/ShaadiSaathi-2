@@ -30,7 +30,7 @@ const packageInquirySchema = new mongoose.Schema({
   },
   package: {
     type: String,
-    enum: ['silver', 'gold', 'royal', 'custom'],
+    enum: ['silver', 'gold', 'premium', 'royal', 'custom'],
     required: true,
   },
   specialRequirements: {

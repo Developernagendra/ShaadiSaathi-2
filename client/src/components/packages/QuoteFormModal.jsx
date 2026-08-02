@@ -20,9 +20,6 @@ export default function QuoteFormModal({ pkg, onClose }) {
   });
 
   const [formErrors, setFormErrors] = useState({});
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [otpInput, setOtpInput] = useState('');
 
   useEffect(() => {
     return () => {
@@ -37,7 +34,6 @@ export default function QuoteFormModal({ pkg, onClose }) {
     else if (!/^[0-9]{10}$/.test(formData.phone)) errs.phone = 'Enter valid 10-digit number';
     if (!formData.weddingDate) errs.weddingDate = 'Date is required';
     if (!formData.city.trim()) errs.city = 'City is required';
-    if (!otpVerified) errs.otp = 'Please verify your phone number';
     setFormErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -53,31 +49,13 @@ export default function QuoteFormModal({ pkg, onClose }) {
     e.preventDefault();
     if (!validateForm()) return;
 
+    // Send the tier name (silver/gold/royal/custom) as the package identifier
+    const packageTier = pkg?.id || pkg?.slug || pkg?.name?.toLowerCase() || 'custom';
+
     dispatch(submitPackageInquiry({
       ...formData,
-      package: pkg.id || 'custom'
+      package: packageTier
     }));
-  };
-
-  const handleSendOtp = () => {
-    if (!/^[0-9]{10}$/.test(formData.phone)) {
-      setFormErrors({ ...formErrors, phone: 'Enter valid 10-digit number to receive OTP' });
-      return;
-    }
-    setOtpSent(true);
-    // Mock OTP sending
-    setTimeout(() => {
-      alert("Test OTP is 1234");
-    }, 500);
-  };
-
-  const handleVerifyOtp = () => {
-    if (otpInput === '1234') {
-      setOtpVerified(true);
-      setFormErrors({ ...formErrors, otp: null });
-    } else {
-      setFormErrors({ ...formErrors, otp: 'Invalid OTP' });
-    }
   };
 
   if (!pkg) return null;
@@ -122,31 +100,11 @@ export default function QuoteFormModal({ pkg, onClose }) {
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Phone *</label>
-                  <div className="relative">
-                    <input type="tel" name="phone" disabled={otpVerified} value={formData.phone} onChange={handleChange} className={`w-full p-3 rounded-xl border text-sm focus:outline-none focus:border-[#C2185B] ${formErrors.phone ? 'border-red-300' : 'border-gray-200'} ${otpVerified ? 'bg-gray-100' : ''}`} placeholder="10-digit number" />
-                    {!otpVerified && formData.phone.length === 10 && (
-                      <button type="button" onClick={handleSendOtp} className="absolute right-2 top-2 bg-gray-900 text-white text-[9px] px-3 py-1.5 rounded-lg uppercase tracking-wider font-bold">
-                        {otpSent ? 'Resend' : 'Send OTP'}
-                      </button>
-                    )}
-                    {otpVerified && <FiCheckCircle className="absolute right-3 top-3.5 text-green-500" size={16} />}
-                  </div>
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className={`w-full p-3 rounded-xl border text-sm focus:outline-none focus:border-[#C2185B] ${formErrors.phone ? 'border-red-300' : 'border-gray-200'}`} placeholder="10-digit number" />
                   {formErrors.phone && <p className="text-[10px] text-red-500 mt-1">{formErrors.phone}</p>}
                 </div>
               </div>
 
-              {otpSent && !otpVerified && (
-                <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100 flex items-end gap-3">
-                  <div className="flex-1">
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Enter OTP *</label>
-                    <input type="text" value={otpInput} onChange={e => setOtpInput(e.target.value)} maxLength={4} className={`w-full p-3 rounded-xl border text-sm focus:outline-none focus:border-[#C2185B] tracking-widest text-center ${formErrors.otp ? 'border-red-300' : 'border-gray-200'}`} placeholder="1 2 3 4" />
-                  </div>
-                  <button type="button" onClick={handleVerifyOtp} className="bg-blue-600 text-white px-6 py-3 rounded-xl text-[10px] uppercase font-black tracking-widest hover:bg-blue-700 h-11 shrink-0">
-                    Verify
-                  </button>
-                </div>
-              )}
-              {formErrors.otp && !otpVerified && <p className="text-[10px] text-red-500 mt-1">{formErrors.otp}</p>}
 
               <div>
                 <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Email (Optional)</label>

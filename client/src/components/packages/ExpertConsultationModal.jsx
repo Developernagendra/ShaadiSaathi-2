@@ -88,19 +88,33 @@ export default function ExpertConsultationModal({ packageContext, serviceContext
           </div>
         ) : (
           <>
-            <div className="p-6 md:p-8 border-b border-gray-100 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-              <h3 className="font-serif text-2xl font-black mb-1">Talk to a Wedding Expert</h3>
-              <p className="text-gray-300 text-sm">Tell us about your wedding and our expert will help you plan it.</p>
-              {packageContext && (
-                <div className="mt-3 inline-block bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                  {packageContext} Package Context
+            <div className="p-6 md:p-8 border-b border-gray-100 bg-gradient-to-br from-[#0B1021] via-[#111827] to-[#1a1a1a] text-white relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#D4AF37] shadow-lg flex-shrink-0 bg-gray-800">
+                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200" alt="Wedding Expert" className="w-full h-full object-cover" />
                 </div>
-              )}
-              {serviceContext && (
-                <div className="mt-3 inline-block bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                  {serviceContext}
+                <div className="flex-1">
+                  <div className="inline-flex items-center gap-1.5 bg-green-500/20 text-green-400 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-1.5 border border-green-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" /> Available Today
+                  </div>
+                  <h3 className="font-serif text-2xl font-black text-white leading-tight">Talk to a Wedding Expert</h3>
+                  <p className="text-[#D4AF37] text-xs font-bold mt-0.5">Ananya Mishra — Senior Bihari Wedding Specialist</p>
+                  <p className="text-gray-400 text-xs mt-1">10+ Years Experience • Bihar & Mithila Wedding Architect</p>
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-3">
+                    {packageContext && (
+                      <span className="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white">
+                        💎 {packageContext} Package
+                      </span>
+                    )}
+                    {serviceContext && (
+                      <span className="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white">
+                        ✨ {serviceContext}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-4">

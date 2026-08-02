@@ -116,6 +116,9 @@ const LeadMarketplacePage = lazy(() => import('./pages/LeadMarketplacePage'))
 const VendorSubscriptionPage = lazy(() => import('./pages/VendorSubscriptionPage'))
 const PackagesPage = lazy(() => import('./pages/PackagesPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+const WeddingTimelinePage = lazy(() => import('./pages/tools/WeddingTimelinePage'))
+const VenuePlanningPage = lazy(() => import('./pages/tools/VenuePlanningPage'))
+const ExpertConsultationPage = lazy(() => import('./pages/tools/ExpertConsultationPage'))
 
 // Wedding Planner Pages
 const BihariPlannerPage = lazy(() => import('./pages/weddings/BihariPlannerPage'))
@@ -251,7 +254,24 @@ export default function App() {
                 <Route path="/tools/cost-predictor" element={<CostPredictorPage />} />
                 <Route path="/tools/kundli-matching" element={<KundliMatchingPage />} />
                 <Route path="/tools/muhurat-finder" element={<MuhuratFinderPage />} />
+                <Route path="/tools/shubh-muhurat" element={<MuhuratFinderPage />} />
+                <Route path="/tools/wedding-budget" element={<BudgetCalculatorPage />} />
+                <Route path="/tools/wedding-checklist" element={<ChecklistPage />} />
+                <Route path="/tools/wedding-packages" element={<PackagesPage />} />
+                <Route path="/tools/baraat-ride" element={
+                  <Suspense fallback={<BaraatCabsSkeleton />}>
+                    <BaraatCabsPage />
+                  </Suspense>
+                } />
                 <Route path="/tools/mithila-planner" element={<BihariPlannerPage />} />
+                <Route path="/tools/wedding-planner" element={<BihariPlannerPage />} />
+                <Route path="/tools/planning" element={<BihariPlannerPage />} />
+                <Route path="/tools/wedding-timeline" element={<WeddingTimelinePage />} />
+                <Route path="/tools/timeline" element={<WeddingTimelinePage />} />
+                <Route path="/tools/venue-planning" element={<VenuePlanningPage />} />
+                <Route path="/tools/venue-planner" element={<VenuePlanningPage />} />
+                <Route path="/tools/venue" element={<VenuePlanningPage />} />
+                <Route path="/tools/expert-consultation" element={<ExpertConsultationPage />} />
                 {/* Baraat Cabs Routes — use skeleton fallback, NOT global LoadingScreen */}
                 <Route path="/baraat-cabs" element={
                   <Suspense fallback={<BaraatCabsSkeleton />}>
@@ -293,6 +313,7 @@ export default function App() {
                 <Route path="/vendors" element={<ServicesPage />} />
                 <Route path="/vendors/:id" element={<VendorDetailPage />} />
                 <Route path="/packages" element={<PackagesPage />} />
+                <Route path="/wedding-packages" element={<PackagesPage />} />
                 <Route path="/cab-booking" element={
                   <Suspense fallback={<BaraatCabsSkeleton />}>
                     <CabBookingPage />
@@ -331,6 +352,7 @@ export default function App() {
                 {/* User Dashboard Routes */}
                 <Route element={<ProtectedRoute roles={['user']}><DashboardLayout /></ProtectedRoute>}>
                   <Route path="/dashboard" element={<UserDashboard />} />
+                  <Route path="/user/dashboard" element={<UserDashboard />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/bookings" element={<BookingsPage />} />
                   <Route path="/dashboard/my-bookings" element={<BookingsPage />} />

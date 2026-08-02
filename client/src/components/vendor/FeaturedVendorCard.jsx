@@ -176,6 +176,9 @@ export default function FeaturedVendorCard({ vendor }) {
                 <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-[0.1em] text-gray-600 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-100">
                   <FiCheckCircle size={10} className="text-green-500" strokeWidth={3} /> Verified
                 </span>
+                <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-[0.1em] text-[#C2185B] bg-pink-50/70 px-2.5 py-1 rounded-md border border-pink-100">
+                  <span>🏆</span> {vendor.experienceYears ? `${vendor.experienceYears} Yrs Exp` : 'Verified Exp'}
+                </span>
                 {(vendor.badges?.includes('quickResponder') || vendor.subscription?.plan === 'premium') && (
                   <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-[0.1em] text-gray-600 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-100">
                     ⚡ Fast Response
@@ -213,9 +216,19 @@ export default function FeaturedVendorCard({ vendor }) {
                   e.stopPropagation()
                   navigate(`/vendors/${vendor._id}`)
                 }}
-                className="flex-1 bg-gradient-to-r from-gray-900 to-[#1a1a1a] hover:from-[#C2185B] hover:to-[#8E244D] text-white h-[44px] md:h-[48px] rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-xl active:scale-95 flex items-center justify-center whitespace-nowrap px-4"
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 h-[44px] md:h-[48px] rounded-xl text-[10px] md:text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center whitespace-nowrap px-3"
               >
-                View Details →
+                View Details
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  navigate(`/vendors/${vendor._id}?action=book`)
+                }}
+                className="flex-1 bg-gradient-to-r from-[#C2185B] to-[#8E244D] hover:from-[#8E244D] hover:to-[#5C1130] text-white h-[44px] md:h-[48px] rounded-xl text-[10px] md:text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-xl active:scale-95 flex items-center justify-center whitespace-nowrap px-3"
+              >
+                Book Now
               </button>
             </div>
           </div>

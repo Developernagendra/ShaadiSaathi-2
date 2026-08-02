@@ -12,7 +12,7 @@ const languages = [
   { code: 'mai', name: 'मैथिली', flag: '🇮🇳' },
 ];
 
-const LanguageSwitcher = ({ isMobile = false }) => {
+const LanguageSwitcher = ({ isMobile = false, isDark = false }) => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -69,9 +69,13 @@ const LanguageSwitcher = ({ isMobile = false }) => {
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-gray-200 bg-white hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1"
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shadow-sm focus:outline-none ${
+          isDark
+            ? 'border-white/20 bg-white/10 hover:bg-white/20 text-white'
+            : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
+        }`}
       >
-        <FiGlobe className="text-primary-500" />
+        <FiGlobe className={isDark ? 'text-[#D4AF37]' : 'text-primary-500'} />
         <span className="hidden sm:inline-block">{currentLang.name}</span>
         <span className="sm:hidden">{currentLang.code.toUpperCase()}</span>
         <FiChevronDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />

@@ -28,6 +28,21 @@ export default function BihariPlannerPage() {
   });
 
   useEffect(() => {
+    try {
+      const savedDateRaw = localStorage.getItem('shaadisaathi_planner_date');
+      if (savedDateRaw) {
+        const parsed = JSON.parse(savedDateRaw);
+        if (parsed && parsed.date) {
+          setFormData((prev) => ({
+            ...prev,
+            weddingDate: parsed.date,
+            city: parsed.city || prev.city || 'Patna'
+          }));
+        }
+      }
+    } catch (e) {
+      // Ignore localStorage read errors
+    }
     checkExistingPlan();
   }, [isAuthenticated]);
 
@@ -59,7 +74,7 @@ export default function BihariPlannerPage() {
     e.preventDefault();
     if (!isAuthenticated) {
       toast.error('Please login to create a wedding plan');
-      navigate('/auth/login', { state: { from: '/tools/mithila-planner' } });
+      navigate('/login', { state: { from: '/tools/wedding-planner' } });
       return;
     }
 

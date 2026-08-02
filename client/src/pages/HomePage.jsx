@@ -24,18 +24,90 @@ const HERO_IMAGES = [
   'https://plus.unsplash.com/premium_photo-1682092018999-2c8fcfe944f3?auto=format&fit=crop&w=1200&q=70', // Palace Wedding
 ]
 
-const STATIC_SERVICES = [
-  { name: 'Photography', icon: '📷', slug: 'photography' },
-  { name: 'Catering', icon: '🍽️', slug: 'catering' },
-  { name: 'Decoration', icon: '✨', slug: 'event-planners' },
-  { name: 'Venue', icon: '🏛️', slug: 'venues' },
-  { name: 'Mehndi', icon: '✋', slug: 'mehndi' },
-  { name: 'Makeup Artist', icon: '💄', slug: 'bridal-makeup' },
-  { name: 'Tent House', icon: '🎪', slug: 'tent-house' },
-  { name: 'Pandit', icon: '🕉️', slug: 'pandit' },
-  { name: 'DJ', icon: '🎵', slug: 'dj' },
-  { name: 'Baraat Cabs', icon: '🚗', slug: 'baraat-cabs' }
-]
+const getStaticServices = (isEnglish) => [
+  {
+    icon: '📸',
+    name: isEnglish ? 'Photography' : 'फोटोग्राफी (Photography)',
+    desc: isEnglish ? 'Wedding films, candid shoots & albums' : 'शादी के अनमोल पलों को हमेशा के लिए संजोएं',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=photography',
+    slug: 'photography'
+  },
+  {
+    icon: '🍽️',
+    name: isEnglish ? 'Catering' : 'कैटरिंग (Catering)',
+    desc: isEnglish ? 'Authentic Bihari feasts & gourmet dining' : 'स्वादिष्ट बिहारी पकवान और बेहतरीन शादी का खाना',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=catering',
+    slug: 'catering'
+  },
+  {
+    icon: '✨',
+    name: isEnglish ? 'Decoration' : 'डेकोरेशन (Decoration)',
+    desc: isEnglish ? 'Stunning stage, floral & mandap decor' : 'शानदार मंडप, स्टेज और फूलों की सजावट',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=event-planners',
+    slug: 'event-planners'
+  },
+  {
+    icon: '🏛️',
+    name: isEnglish ? 'Wedding Venue' : 'विवाह भवन (Venue)',
+    desc: isEnglish ? 'Premium banquet halls, resorts & lawns' : 'शानदार मैरिज हॉल, रिसॉर्ट्स और लॉन',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=venues',
+    slug: 'venues'
+  },
+  {
+    icon: '🤲',
+    name: isEnglish ? 'Mehndi' : 'मेहंदी (Mehndi)',
+    desc: isEnglish ? 'Intricate bridal & guest mehndi designs' : 'दुल्हन और मेहमानों के लिए खूबसूरत मेहंदी डिज़ाइन',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=mehndi',
+    slug: 'mehndi'
+  },
+  {
+    icon: '💄',
+    name: isEnglish ? 'Makeup Artist' : 'ब्राइडल मेकअप (Makeup)',
+    desc: isEnglish ? 'Flawless bridal makeup & styling experts' : 'दुल्हन के लिए प्रोफेशनल ब्राइडल मेकअप और स्टाइलिंग',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=bridal-makeup',
+    slug: 'bridal-makeup'
+  },
+  {
+    icon: '🎪',
+    name: isEnglish ? 'Tent House' : 'टेंट हाउस (Tent House)',
+    desc: isEnglish ? 'Complete lighting, sound & tent setups' : 'शादी के लिए प्रीमियम टेंट, लाइट और साउंड व्यवस्था',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=tent-house',
+    slug: 'tent-house'
+  },
+  {
+    icon: '🕉️',
+    name: isEnglish ? 'Pandit' : 'पंडित जी (Pandit)',
+    desc: isEnglish ? 'Experienced Vedic priests for rituals' : 'वैदिक रीति-रिवाजों से विवाह संपन्न कराने वाले पंडित जी',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=pandit',
+    slug: 'pandit'
+  },
+  {
+    icon: '🎵',
+    name: isEnglish ? 'DJ & Sound' : 'डीजे और साउंड (DJ)',
+    desc: isEnglish ? 'High-energy music & sangeet setups' : 'संगीत और बारात के लिए शानदार साउंड सिस्टम',
+    cta: isEnglish ? 'Explore →' : 'देखें →',
+    to: '/services?category=dj',
+    slug: 'dj'
+  },
+  {
+    icon: '🚗',
+    name: isEnglish ? 'Baraat Ride' : 'बारात राइड (Baraat Ride)',
+    desc: isEnglish ? 'Luxury vintage cars & premium baraat entry' : 'अपनी बारात की शानदार एंट्री के लिए लग्जरी गाड़ियां',
+    cta: isEnglish ? 'Explore Baraat Rides →' : 'बारात राइड देखें →',
+    to: '/baraat-cabs',
+    slug: 'baraat-cabs',
+    isSpecial: true,
+    badge: isEnglish ? 'Popular' : 'पॉपुलर'
+  }
+];
 
 const WHY_US_CARDS = [
   { icon: <FiShield />, title: 'Verified Vendors', desc: 'अपनी शादी के लिए सिर्फ भरोसेमंद और verified professionals चुनें।' },
@@ -47,7 +119,9 @@ const WHY_US_CARDS = [
 ]
 
 export default function HomePage() {
-  const { t } = useTranslation?.() || { t: (key) => key };
+  const { t, i18n } = useTranslation?.() || { t: (key) => key, i18n: { language: 'hi' } };
+  const isEnglish = i18n?.language === 'en';
+  const servicesList = getStaticServices(isEnglish);
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { categories = [] } = useSelector((s) => s.vendor || {})
@@ -125,37 +199,39 @@ export default function HomePage() {
   }, [searchQuery, searchCity, navigate])
 
   return (
-    <div className="w-full max-w-[100vw] overflow-hidden overflow-x-hidden">
+    <div className="w-full min-h-screen overflow-x-hidden">
       {/* ── 1. Hero Section ── */}
-      <section className="relative min-h-[auto] md:min-h-0 md:h-[560px] lg:h-[650px] flex items-center justify-center overflow-hidden pt-[24px] pb-[32px] md:pt-0 md:pb-0">
-        {HERO_IMAGES.map((src, i) => {
-          const isActive = i === heroIndex;
-          const isNext = i === (heroIndex + 1) % HERO_IMAGES.length;
-          if (!isActive && !isNext) return null;
+      <section className="relative min-h-[auto] sm:min-h-[640px] lg:min-h-[760px] h-auto flex flex-col justify-center">
+        {/* ── Separate Background Layer (Clips only background images & gradient, never content) ── */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          {HERO_IMAGES.map((src, i) => {
+            const isActive = i === heroIndex;
+            const isNext = i === (heroIndex + 1) % HERO_IMAGES.length;
+            if (!isActive && !isNext) return null;
 
-          return (
-            <div
-              key={i}
-              className="absolute inset-0 transition-opacity duration-1000"
-              style={{ opacity: isActive ? 1 : 0 }}
-            >
-              <img
-                src={src}
-                alt={i === 0 ? 'Indian wedding mandap ceremony' : i === 1 ? 'Indian bride on wedding day' : 'Palace wedding celebration'}
-                width="1200"
-                height="675"
-                className="w-full h-full object-cover"
-                loading={i === 0 ? 'eager' : 'lazy'}
-                fetchPriority={i === 0 ? 'high' : 'auto'}
-                decoding={i === 0 ? 'sync' : 'async'}
-              />
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={i}
+                className="absolute inset-0 transition-opacity duration-1000"
+                style={{ opacity: isActive ? 1 : 0 }}
+              >
+                <img
+                  src={src}
+                  alt={i === 0 ? 'Indian wedding mandap ceremony' : i === 1 ? 'Indian bride on wedding day' : 'Palace wedding celebration'}
+                  width="1200"
+                  height="675"
+                  className="w-full h-full object-cover object-center"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={i === 0 ? 'high' : 'auto'}
+                  decoding={i === 0 ? 'sync' : 'async'}
+                />
+              </div>
+            );
+          })}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1021]/85 via-[#0B1021]/55 to-[#0B1021]/95 sm:from-[#0B1021]/70 sm:via-[#0B1021]/45 sm:to-[#0B1021]/80" />
+        </div>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90 sm:from-black/60 sm:via-black/40 sm:to-black/70" />
-
-        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto w-full pt-16 md:pt-24 pb-6">
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto w-full pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 md:pb-20 lg:pb-24">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -165,20 +241,21 @@ export default function HomePage() {
             <span>बिहार की शादी, ShaadiSaathi के साथ</span>
           </motion.div>
 
-          <h1 className="font-display text-[26px] sm:text-[32px] md:text-[48px] lg:text-[60px] font-black text-white leading-[1.2] mb-3 sm:mb-4 text-shadow drop-shadow-2xl px-2 text-wrap-balance">
-            बिहार की शादी, अब होगी आसान
+          <h1 className="font-display text-[28px] sm:text-[36px] md:text-[52px] lg:text-[64px] font-black text-white leading-[1.15] mb-3 sm:mb-4 text-shadow drop-shadow-2xl px-2 text-wrap-balance">
+            ShaadiSaathi — शादी का सच्चा साथी <br className="hidden md:block" />
+            <span className="text-[#D4AF37] text-[22px] sm:text-[28px] md:text-[40px] lg:text-[48px] italic block mt-1">बिहार की शादी, अब होगी आसान</span>
           </h1>
 
-          <div className="mb-6 sm:mb-10 px-4 sm:px-0">
-            <p className="text-white/95 text-[16px] md:text-[20px] lg:text-[24px] font-medium max-w-[700px] mx-auto text-shadow leading-relaxed italic">
-              Venue से लेकर Catering तक — आपकी शादी की पूरी तैयारी, एक ही जगह।
+          <div className="mb-8 sm:mb-10 px-4 sm:px-0">
+            <p className="text-white/95 text-[16px] md:text-[20px] lg:text-[24px] font-medium max-w-[750px] mx-auto text-shadow leading-relaxed italic">
+              Plan, Discover & Book Everything for Your Wedding | Venue से लेकर Catering तक — आपकी शादी की पूरी तैयारी, एक ही जगह।
             </p>
           </div>
 
-          <form onSubmit={handleSearch} className="bg-white rounded-[24px] p-4 md:p-6 lg:p-8 shadow-2xl flex flex-col md:flex-row gap-3 max-w-[1200px] w-[calc(100%-32px)] md:w-full mx-auto my-[16px] md:mb-6 border border-gold-100 relative overflow-hidden z-20">
+          <form onSubmit={handleSearch} className="bg-white rounded-[24px] p-4 md:p-6 lg:p-8 shadow-2xl flex flex-col md:flex-row gap-3 max-w-[1200px] w-full mx-auto my-8 sm:my-10 border border-gold-100 relative overflow-hidden z-20">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-400 via-pink-500 to-gold-400 opacity-50" />
 
-            <div className="flex items-center gap-3 flex-1 px-3 md:px-4 w-full h-[56px] md:h-[64px] border-b border-gray-100 md:border-b-0">
+            <div className="flex items-center gap-3 flex-1 px-3 md:px-4 w-full h-[52px] sm:h-[56px] md:h-[64px] border-b border-gray-100 md:border-b-0">
               <FiSearch className="text-[#C2185B] flex-shrink-0" size={18} />
               <input
                 type="text"
@@ -189,7 +266,7 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="flex items-center gap-3 px-3 md:px-4 w-full md:w-auto md:min-w-[180px] h-[56px] md:h-[64px] md:border-l border-gray-100 border-b md:border-b-0">
+            <div className="flex items-center gap-3 px-3 md:px-4 w-full md:w-auto md:min-w-[180px] h-[52px] sm:h-[56px] md:h-[64px] md:border-l border-gray-100 border-b md:border-b-0">
               <FiMapPin className="text-[#C2185B] flex-shrink-0" size={18} />
               <select
                 value={searchCity}
@@ -201,13 +278,22 @@ export default function HomePage() {
               </select>
             </div>
 
-            <button type="submit" className="bg-primary-600 hover:bg-primary-700 text-white rounded-[16px] h-[56px] px-8 text-sm font-bold shine-effect w-full md:w-auto flex-shrink-0 transition-colors flex items-center justify-center mt-2 md:mt-0">
+            <button type="submit" className="bg-primary-600 hover:bg-primary-700 text-white rounded-[16px] h-[52px] sm:h-[56px] md:h-[64px] px-8 text-sm font-bold shine-effect w-full md:w-auto flex-shrink-0 transition-colors flex items-center justify-center mt-2 md:mt-0">
               Vendor खोजें
             </button>
           </form>
 
-          <div className="max-w-full overflow-hidden w-full mx-auto pb-2">
-            <div className="flex overflow-x-auto flex-row flex-nowrap md:flex-wrap md:justify-center gap-[12px] p-[12px] scrollbar-none [&::-webkit-scrollbar]:hidden w-full" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="w-full max-w-5xl mx-auto pt-2">
+            <div
+              className="flex overflow-x-auto flex-row flex-nowrap md:flex-wrap md:justify-center items-center gap-2.5 sm:gap-3 px-2 py-2 scrollbar-none [&::-webkit-scrollbar]:hidden w-full"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
+            >
+              <button
+                onClick={() => navigate('/tools')}
+                className="bg-gradient-to-r from-[#D4AF37] to-[#B38D22] hover:from-[#B38D22] hover:to-[#927116] text-white h-[42px] sm:h-[44px] rounded-full text-xs sm:text-sm font-black uppercase tracking-wider transition-all shadow-md hover:shadow-xl text-center flex-shrink-0 flex items-center justify-center whitespace-nowrap px-4 sm:px-5 gap-1.5 border border-white/20 active:scale-95"
+              >
+                <span>✨ Plan Your Wedding</span>
+              </button>
               {[
                 { label: 'विवाह भवन 🏛️', slug: 'venues' },
                 { label: 'Catering 🍽️', slug: 'catering' },
@@ -217,7 +303,7 @@ export default function HomePage() {
                 <button
                   key={item.slug}
                   onClick={() => navigate(`/services?category=${item.slug}`)}
-                  className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white min-w-[120px] h-[44px] rounded-full text-sm font-semibold transition-all hover:shadow-lg text-center flex-shrink-0 flex items-center justify-center whitespace-nowrap px-4"
+                  className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white h-[42px] sm:h-[44px] rounded-full text-xs sm:text-sm font-bold transition-all hover:shadow-lg text-center flex-shrink-0 flex items-center justify-center whitespace-nowrap px-4 active:scale-95"
                 >
                   {item.label}
                 </button>
@@ -228,31 +314,101 @@ export default function HomePage() {
       </section>
 
       {/* ── 2. Services Section ── */}
-      <section className="py-10 md:py-16 lg:py-24 px-4 bg-[#FFF8F0]/50 relative overflow-hidden">
+      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 bg-[#FFF8F0]/70 overflow-hidden z-10">
         <div className="absolute top-0 right-0 w-72 h-72 md:w-[400px] md:h-[400px] bg-[#C2185B]/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-72 h-72 md:w-[500px] md:h-[500px] bg-[#D4AF37]/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-8 md:mb-12">
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} className="font-display text-2xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight leading-tight mb-2 md:mb-4">
-              बिहार की शादी के लिए <span className="text-[#D4AF37] italic">सब कुछ</span>
+          <div className="text-center mb-10 md:mb-14">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight leading-tight mb-3 md:mb-4"
+            >
+              {isEnglish ? 'Everything for Your ' : 'बिहार की शादी के लिए '}
+              <span className="text-[#D4AF37] italic">{isEnglish ? 'Bihar Wedding' : 'सब कुछ'}</span>
             </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: 0.1 }}
+              className="text-gray-600 font-medium text-sm md:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed"
+            >
+              {isEnglish
+                ? 'From Venue to Catering, Photography, and Baraat Ride — your complete wedding preparation in one place.'
+                : 'Venue से लेकर Catering, Photography और Baraat Ride तक — आपकी शादी की पूरी तैयारी, एक ही जगह।'}
+            </motion.p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-0">
-            {STATIC_SERVICES.map((service, i) => (
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+            {servicesList.map((service, idx) => (
               <Link
                 key={service.slug}
-                to={`/services?category=${service.slug}`}
-                className="flex flex-col items-center gap-3 p-4 md:p-6 bg-white rounded-[1.5rem] shadow-sm hover:shadow-premium hover:-translate-y-1 hover:border-pink-200/50 transition-all duration-300 group text-center border border-gray-100 active:scale-95 relative overflow-hidden min-w-0"
+                to={service.to}
+                className={`group relative flex flex-col items-center justify-between p-4 sm:p-5 md:p-6 rounded-[24px] transition-all duration-300 active:scale-95 text-center overflow-hidden w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.625rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)] xl:w-[calc(20%-1.2rem)] ${
+                  service.isSpecial
+                    ? 'bg-gradient-to-br from-[#FFFDF8] via-[#FFF9EE] to-[#FFF2DF] border-2 border-[#D4AF37]/60 shadow-md hover:shadow-2xl hover:border-[#D4AF37] hover:-translate-y-1.5'
+                    : 'bg-white/95 border border-pink-100/80 shadow-sm hover:shadow-xl hover:border-[#C2185B]/40 hover:-translate-y-1.5'
+                }`}
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-[#C2185B] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="w-14 h-14 md:w-16 md:h-16 bg-[#FFF8F0] rounded-2xl flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                  {service.icon}
+                {/* Top Shimmer Accent Line on Hover / Active */}
+                <div
+                  className={`absolute top-0 left-0 w-full h-1 transition-opacity duration-300 ${
+                    service.isSpecial
+                      ? 'bg-gradient-to-r from-[#D4AF37] via-[#FF4D6D] to-[#D4AF37] opacity-100'
+                      : 'bg-gradient-to-r from-pink-500 to-[#C2185B] opacity-0 group-hover:opacity-100'
+                  }`}
+                />
+
+                {/* Popular Badge for Baraat Ride */}
+                {service.isSpecial && (
+                  <div className="absolute top-3 right-3 bg-gradient-to-r from-[#D4AF37] to-[#B38D22] text-white text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">
+                    {service.badge}
+                  </div>
+                )}
+
+                {/* Service Icon */}
+                <div
+                  className={`w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl mb-3.5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${
+                    service.isSpecial
+                      ? 'bg-gradient-to-br from-[#FFF0D0] to-[#FFE2A4] shadow-sm'
+                      : 'bg-[#FFF8F0] group-hover:bg-pink-50'
+                  }`}
+                >
+                  <span role="img" aria-label={service.name}>
+                    {service.icon}
+                  </span>
                 </div>
-                <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.1em] md:tracking-[0.15em] text-gray-900 group-hover:text-[#C2185B] transition-colors break-words">
-                  {service.name}
-                </span>
+
+                {/* Title & Short Description */}
+                <div className="flex flex-col items-center gap-1.5 mb-4 flex-1">
+                  <h3
+                    className={`font-black uppercase tracking-wide text-xs sm:text-sm md:text-base transition-colors ${
+                      service.isSpecial
+                        ? 'text-[#B38D22] group-hover:text-[#927116]'
+                        : 'text-gray-900 group-hover:text-[#C2185B]'
+                    }`}
+                  >
+                    {service.name}
+                  </h3>
+                  <p className="text-gray-500 text-[11px] sm:text-xs font-medium leading-relaxed line-clamp-2 max-w-[220px]">
+                    {service.desc}
+                  </p>
+                </div>
+
+                {/* CTA Footer Link */}
+                <div
+                  className={`text-xs sm:text-sm font-bold flex items-center justify-center gap-1 transition-all duration-300 group-hover:translate-x-1 ${
+                    service.isSpecial
+                      ? 'text-[#B38D22] group-hover:text-[#927116]'
+                      : 'text-gray-600 group-hover:text-[#C2185B]'
+                  }`}
+                >
+                  <span>{service.cta}</span>
+                  <FiArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
+                </div>
               </Link>
             ))}
           </div>

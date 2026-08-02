@@ -695,22 +695,6 @@ const startServer = async () => {
   }
 };
 
-/* ---------------- PROCESS ERROR HANDLERS ---------------- */
-process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION 💥 (Process exiting for stability...)', err.name, err.message);
-  if (process.env.NODE_ENV === 'development') {
-    console.error(err);
-  }
-  process.exit(1);
-});
-
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION 💥 (Process exiting for stability...)', err.name, err.message);
-  if (process.env.NODE_ENV === 'development') {
-    console.error(err);
-  }
-  process.exit(1);
-});
 
 startServer();
 

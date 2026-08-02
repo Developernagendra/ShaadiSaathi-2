@@ -380,6 +380,48 @@ export default function BaraatCabsPage() {
 
 
 
+        {/* ── 4.5 HORIZONTAL CATEGORY FILTER CHIPS ── */}
+        <div className="mb-12 relative">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="font-display font-black text-xl text-gray-900">Vehicle Categories</h4>
+            <div className="hidden md:flex gap-2">
+              <button onClick={() => scrollChips('left')} className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors">
+                ←
+              </button>
+              <button onClick={() => scrollChips('right')} className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors">
+                →
+              </button>
+            </div>
+          </div>
+
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto gap-3 pb-2 scrollbar-none [&::-webkit-scrollbar]:hidden"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {[
+              { id: 'All', label: '🚕 All Vehicles' },
+              { id: 'Luxury Cars', label: '👑 Luxury Cars' },
+              { id: 'Vintage Cars', label: '🏛️ Vintage Cars' },
+              { id: 'Premium SUVs', label: '🚙 Premium SUVs' },
+              { id: 'Baraat Special', label: '🎺 Baraat Special' },
+              { id: 'Decorated Cars', label: '🌸 Decorated Cars' },
+            ].map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setFilters({ ...filters, category: cat.id })}
+                className={`px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
+                  filters.category === cat.id
+                    ? 'bg-[#0B1021] text-[#D4AF37] shadow-lg scale-105 border border-[#D4AF37]/40'
+                    : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* ── 5. BROWSE BARAAT RIDES (LISTINGS) ── */}
         <div className="mb-24">
           <div className="flex flex-col md:flex-row justify-between items-end md:items-center mb-8 gap-4">
@@ -483,17 +525,25 @@ export default function BaraatCabsPage() {
                         </div>
                       </div>
 
-                      <div className="mt-auto flex items-center justify-between gap-4">
+                      <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t border-gray-100">
                         <div>
                           <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Starting Price</p>
                           <p className="font-serif font-black text-2xl text-gray-900">{formatPrice(price)}</p>
                         </div>
-                        <button
-                          onClick={() => setSelectedCab(cab)}
-                          className="bg-[#0B1021] text-white px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#D4AF37] hover:text-[#0B1021] transition-all"
-                        >
-                          View Details
-                        </button>
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                          <button
+                            onClick={() => setSelectedCab(cab)}
+                            className="flex-1 sm:flex-none bg-gray-100 text-gray-900 px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-gray-200 transition-all"
+                          >
+                            View Details
+                          </button>
+                          <button
+                            onClick={() => navigate(`/baraat-cabs/book?cabId=${cab._id}`)}
+                            className="flex-1 sm:flex-none bg-[#0B1021] text-[#D4AF37] px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#0B1021] transition-all shadow-md"
+                          >
+                            Book Now
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </motion.div>

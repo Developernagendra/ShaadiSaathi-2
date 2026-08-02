@@ -30,15 +30,123 @@ export default function ToolsHubPage() {
   // Main featured tools
   const tools = [
     {
+      id: 'wedding-planner',
+      title: t('tools_hub.tool_planner_title', 'Wedding Planner'),
+      description: t('tools_hub.tool_planner_desc', 'Plan your complete wedding journey from start to finish.'),
+      category: 'Planning',
+      icon: <FiHeart />,
+      path: '/tools/wedding-planner',
+      color: 'from-[#C2185B] to-[#8E244D]',
+      bg: 'bg-pink-50',
+      text: 'text-[#C2185B]',
+      featured: true
+    },
+    {
+      id: 'timeline',
+      title: t('tools_hub.tool_timeline_title', 'Wedding Timeline'),
+      description: t('tools_hub.tool_timeline_desc', 'Plan every event and ritual on time.'),
+      category: 'Planning',
+      icon: <FiCalendar />,
+      path: '/tools/wedding-timeline',
+      color: 'from-amber-500 to-orange-500',
+      bg: 'bg-amber-50',
+      text: 'text-amber-600',
+      featured: true
+    },
+    {
+      id: 'venue-planner',
+      title: t('tools_hub.tool_venue_title', 'Venue Planning'),
+      description: t('tools_hub.tool_venue_desc', 'Discover and organize your wedding venue requirements.'),
+      category: 'Vendors',
+      icon: <LuMapPin />,
+      path: '/tools/venue-planning',
+      color: 'from-rose-500 to-pink-500',
+      bg: 'bg-rose-50',
+      text: 'text-rose-600',
+      featured: true
+    },
+    {
+      id: 'shubh-muhurat',
+      title: t('tools_hub.tool_muhurat_title', 'Shubh Muhurat'),
+      description: t('tools_hub.tool_muhurat_desc', 'Find auspicious wedding dates and timings.'),
+      category: 'Planning',
+      icon: <FiStar />,
+      path: '/tools/shubh-muhurat',
+      color: 'from-yellow-500 to-amber-600',
+      bg: 'bg-yellow-50',
+      text: 'text-[#D4AF37]',
+      featured: true
+    },
+    {
+      id: 'kundli-matching',
+      title: t('tools_hub.tool_kundli_title', 'Kundli Matching'),
+      description: t('tools_hub.tool_kundli_desc', 'Traditional Vedic Ashtakoot Guna Milan compatibility.'),
+      category: 'Planning',
+      icon: <FiHeart />,
+      path: '/tools/kundli-matching',
+      color: 'from-purple-500 to-indigo-600',
+      bg: 'bg-purple-50',
+      text: 'text-purple-600',
+      featured: true
+    },
+    {
       id: 'budget-planner',
       title: t('tools_hub.tool_budget_title', 'Wedding Budget Planner'),
       description: t('tools_hub.tool_budget_desc', 'Plan and manage your complete wedding budget.'),
       category: 'Budget',
       icon: <LuWallet />,
-      path: '/tools/budget-planner',
-      color: 'from-[#C2185B] to-[#8E244D]',
-      bg: 'bg-pink-50',
-      text: 'text-[#C2185B]',
+      path: '/tools/wedding-budget',
+      color: 'from-emerald-500 to-teal-600',
+      bg: 'bg-emerald-50',
+      text: 'text-emerald-600',
+      featured: true
+    },
+    {
+      id: 'checklist',
+      title: t('tools_hub.tool_checklist_title', 'Wedding Checklist'),
+      description: t('tools_hub.tool_checklist_desc', 'Never miss an important wedding task.'),
+      category: 'Planning',
+      icon: <FiCheckSquare />,
+      path: '/tools/wedding-checklist',
+      color: 'from-blue-500 to-cyan-600',
+      bg: 'bg-blue-50',
+      text: 'text-blue-600',
+      featured: true
+    },
+    {
+      id: 'wedding-packages',
+      title: t('tools_hub.tool_packages_title', 'Wedding Packages'),
+      description: t('tools_hub.tool_packages_desc', 'Explore curated all-inclusive wedding packages.'),
+      category: 'Vendors',
+      icon: <LuSparkles />,
+      path: '/wedding-packages',
+      color: 'from-[#D4AF37] to-yellow-600',
+      bg: 'bg-yellow-50',
+      text: 'text-[#D4AF37]',
+      featured: true
+    },
+    {
+      id: 'baraat-ride',
+      title: t('tools_hub.tool_baraat_title', 'Baraat Ride'),
+      description: t('tools_hub.tool_baraat_desc', 'Book luxury cars, vintage cars, and ghodi for your Baraat.'),
+      category: 'Travel',
+      icon: <LuCar />,
+      path: '/baraat-cabs',
+      color: 'from-red-500 to-rose-600',
+      bg: 'bg-red-50',
+      text: 'text-red-600',
+      featured: true
+    },
+    {
+      id: 'expert-consultation',
+      title: t('tools_hub.tool_expert_title', 'Talk to an Expert'),
+      description: t('tools_hub.tool_expert_desc', 'Get complimentary 1-on-1 guidance from ShaadiSaathi planners.'),
+      category: 'Planning',
+      icon: <LuUsers />,
+      path: '/tools/expert-consultation',
+      color: 'from-indigo-600 to-blue-700',
+      bg: 'bg-indigo-50',
+      text: 'text-indigo-600',
       featured: true
     },
     {
@@ -51,31 +159,7 @@ export default function ToolsHubPage() {
       color: 'from-blue-500 to-cyan-500',
       bg: 'bg-blue-50',
       text: 'text-blue-600',
-      featured: true
-    },
-    {
-      id: 'checklist',
-      title: t('tools_hub.tool_checklist_title', 'Wedding Checklist'),
-      description: t('tools_hub.tool_checklist_desc', 'Never miss an important wedding task.'),
-      category: 'Planning',
-      icon: <FiCheckSquare />,
-      path: '/tools/checklist',
-      color: 'from-emerald-500 to-teal-500',
-      bg: 'bg-emerald-50',
-      text: 'text-emerald-600',
-      featured: true
-    },
-    {
-      id: 'timeline',
-      title: t('tools_hub.tool_timeline_title', 'Wedding Timeline'),
-      description: t('tools_hub.tool_timeline_desc', 'Plan every event and activity on time.'),
-      category: 'Planning',
-      icon: <FiCalendar />,
-      path: '/tools/timeline',
-      color: 'from-amber-500 to-orange-500',
-      bg: 'bg-amber-50',
-      text: 'text-amber-600',
-      featured: true
+      featured: false
     },
     {
       id: 'vendor-finder',
@@ -87,31 +171,7 @@ export default function ToolsHubPage() {
       color: 'from-purple-500 to-indigo-500',
       bg: 'bg-purple-50',
       text: 'text-purple-600',
-      featured: true
-    },
-    {
-      id: 'venue-planner',
-      title: t('tools_hub.tool_venue_title', 'Venue Planner'),
-      description: t('tools_hub.tool_venue_desc', 'Discover and organize your wedding venue requirements.'),
-      category: 'Vendors',
-      icon: <LuMapPin />,
-      path: '/tools/venue-planner',
-      color: 'from-rose-500 to-pink-500',
-      bg: 'bg-rose-50',
-      text: 'text-rose-600',
-      featured: true
-    },
-    {
-      id: 'baraat-planner',
-      title: t('tools_hub.tool_baraat_title', 'Baraat Planner'),
-      description: t('tools_hub.tool_baraat_desc', 'Plan your Baraat transportation and rides.'),
-      category: 'Travel',
-      icon: <LuCar />,
-      path: '/tools/baraat-calculator',
-      color: 'from-red-500 to-rose-600',
-      bg: 'bg-red-50',
-      text: 'text-red-600',
-      featured: true
+      featured: false
     },
     {
       id: 'invitation',
@@ -123,7 +183,7 @@ export default function ToolsHubPage() {
       color: 'from-[#D4AF37] to-yellow-500',
       bg: 'bg-yellow-50',
       text: 'text-[#D4AF37]',
-      featured: true
+      featured: false
     },
     // Smart Tools
     {
@@ -148,18 +208,6 @@ export default function ToolsHubPage() {
       color: 'from-emerald-600 to-teal-600',
       bg: 'bg-emerald-50',
       text: 'text-emerald-600',
-      smart: true
-    },
-    {
-      id: 'expense-tracker',
-      title: t('tools_hub.tool_tracker_title', 'Wedding Expense Tracker'),
-      description: t('tools_hub.tool_tracker_desc', 'Track your spending and stay within budget.'),
-      category: 'Budget',
-      icon: <LuWallet />,
-      path: '/tools/budget-planner',
-      color: 'from-blue-600 to-cyan-600',
-      bg: 'bg-blue-50',
-      text: 'text-blue-600',
       smart: true
     }
   ];

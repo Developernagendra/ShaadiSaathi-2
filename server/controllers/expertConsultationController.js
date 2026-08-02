@@ -7,13 +7,13 @@ const { sendEmail, getExpertUserEmailHTML, getExpertAdminEmailHTML } = require('
 // @route   POST /api/expert-consultations
 // @access  Public
 exports.submitConsultation = catchAsync(async (req, res, next) => {
-  const { name, email, phone, package, service, weddingDate, city, guestCount, preferredDate, preferredTime, message } = req.body;
+  const { name, email, phone, package: packageName, service, weddingDate, city, guestCount, preferredDate, preferredTime, message } = req.body;
 
   if (!name || !email || !phone) {
     return next(new AppError('Name, email, and phone are required', 400));
   }
 
-  let normalizedPackage = package ? String(package).trim() : null;
+  let normalizedPackage = packageName ? String(packageName).trim() : null;
   let normalizedService = service ? String(service).trim() : null;
 
   const newConsultation = await ExpertConsultation.create({

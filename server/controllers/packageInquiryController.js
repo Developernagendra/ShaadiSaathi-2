@@ -7,27 +7,42 @@ const { sendEmail, getPackageUserEmailHTML, getPackageAdminEmailHTML } = require
 // @route   POST /api/package-inquiries
 // @access  Public
 exports.submitInquiry = catchAsync(async (req, res, next) => {
-  const { name, phone, email, weddingDate, city, guestsCount, package, specialRequirements, budget, message } = req.body;
+  const { name, phone, email, weddingDate, city, guestsCount, package: packageName, specialRequirements, budget, message } = req.body;
 
   // Safe logging
-  console.log("[PACKAGE INQUIRY] Received package:", package);
+  console.log("[PACKAGE INQUIRY] Received package:", packageName);
 
-  if (!package) {
+  if (!packageName) {
     return res.status(400).json({
       success: false,
       message: "Package is required"
     });
   }
 
-  // Normalize and validate
-  const normalizedPackage = String(package || "").trim().toLowerCase();
-  const VALID_PACKAGES = ["silver", "gold", "royal", "custom"];
+  // Normalize package name
+  const normalizedPackage = String(packageName || "").trim().toLowerCase();
 
-  if (!VALID_PACKAGES.includes(normalizedPackage)) {
+  // Dynamic validation: check against packages in the database
+  // Also accept legacy/known package tier names as fallback
+  const LEGACY_PACKAGES = ["silver", "gold", "premium", "royal", "custom"];
+  let isValid = LEGACY_PACKAGES.includes(normalizedPackage);
+
+  if (!isValid) {
+    // Check if it matches an actual package name or slug in the DB
+    const dbPackage = await Package.findOne({
+      $or: [
+        { slug: normalizedPackage },
+        { name: { $regex: new RegExp(`^${normalizedPackage}$`, 'i') } }
+      ],
+      deletedAt: null
+    });
+    isValid = !!dbPackage;
+  }
+
+  if (!isValid) {
     return res.status(400).json({
       success: false,
-      message: "Invalid package selected",
-      allowedPackages: VALID_PACKAGES
+      message: `Package "${normalizedPackage}" is not available. Please select a valid wedding package.`,
     });
   }
 
