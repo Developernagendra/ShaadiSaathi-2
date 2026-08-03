@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiHome, FiSearch, FiCalendar, FiArrowLeft } from 'react-icons/fi';
+import { FiHome, FiSearch, FiCalendar, FiArrowLeft, FiGrid } from 'react-icons/fi';
 import BrandLogo from '../components/common/BrandLogo';
 
 export default function NotFoundPage() {
@@ -34,13 +34,19 @@ export default function NotFoundPage() {
           The page you are looking for doesn't exist, has been moved, or is temporarily unavailable. Let's get you back on track to your dream wedding!
         </p>
 
-        {/* 3 Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        {/* 4 Action Buttons */}
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
           <Link
             to="/"
             className="w-full sm:w-auto px-6 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2"
           >
             <FiHome /> Go Home
+          </Link>
+          <Link
+            to="/tools/ai-planner"
+            className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-[#C2185B] to-[#8E244D] hover:from-[#a3154d] hover:to-[#761c3f] text-white font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2"
+          >
+            <FiCalendar /> Start Planning
           </Link>
           <Link
             to="/services"
@@ -49,10 +55,10 @@ export default function NotFoundPage() {
             <FiSearch /> Explore Vendors
           </Link>
           <Link
-            to="/tools/wedding-planner"
-            className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-[#C2185B] to-[#8E244D] hover:from-[#a3154d] hover:to-[#761c3f] text-white font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2"
+            to="/tools"
+            className="w-full sm:w-auto px-6 py-3.5 bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 font-bold rounded-xl text-sm transition-all shadow-sm flex items-center justify-center gap-2"
           >
-            <FiCalendar /> Start Planning
+            <FiGrid /> Browse Wedding Tools
           </Link>
         </div>
       </motion.div>

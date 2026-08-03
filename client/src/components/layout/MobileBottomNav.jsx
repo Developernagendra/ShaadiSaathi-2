@@ -4,12 +4,14 @@ import { FiHome, FiSearch, FiCalendar, FiUser, FiGrid, FiUsers } from 'react-ico
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useMobileNavScroll } from '../../hooks/useMobileNavScroll';
 
 export default function MobileBottomNav() {
   const { isAuthenticated, user } = useSelector((state) => state.auth || {});
   const location = useLocation();
   const { t, i18n } = useTranslation?.() || { t: (key, def) => def, i18n: { language: 'en' } };
   const isEnglish = i18n.language === 'en';
+  const { isNavHidden } = useMobileNavScroll();
 
   // Hide bottom nav on specific routes where it interferes with UX or where a sidebar exists
   const hideOnRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
@@ -57,7 +59,13 @@ export default function MobileBottomNav() {
   }
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 h-[calc(68px+env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t border-gray-200/60 flex items-start justify-around pt-2 pb-[env(safe-area-inset-bottom)] px-2 z-[90] shadow-[0_-10px_30px_rgba(0,0,0,0.06)]">
+    <div 
+      style={{
+        transform: isNavHidden ? 'translateY(100%)' : 'translateY(0)',
+        transition: 'transform 300ms ease',
+      }}
+      className="md:hidden fixed bottom-0 left-0 right-0 h-[calc(68px+env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t border-gray-200/60 flex items-start justify-around pt-2 pb-[env(safe-area-inset-bottom)] px-2 z-[90] shadow-[0_-10px_30px_rgba(0,0,0,0.06)]"
+    >
       {navItems.map((item) => (
         <NavLink 
           key={item.label}

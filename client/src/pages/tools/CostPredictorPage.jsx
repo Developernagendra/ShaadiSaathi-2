@@ -11,14 +11,14 @@ export default function CostPredictorPage() {
     guestCount: 300,
     tier: 'premium'
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);
   const [results, setResults] = useState(null);
 
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Wedding Cost Predictor', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Wedding Cost Predictor', action: 'viewed_tool' }).catch(() => { });
   }, []);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,9 +69,9 @@ export default function CostPredictorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-20 font-sans">
+    <div className="min-h-screen bg-[#FFF8F0]/30 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-4xl mx-auto px-4 relative z-10">
-        
+
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center px-4 py-1.5 bg-[#C2185B]/10 text-[#C2185B] rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
             AI Powered
@@ -90,13 +90,13 @@ export default function CostPredictorPage() {
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">City</label>
               <div className="relative">
                 <FiMapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input 
-                  type="text" 
-                  name="city" 
-                  value={formData.city} 
-                  onChange={handleChange} 
-                  placeholder="E.g. Patna" 
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-4 text-sm font-bold text-slate-900 outline-none focus:border-[#C2185B]" 
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="E.g. Patna"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-4 text-sm font-bold text-slate-900 outline-none focus:border-[#C2185B]"
                 />
               </div>
             </div>
@@ -105,13 +105,13 @@ export default function CostPredictorPage() {
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Guest Count</label>
               <div className="relative">
                 <FiUsers className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input 
-                  type="number" 
-                  name="guestCount" 
+                <input
+                  type="number"
+                  name="guestCount"
                   min="50" max="5000" step="50"
-                  value={formData.guestCount} 
-                  onChange={handleChange} 
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-4 text-sm font-bold text-slate-900 outline-none focus:border-[#C2185B]" 
+                  value={formData.guestCount}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-4 text-sm font-bold text-slate-900 outline-none focus:border-[#C2185B]"
                 />
               </div>
             </div>
@@ -120,10 +120,10 @@ export default function CostPredictorPage() {
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Quality Tier</label>
               <div className="relative">
                 <FiStar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <select 
-                  name="tier" 
-                  value={formData.tier} 
-                  onChange={handleChange} 
+                <select
+                  name="tier"
+                  value={formData.tier}
+                  onChange={handleChange}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-4 text-sm font-bold text-slate-900 outline-none focus:border-[#C2185B] appearance-none"
                 >
                   <option value="standard">Standard</option>
@@ -148,7 +148,7 @@ export default function CostPredictorPage() {
               <h3 className="font-display text-4xl md:text-5xl font-black text-[#C2185B] mb-2">{formatPrice(results.total)}</h3>
               <p className="text-slate-500 text-sm font-medium">Based on {formData.guestCount} guests in {formData.city} ({formData.tier} tier)</p>
             </div>
-            
+
             <div className="p-8">
               <h4 className="text-sm font-bold text-slate-400 mb-6 uppercase tracking-widest">Expected Breakdown</h4>
               <div className="space-y-4">
@@ -168,7 +168,7 @@ export default function CostPredictorPage() {
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-lg text-xs font-bold border border-amber-100">
                   <FiTrendingUp /> Estimates are subject to market conditions and specific vendor choices.
                 </div>
-                <button 
+                <button
                   onClick={handleSavePrediction}
                   disabled={isSaving || hasSaved}
                   className="px-6 py-3 bg-[#1a1a1a] text-white rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50"

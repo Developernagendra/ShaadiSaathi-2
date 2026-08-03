@@ -14,7 +14,7 @@ export default function VendorAvailabilityCheckerPage() {
     city: '',
     date: ''
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
@@ -23,7 +23,7 @@ export default function VendorAvailabilityCheckerPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Vendor Availability', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Vendor Availability', action: 'viewed_tool' }).catch(() => { });
   }, []);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,9 +66,9 @@ export default function VendorAvailabilityCheckerPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0]/30 pt-32 pb-20 font-sans">
+    <div className="min-h-screen bg-[#FFF8F0]/30 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-5xl mx-auto px-4 relative z-10">
-        
+
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center px-4 py-1.5 bg-amber-100 text-amber-700 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
             Real-time Status
@@ -90,7 +90,7 @@ export default function VendorAvailabilityCheckerPage() {
                 {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
               </select>
             </div>
-            
+
             <div>
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">City</label>
               <div className="relative">
@@ -120,7 +120,7 @@ export default function VendorAvailabilityCheckerPage() {
             <h3 className="font-display text-2xl font-black text-gray-900 mb-6">
               {results.length} Vendors Available
             </h3>
-            
+
             {results.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-sm max-w-2xl mx-auto">
                 <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -130,7 +130,7 @@ export default function VendorAvailabilityCheckerPage() {
                 <p className="text-gray-500 mb-8 max-w-md mx-auto">
                   But don't worry! We can manually check our extensive offline network for available vendors matching your criteria.
                 </p>
-                <button 
+                <button
                   onClick={handleLeadSubmit}
                   disabled={isSubmittingLead || leadSubmitted}
                   className="bg-[#1a1a1a] text-white px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-black transition-colors disabled:opacity-50 inline-flex items-center gap-2"

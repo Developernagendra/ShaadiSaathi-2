@@ -1,10 +1,12 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { FiHome, FiLayers, FiCalendar, FiMessageSquare, FiUser } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+import { useMobileNavScroll } from '../../hooks/useMobileNavScroll';
 
 export default function VendorBottomNav() {
   const { user } = useSelector(s => s.auth || {});
   const location = useLocation();
+  const { isNavHidden } = useMobileNavScroll();
 
   if (user?.role !== 'vendor') return null;
 
@@ -17,7 +19,13 @@ export default function VendorBottomNav() {
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-white/90 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] pb-safe">
+    <div
+      style={{
+        transform: isNavHidden ? 'translateY(100%)' : 'translateY(0)',
+        transition: 'transform 300ms ease',
+      }}
+      className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-white/90 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] pb-safe"
+    >
       <div className="flex items-center justify-around px-2 py-3">
         {navItems.map((item) => {
           const Icon = item.icon;

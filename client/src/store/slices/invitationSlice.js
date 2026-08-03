@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
 const TEMPLATE_DATA = [
-  { id: 't1', name: 'Traditional', img: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=80' },
-  { id: 't2', name: 'Modern', img: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400&q=80' },
-  { id: 't3', name: 'Royal', img: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80' },
-  { id: 't4', name: 'Minimal', img: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=400&q=80' },
-  { id: 't5', name: 'Luxury', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80' },
-  { id: 't6', name: 'Floral', img: 'https://images.unsplash.com/photo-1507504031003-b417219a0fde?w=400&q=80' },
+  { id: 't1', name: 'Traditional Red', category: 'Traditional', badge: '❤️ Traditional', style: 'traditional', img: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80', accentColor: '#C2185B', bgGradient: 'from-[#8E244D] via-[#C2185B] to-[#4A1525]' },
+  { id: 't2', name: 'Modern Gold', category: 'Modern', badge: '✨ Modern', style: 'modern', img: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=600&q=80', accentColor: '#D4AF37', bgGradient: 'from-[#0F172A] via-[#1E293B] to-[#0B1021]' },
+  { id: 't3', name: 'Royal Heritage', category: 'Royal', badge: '👑 Royal', style: 'royal', img: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=80', accentColor: '#D4AF37', bgGradient: 'from-[#1E1B4B] via-[#311042] to-[#0F172A]' },
+  { id: 't4', name: 'Minimal Ivory', category: 'Minimal', badge: '🌿 Minimal', style: 'minimal', img: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=600&q=80', accentColor: '#475569', bgGradient: 'from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0]' },
+  { id: 't5', name: 'Luxury Velvet', category: 'Luxury', badge: '💎 Luxury', style: 'luxury', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80', accentColor: '#D4AF37', bgGradient: 'from-[#0B1021] via-[#111827] to-[#1F2937]' },
+  { id: 't6', name: 'Floral Garden', category: 'Floral', badge: '🌸 Floral', style: 'floral', img: 'https://images.unsplash.com/photo-1507504031003-b417219a0fde?w=600&q=80', accentColor: '#EC4899', bgGradient: 'from-[#FDF2F8] via-[#FCE7F3] to-[#FBCFE8]' },
+  { id: 't7', name: 'Mithila Madhubani', category: 'Madhubani / Bihar Inspired', badge: '🎨 Bihar Inspired', style: 'madhubani', img: 'https://images.unsplash.com/photo-1545232972-9bb88a5e6d8a?w=600&q=80', accentColor: '#D4AF37', bgGradient: 'from-[#7C2D12] via-[#9A3412] to-[#431407]' },
+  { id: 't8', name: 'Elegant Mandala', category: 'Elegant', badge: '🕌 Elegant', style: 'elegant', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80', accentColor: '#059669', bgGradient: 'from-[#064E3B] via-[#065F46] to-[#022C22]' },
 ];
 
 const defaultInvitation = {
@@ -17,10 +19,17 @@ const defaultInvitation = {
   weddingTime: '',
   venue: '',
   city: '',
+  brideFamily: '',
+  groomFamily: '',
+  rsvpPhone: '',
+  rsvpName: '',
   googleMapLink: '',
   customMessage: '',
   ourStory: '',
   template: 't1',
+  colorTheme: 'royal_gold',
+  fontStyle: 'classic',
+  decorativeStyle: 'floral',
   coverPhoto: '',
   status: 'draft',
 };

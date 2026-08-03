@@ -134,7 +134,7 @@ export default function WhyChooseUsCarousel({ cards }) {
       {/* Start Planning CTA under carousel */}
       <div className="text-center mt-12 mb-8">
         <Link 
-          to="/services" 
+          to="/tools/ai-planner" 
           className="inline-block bg-[#C2185B] hover:bg-[#9c1349] text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-[11px] shadow-md transition-colors"
         >
           Start Planning →

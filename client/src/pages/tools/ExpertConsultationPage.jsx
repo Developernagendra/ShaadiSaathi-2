@@ -58,7 +58,7 @@ export default function ExpertConsultationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans pb-24">
+    <div className="min-h-screen bg-[#FAFAFA] pt-[calc(var(--navbar-height,76px)+1rem)] font-sans pb-28 overflow-x-hidden">
       {/* Hero Header */}
       <div className="bg-gradient-to-r from-[#8E244D] via-[#C2185B] to-[#9c1349] text-white py-12 md:py-16 px-4 relative overflow-hidden shadow-lg">
         <div className="absolute inset-0 floral-pattern opacity-10 pointer-events-none" />

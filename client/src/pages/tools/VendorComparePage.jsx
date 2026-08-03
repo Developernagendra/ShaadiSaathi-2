@@ -13,7 +13,7 @@ export default function VendorComparePage() {
   const [compareData, setCompareData] = useState([]);
 
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Vendor Comparison', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Vendor Comparison', action: 'viewed_tool' }).catch(() => { });
   }, []);
 
   // Debounced search
@@ -64,9 +64,9 @@ export default function VendorComparePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-20 font-sans">
+    <div className="min-h-screen bg-[#FFF8F0]/30 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-6xl mx-auto px-4">
-        
+
         <div className="text-center mb-12">
           <h1 className="font-display text-4xl font-black text-slate-900 mb-4">
             Vendor <span className="text-slate-500">Comparison Tool</span>
@@ -81,14 +81,14 @@ export default function VendorComparePage() {
           <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 mb-10 max-w-3xl mx-auto">
             <div className="relative mb-8">
               <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg" />
-              <input 
-                type="text" 
-                placeholder="Search vendor by name..." 
+              <input
+                type="text"
+                placeholder="Search vendor by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-bold text-slate-900 outline-none focus:border-slate-400"
               />
-              
+
               {/* Dropdown Results */}
               {searchResults.length > 0 && (
                 <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-20">
@@ -129,7 +129,7 @@ export default function VendorComparePage() {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={handleCompare}
               disabled={selectedVendors.length < 2}
               className="w-full bg-slate-900 text-white rounded-xl py-4 font-black text-sm uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50"

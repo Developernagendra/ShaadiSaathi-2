@@ -241,6 +241,35 @@ export default function App() {
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
+                {/* Top-Level Route Aliases for Wedding Planning & Tools (prevents 404 on un-namespaced links) */}
+                <Route path="/ai-planner" element={<AIPlannerPage />} />
+                <Route path="/wedding-planner" element={<AIPlannerPage />} />
+                <Route path="/plan-your-wedding" element={<AIPlannerPage />} />
+                <Route path="/planning" element={<AIPlannerPage />} />
+                <Route path="/mithila-planner" element={<BihariPlannerPage />} />
+                <Route path="/budget-planner" element={<BudgetCalculatorPage />} />
+                <Route path="/budget-calculator" element={<BudgetCalculatorPage />} />
+                <Route path="/wedding-budget" element={<BudgetCalculatorPage />} />
+                <Route path="/guest-manager" element={<GuestManagementPage />} />
+                <Route path="/checklist" element={<ChecklistPage />} />
+                <Route path="/wedding-checklist" element={<ChecklistPage />} />
+                <Route path="/vendor-availability" element={<VendorAvailabilityCheckerPage />} />
+                <Route path="/package-builder" element={<CustomPackageBuilderPage />} />
+                <Route path="/invitation-generator" element={<SimpleInvitationBuilder />} />
+                <Route path="/invitation-builder" element={<SimpleInvitationBuilder />} />
+                <Route path="/vendor-compare" element={<VendorComparePage />} />
+                <Route path="/baraat-calculator" element={<BaraatCalculatorPage />} />
+                <Route path="/cost-predictor" element={<CostPredictorPage />} />
+                <Route path="/kundli-matching" element={<KundliMatchingPage />} />
+                <Route path="/muhurat-finder" element={<MuhuratFinderPage />} />
+                <Route path="/shubh-muhurat" element={<MuhuratFinderPage />} />
+                <Route path="/wedding-packages" element={<PackagesPage />} />
+                <Route path="/wedding-timeline" element={<WeddingTimelinePage />} />
+                <Route path="/timeline" element={<WeddingTimelinePage />} />
+                <Route path="/venue-planning" element={<VenuePlanningPage />} />
+                <Route path="/venue-planner" element={<VenuePlanningPage />} />
+                <Route path="/venue" element={<VenuePlanningPage />} />
+                <Route path="/expert-consultation" element={<ExpertConsultationPage />} />
                 <Route path="/tools" element={<ToolsHubPage />} />
                 <Route path="/tools/ai-planner" element={<AIPlannerPage />} />
                 <Route path="/tools/budget-planner" element={<BudgetCalculatorPage />} />
@@ -344,6 +373,9 @@ export default function App() {
                 <Route path="/register" element={!user ? <RegisterSelectionPage /> : <Navigate to="/" />} />
                 <Route path="/register/user" element={!user ? <RegisterPage /> : <Navigate to="/" />} />
                 <Route path="/register/vendor" element={!user ? <VendorRegisterPage /> : <Navigate to="/" />} />
+                <Route path="/become-a-vendor" element={!user ? <VendorRegisterPage /> : <Navigate to="/" />} />
+                <Route path="/vendor/register" element={!user ? <VendorRegisterPage /> : <Navigate to="/" />} />
+                <Route path="/vendors/register" element={!user ? <VendorRegisterPage /> : <Navigate to="/" />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
                 <Route path="/verify-email/:token" element={<VerifyEmailPage />} />

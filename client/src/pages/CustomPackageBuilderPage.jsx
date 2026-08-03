@@ -15,7 +15,7 @@ export default function CustomPackageBuilderPage() {
 
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState(1) // 1: Setup, 2: Build
-  
+
   // Setup State
   const [selectedCity, setSelectedCity] = useState('')
   const [eventDate, setEventDate] = useState('')
@@ -24,7 +24,7 @@ export default function CustomPackageBuilderPage() {
   const [activeCategory, setActiveCategory] = useState(null)
   const [vendors, setVendors] = useState([])
   const [vendorsLoading, setVendorsLoading] = useState(false)
-  
+
   // Cart State: { categoryId: { vendor, pkg, price } }
   const [cart, setCart] = useState({})
 
@@ -33,7 +33,7 @@ export default function CustomPackageBuilderPage() {
 
   // Initialize active category once categories load
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Package Builder', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Package Builder', action: 'viewed_tool' }).catch(() => { });
     if (categories?.length > 0 && !activeCategory) {
       setActiveCategory(categories[0]._id)
     }
@@ -121,7 +121,7 @@ export default function CustomPackageBuilderPage() {
       const bookingPromises = calculations.cartItems.map(item => {
         // Calculate proportionally discounted price for this specific vendor invoice
         const proportionalPrice = item.price - (item.price * calculations.discountPercent / 100)
-        
+
         return api.post('/bookings', {
           vendorId: item.vendor._id,
           eventDate,
@@ -137,7 +137,7 @@ export default function CustomPackageBuilderPage() {
       await Promise.all(bookingPromises)
       setSuccess(true)
       toast.success('Mega Package Confirmed!')
-      api.post('/tools/track', { toolName: 'Package Builder', action: 'generated_package', metadata: { totalServices: calculations.totalServices, finalAmount: calculations.finalAmount } }).catch(() => {});
+      api.post('/tools/track', { toolName: 'Package Builder', action: 'generated_package', metadata: { totalServices: calculations.totalServices, finalAmount: calculations.finalAmount } }).catch(() => { });
       window.scrollTo(0, 0)
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to submit some bookings. Please check your dashboard.')
@@ -172,14 +172,14 @@ export default function CustomPackageBuilderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] pt-32 pb-24 font-sans selection:bg-[#C2185B]/30 selection:text-black">
-      
+    <div className="min-h-screen bg-[#FAFAFA] pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans selection:bg-[#C2185B]/30 selection:text-black">
+
       {/* Decorative Header */}
       <div className="fixed top-0 left-0 w-full h-96 bg-gradient-to-b from-[#FFF0F5] to-transparent -z-10" />
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-72 md:w-[800px] h-[400px] bg-[#C2185B]/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        
+
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-white px-5 py-2 rounded-full border border-gray-200 mb-6 shadow-sm">
             <FiPackage className="text-[#C2185B]" />
@@ -196,16 +196,16 @@ export default function CustomPackageBuilderPage() {
             <motion.div key="step1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="max-w-2xl mx-auto">
               <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.04)] border border-gray-100">
                 <h3 className="font-display text-2xl font-black text-gray-900 mb-8 text-center">Let's set the foundation</h3>
-                
+
                 <div className="space-y-6">
                   <div>
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Event City</label>
                     <div className="relative">
                       <FiMapPin className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-                      <input 
+                      <input
                         type="text"
                         placeholder="e.g. Udaipur"
-                        value={selectedCity} 
+                        value={selectedCity}
                         onChange={(e) => setSelectedCity(e.target.value)}
                         className="w-full bg-gray-50 border-2 border-transparent focus:border-[#C2185B] focus:bg-white rounded-2xl pl-14 pr-5 py-5 text-sm font-bold text-gray-900 outline-none transition-all shadow-sm"
                       />
@@ -216,16 +216,16 @@ export default function CustomPackageBuilderPage() {
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Event Date</label>
                     <div className="relative">
                       <FiCalendar className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-                      <input 
+                      <input
                         type="date"
-                        value={eventDate} 
+                        value={eventDate}
                         onChange={(e) => setEventDate(e.target.value)}
                         className="w-full bg-gray-50 border-2 border-transparent focus:border-[#C2185B] focus:bg-white rounded-2xl pl-14 pr-5 py-5 text-sm font-bold text-gray-900 outline-none transition-all shadow-sm"
                       />
                     </div>
                   </div>
 
-                  <button 
+                  <button
                     onClick={handleStartBuilding}
                     className="w-full bg-gray-900 hover:bg-black text-white py-5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-xl active:scale-95 mt-4"
                   >
@@ -238,10 +238,10 @@ export default function CustomPackageBuilderPage() {
 
           {step === 2 && (
             <motion.div key="step2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              
+
               {/* Main Builder Area */}
               <div className="lg:col-span-8 space-y-6">
-                
+
                 {/* Categories Horizontal Tabs */}
                 <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide">
                   {categories.map(cat => {
@@ -284,8 +284,8 @@ export default function CustomPackageBuilderPage() {
                       {vendors.map(vendor => {
                         const inCart = cart[activeCategory]?.vendor?._id === vendor._id
                         // If vendor has packages, show the best one, otherwise fallback to basePrice
-                        const bestPackage = vendor.packages && vendor.packages.length > 0 
-                          ? vendor.packages.sort((a,b) => b.price - a.price)[0] 
+                        const bestPackage = vendor.packages && vendor.packages.length > 0
+                          ? vendor.packages.sort((a, b) => b.price - a.price)[0]
                           : null
 
                         return (
@@ -338,7 +338,7 @@ export default function CustomPackageBuilderPage() {
               <div className="lg:col-span-4">
                 <div className="sticky top-28 bg-white rounded-[2rem] p-8 shadow-[0_30px_80px_rgba(0,0,0,0.06)] border border-gray-100 overflow-hidden relative">
                   <div className="absolute top-0 right-0 w-48 h-48 bg-[#C2185B]/5 rounded-full blur-[40px] pointer-events-none" />
-                  
+
                   <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
                     <h3 className="font-display text-xl font-black text-gray-900 flex items-center gap-2">
                       <FiShoppingBag className="text-[#C2185B]" /> My Package
@@ -349,7 +349,7 @@ export default function CustomPackageBuilderPage() {
                   {calculations.totalServices === 0 ? (
                     <div className="text-center py-10 opacity-50">
                       <FiPackage className="text-4xl mx-auto mb-3 text-gray-300" />
-                      <p className="font-bold text-gray-500 text-sm">Your package is empty.<br/>Select vendors to start building.</p>
+                      <p className="font-bold text-gray-500 text-sm">Your package is empty.<br />Select vendors to start building.</p>
                     </div>
                   ) : (
                     <>
@@ -407,7 +407,7 @@ export default function CustomPackageBuilderPage() {
                         <span className="font-display font-black text-3xl text-gray-900 tracking-tight leading-none">{formatPrice(calculations.finalAmount)}</span>
                       </div>
 
-                      <button 
+                      <button
                         onClick={handleCheckout}
                         disabled={submitting}
                         className="w-full bg-[#C2185B] text-white py-5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-[0_15px_30px_rgba(194,24,91,0.2)] hover:bg-[#A3154D] active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"

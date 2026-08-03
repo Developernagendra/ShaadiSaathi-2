@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { 
-  FiSearch, FiMapPin, FiUsers, FiStar, FiArrowLeft, FiFilter, 
-  FiRefreshCw, FiExternalLink, FiCalendar, FiCheck, FiHeart 
+import {
+  FiSearch, FiMapPin, FiUsers, FiStar, FiArrowLeft, FiFilter,
+  FiRefreshCw, FiExternalLink, FiCalendar, FiCheck, FiHeart
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import api from '../../utils/api';
@@ -21,7 +21,7 @@ export default function VenuePlanningPage() {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // Filters
   const [selectedCity, setSelectedCity] = useState('All Cities');
   const [selectedType, setSelectedType] = useState('All Types');
@@ -65,7 +65,7 @@ export default function VenuePlanningPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans pb-24">
+    <div className="min-h-screen bg-[#FAFAFA] pt-[calc(var(--navbar-height,76px)+1rem)] font-sans pb-28 overflow-x-hidden">
       {/* ── 1. HERO HEADER ── */}
       <div className="bg-gradient-to-r from-[#8E244D] via-[#C2185B] to-[#9c1349] text-white py-12 md:py-16 px-4 relative overflow-hidden shadow-lg">
         <div className="absolute inset-0 floral-pattern opacity-10 pointer-events-none" />
@@ -151,11 +151,10 @@ export default function VenuePlanningPage() {
             <button
               key={c}
               onClick={() => setSelectedCity(c)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                selectedCity === c
+              className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${selectedCity === c
                   ? 'bg-[#C2185B] text-white shadow-md'
                   : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-              }`}
+                }`}
             >
               {c}
             </button>

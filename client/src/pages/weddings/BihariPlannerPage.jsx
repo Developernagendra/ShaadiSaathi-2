@@ -11,7 +11,7 @@ export default function BihariPlannerPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  
+
   const [loading, setLoading] = useState(true);
   const [showWizard, setShowWizard] = useState(false);
   const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ export default function BihariPlannerPage() {
       setLoading(false);
       return;
     }
-    
+
     try {
       const { data } = await api.get('/weddings/my');
       if (data.plan) {
@@ -98,9 +98,9 @@ export default function BihariPlannerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans pb-20">
+    <div className="min-h-screen bg-[#FAFAFA] font-sans pb-28 overflow-x-hidden">
       {/* Hero Section */}
-      <div className="relative bg-[#FFF8F0] pt-32 pb-20 border-b border-[#D4AF37]/20 overflow-hidden">
+      <div className="relative bg-[#FFF8F0] pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-20 border-b border-[#D4AF37]/20 overflow-hidden">
         <div className="absolute inset-0 floral-pattern opacity-5" />
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
@@ -110,10 +110,10 @@ export default function BihariPlannerPage() {
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-4xl md:text-6xl font-display font-black text-gray-900 mb-6 tracking-tight">
               {t('wedding_planner.hero_subtitle', 'Traditional Bihar wedding planning, made simple.')}
             </motion.h1>
-            
+
             {!showWizard && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-10">
-                <button 
+                <button
                   onClick={() => setShowWizard(true)}
                   className="px-8 py-4 bg-[#C2185B] text-white rounded-full font-bold text-lg hover:bg-[#a3154d] transition-all shadow-xl hover:-translate-y-1 flex items-center gap-2 mx-auto"
                 >
@@ -129,7 +129,7 @@ export default function BihariPlannerPage() {
       {/* Wizard Section */}
       <AnimatePresence>
         {showWizard && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -139,7 +139,7 @@ export default function BihariPlannerPage() {
               <h2 className="text-2xl font-display font-black mb-8 text-center text-[#C2185B]">
                 {t('wedding_planner.create_plan_wizard', 'Wedding Plan Setup')}
               </h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Bride & Groom */}

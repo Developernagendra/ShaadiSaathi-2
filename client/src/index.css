@@ -4,14 +4,22 @@
 
 @layer base {
   :root {
-    --color-primary: #7A1F2B;      /* Deep Maroon */
-    --color-primary-dark: #B4232F; /* Wedding Red */
-    --color-gold: #F4C542;         /* Mithila Yellow */
-    --color-gold-light: #F59E0B;   /* Marigold Orange */
-    --color-cream: #FFF8ED;        /* Cream */
-    --color-ivory: #FFFDF8;        /* Warm Ivory */
-    --color-burgundy: #3B2418;     /* Deep Brown */
-    --color-navy: #182235;         /* Modern Navy */
+    --color-primary: #7A1F2B;
+    /* Deep Maroon */
+    --color-primary-dark: #B4232F;
+    /* Wedding Red */
+    --color-gold: #F4C542;
+    /* Mithila Yellow */
+    --color-gold-light: #F59E0B;
+    /* Marigold Orange */
+    --color-cream: #FFF8ED;
+    /* Cream */
+    --color-ivory: #FFFDF8;
+    /* Warm Ivory */
+    --color-burgundy: #3B2418;
+    /* Deep Brown */
+    --color-navy: #182235;
+    /* Modern Navy */
   }
 
   html {
@@ -34,7 +42,7 @@
     width: 100%;
     position: relative;
   }
-  
+
   #root {
     width: 100%;
     max-width: 100%;
@@ -375,6 +383,7 @@
 .madhubani-border {
   position: relative;
 }
+
 .madhubani-border::before {
   content: '';
   position: absolute;

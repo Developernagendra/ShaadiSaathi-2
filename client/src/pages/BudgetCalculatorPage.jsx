@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
@@ -121,7 +122,7 @@ const BudgetCalculatorPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0]/50 pt-24 pb-20 font-sans">
+    <div className="min-h-screen bg-[#FFF8F0]/50 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* 🤖 HERO SECTION */}

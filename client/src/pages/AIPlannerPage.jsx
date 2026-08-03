@@ -154,26 +154,44 @@ ${tipsText}
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FFF8F0] pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-100 text-sm font-medium text-slate-700 mb-6"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-purple-100 border border-purple-200 text-sm font-bold text-purple-700 shadow-sm mb-6"
           >
-            <Sparkles className="w-4 h-4 text-[#FF4D6D]" />
-            <span>Powered by OpenAI GPT-4o</span>
+            <span>✨</span>
+            <span>AI Wedding Planner</span>
           </motion.div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#FF4D6D] via-[#FF758F] to-[#FFB347] mb-6">
-            Intelligent Wedding Planner
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 tracking-tight mb-4">
+            Plan Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C2185B] via-purple-600 to-[#D4AF37]">Dream Wedding with AI</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Generate a personalized, comprehensive wedding master plan in seconds using the world's most advanced AI.
           </p>
+
+          {/* Step Progress Bar */}
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mt-8 max-w-lg mx-auto">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === 1 ? 'bg-[#C2185B] text-white shadow-md' : 'bg-green-100 text-green-700'}`}>
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">1</span>
+              <span>Wedding Details</span>
+            </div>
+            <div className="w-8 sm:w-12 h-0.5 bg-gray-200" />
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === 2 ? 'bg-purple-600 text-white shadow-md' : step > 2 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'}`}>
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">2</span>
+              <span>AI Generating</span>
+            </div>
+            <div className="w-8 sm:w-12 h-0.5 bg-gray-200" />
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === 3 ? 'bg-[#C2185B] text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">3</span>
+              <span>Custom Plan</span>
+            </div>
+          </div>
         </div>
 
         <AnimatePresence mode="wait">

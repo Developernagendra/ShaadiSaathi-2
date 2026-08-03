@@ -26,7 +26,8 @@ export default function LoginPage() {
   const { t } = useTranslation?.() || { t: (key) => key };
   const { playSound } = useNotificationSound()
 
-  const from = location.state?.from?.pathname || '/'
+  const queryRedirect = new URLSearchParams(location.search).get('redirect')
+  const from = queryRedirect || location.state?.from?.pathname || '/'
 
   const handleSubmit = async (values) => {
     const result = await dispatch(loginUser(values))

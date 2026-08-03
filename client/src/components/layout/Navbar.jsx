@@ -15,6 +15,7 @@ import api from '../../utils/api'
 import { apiCache } from '../../utils/apiCache'
 import BrandLogo from '../common/BrandLogo'
 import LanguageSwitcher from '../common/LanguageSwitcher'
+import { useMobileNavScroll } from '../../hooks/useMobileNavScroll'
 
 // Preload component chunk
 const preloadBaraatCabsChunk = () => import('../../pages/BaraatCabsPage')
@@ -31,7 +32,10 @@ export default function Navbar() {
   const [mobileToolsOpen, setMobileToolsOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+
+  const { isNavHidden, isScrolled: scrolled } = useMobileNavScroll({
+    disabled: mobileOpen || mobileToolsOpen || userMenuOpen || notifOpen
+  })
 
   const userMenuRef = useRef(null)
   const notifRef = useRef(null)
@@ -39,22 +43,6 @@ export default function Navbar() {
   const { t, i18n } = useTranslation?.() || { t: (key) => key, i18n: { language: 'en', changeLanguage: () => { } } };
 
   const isEnglish = i18n.language === 'en';
-
-  useEffect(() => {
-    let rafId = null
-    const handleScroll = () => {
-      if (rafId) return
-      rafId = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 20)
-        rafId = null
-      })
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      if (rafId) cancelAnimationFrame(rafId)
-    }
-  }, [])
 
   useEffect(() => {
     if (isAuthenticated) dispatch(fetchNotifications())
@@ -172,11 +160,14 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-          navTransparent
+        style={{
+          transform: isNavHidden ? 'translateY(-100%)' : 'translateY(0)',
+          transition: 'transform 300ms ease, background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease',
+        }}
+        className={`fixed top-0 left-0 w-full z-[100] ${navTransparent
             ? 'bg-gradient-to-b from-[#0B1021]/80 via-[#0B1021]/30 to-transparent border-b border-white/10'
             : 'bg-[#FDFCF8]/95 backdrop-blur-md shadow-sm border-b border-gray-200/60'
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-4 h-[76px]">
@@ -198,9 +189,8 @@ export default function Navbar() {
                   return (
                     <div key={link.label} className="relative group">
                       <button
-                        className={`py-2 text-xs xl:text-sm uppercase tracking-wider font-bold transition-colors duration-200 flex items-center gap-1.5 ${
-                          navTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#C2185B]'
-                        }`}
+                        className={`py-2 text-xs xl:text-sm uppercase tracking-wider font-bold transition-colors duration-200 flex items-center gap-1.5 ${navTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#C2185B]'
+                          }`}
                       >
                         <span>{link.label}</span>
                         <FiChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
@@ -229,16 +219,14 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     onMouseEnter={isCabs ? handlePreloadBaraatCabs : undefined}
-                    className={`py-2 text-xs xl:text-sm uppercase tracking-wider font-bold transition-colors duration-200 relative group flex items-center gap-1.5 ${
-                      navTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#C2185B]'
-                    } ${location.pathname === link.to ? (navTransparent ? 'text-white font-black' : 'text-[#C2185B] font-black') : ''}`}
+                    className={`py-2 text-xs xl:text-sm uppercase tracking-wider font-bold transition-colors duration-200 relative group flex items-center gap-1.5 ${navTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#C2185B]'
+                      } ${location.pathname === link.to ? (navTransparent ? 'text-white font-black' : 'text-[#C2185B] font-black') : ''}`}
                   >
                     {isCabs && <span className="text-sm">🚗</span>}
                     <span>{link.label}</span>
                     <span
-                      className={`absolute -bottom-1 left-0 right-0 h-0.5 bg-[#D4AF37] transform origin-left transition-transform duration-300 scale-x-0 group-hover:scale-x-100 ${
-                        location.pathname === link.to ? 'scale-x-100' : ''
-                      }`}
+                      className={`absolute -bottom-1 left-0 right-0 h-0.5 bg-[#D4AF37] transform origin-left transition-transform duration-300 scale-x-0 group-hover:scale-x-100 ${location.pathname === link.to ? 'scale-x-100' : ''
+                        }`}
                     />
                   </Link>
                 );
@@ -250,11 +238,10 @@ export default function Navbar() {
               {/* Secondary CTA: Become a Vendor */}
               <Link
                 to="/register/vendor"
-                className={`hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all duration-200 shadow-sm ${
-                  navTransparent
+                className={`hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all duration-200 shadow-sm ${navTransparent
                     ? 'bg-white/10 hover:bg-white/20 text-[#D4AF37] border-white/20'
                     : 'bg-[#FFF8F0] hover:bg-[#FFE8D6] text-[#C2185B] border-[#C2185B]/20'
-                }`}
+                  }`}
               >
                 <FiBriefcase size={13} />
                 <span>{isEnglish ? 'Become a Vendor' : 'Vendor बनें'}</span>
@@ -270,9 +257,8 @@ export default function Navbar() {
                 <div className="hidden lg:flex items-center gap-3">
                   <Link
                     to="/login"
-                    className={`text-xs xl:text-sm font-bold uppercase tracking-wider px-3 py-2 transition-colors ${
-                      navTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#C2185B]'
-                    }`}
+                    className={`text-xs xl:text-sm font-bold uppercase tracking-wider px-3 py-2 transition-colors ${navTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#C2185B]'
+                      }`}
                   >
                     {isEnglish ? 'Login' : 'लॉगिन'}
                   </Link>
@@ -288,9 +274,8 @@ export default function Navbar() {
                   {/* Cart */}
                   <Link
                     to="/cart"
-                    className={`relative p-2.5 rounded-xl transition-all active:scale-95 group ${
-                      navTransparent ? 'text-white hover:bg-white/10' : 'text-gray-600 hover:bg-pink-50'
-                    }`}
+                    className={`relative p-2.5 rounded-xl transition-all active:scale-95 group ${navTransparent ? 'text-white hover:bg-white/10' : 'text-gray-600 hover:bg-pink-50'
+                      }`}
                   >
                     <FiShoppingCart size={20} className="group-hover:scale-110 transition-transform" />
                     {cartItems.length > 0 && (
@@ -307,9 +292,8 @@ export default function Navbar() {
                       aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
                       aria-expanded={notifOpen}
                       aria-haspopup="true"
-                      className={`relative p-3 rounded-xl transition-all active:scale-95 border ${
-                        navTransparent ? 'text-white border-white/20 hover:bg-white/10' : 'text-gray-500 border-gray-100 hover:bg-pink-50 hover:text-primary-600'
-                      }`}
+                      className={`relative p-3 rounded-xl transition-all active:scale-95 border ${navTransparent ? 'text-white border-white/20 hover:bg-white/10' : 'text-gray-500 border-gray-100 hover:bg-pink-50 hover:text-primary-600'
+                        }`}
                     >
                       <FiBell size={18} />
                       {unreadCount > 0 && (
@@ -356,11 +340,10 @@ export default function Navbar() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => { setUserMenuOpen(!userMenuOpen); setNotifOpen(false) }}
-                      className={`flex items-center gap-2 p-1.5 pl-2 rounded-2xl border transition-all active:scale-95 ${
-                        navTransparent
+                      className={`flex items-center gap-2 p-1.5 pl-2 rounded-2xl border transition-all active:scale-95 ${navTransparent
                           ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
                           : 'border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100'
-                      }`}
+                        }`}
                     >
                       <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#C2185B] to-[#8E244D] flex items-center justify-center text-white text-xs font-black">
                         {getInitials(user?.name)}
@@ -422,11 +405,10 @@ export default function Navbar() {
                   aria-label="Open navigation menu"
                   aria-expanded={mobileOpen}
                   aria-controls="mobile-drawer"
-                  className={`w-11 h-11 flex items-center justify-center rounded-xl transition-all active:scale-95 border ${
-                    navTransparent
+                  className={`w-11 h-11 flex items-center justify-center rounded-xl transition-all active:scale-95 border ${navTransparent
                       ? 'text-white border-white/20 bg-white/10'
                       : 'text-gray-900 border-gray-200 bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <FiMenu size={22} />
                 </button>
@@ -483,9 +465,8 @@ export default function Navbar() {
                 <Link
                   to="/"
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                    location.pathname === '/' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${location.pathname === '/' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
+                    }`}
                 >
                   <FiHome size={18} className="text-[#C2185B]" />
                   <span>{isEnglish ? 'Home' : 'होम'}</span>
@@ -494,9 +475,8 @@ export default function Navbar() {
                 <Link
                   to="/services"
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                    location.pathname === '/services' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${location.pathname === '/services' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
+                    }`}
                 >
                   <FiSearch size={18} className="text-[#C2185B]" />
                   <span>{isEnglish ? 'Find Vendors' : 'Vendor खोजें'}</span>
@@ -540,9 +520,8 @@ export default function Navbar() {
                 <Link
                   to="/packages"
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                    location.pathname === '/packages' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${location.pathname === '/packages' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
+                    }`}
                 >
                   <FiBriefcase size={18} className="text-[#C2185B]" />
                   <span>{isEnglish ? 'Wedding Packages' : 'वेडिंग पैकेज'}</span>
@@ -551,9 +530,8 @@ export default function Navbar() {
                 <Link
                   to="/baraat-cabs"
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                    location.pathname === '/baraat-cabs' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${location.pathname === '/baraat-cabs' ? 'bg-pink-50 text-[#C2185B]' : 'text-gray-700 hover:bg-gray-100'
+                    }`}
                 >
                   <span className="text-base">🚗</span>
                   <span>{isEnglish ? 'Baraat Ride' : 'बारात राइड'}</span>

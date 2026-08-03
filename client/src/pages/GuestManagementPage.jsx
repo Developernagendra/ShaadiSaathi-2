@@ -32,7 +32,7 @@ const GuestManagementPage = () => {
   });
 
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Guest List Manager', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Guest List Manager', action: 'viewed_tool' }).catch(() => { });
     dispatch(fetchGuests());
   }, [dispatch]);
 
@@ -142,15 +142,18 @@ const GuestManagementPage = () => {
   ) : [];
 
   return (
-    <div className="pb-16">
+    <div className="min-h-screen bg-[#FFF8F0]/30 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4">
         <input type="file" ref={fileInputRef} className="hidden" accept=".csv" onChange={handleFileChange} />
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 font-display">Guest <span className="text-primary-600">Management</span></h1>
-            <p className="text-gray-500">Manage RSVPs, meals, and room allocations</p>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-blue-700 font-bold text-xs mb-3">
+              <span>👥</span> WEDDING GUEST LIST
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 font-display">Guest <span className="text-primary-600">Management</span></h1>
+            <p className="text-gray-500 mt-1">Manage RSVPs, meals, invitations, and room allocations</p>
           </div>
           <div className="flex gap-3">
             <button
@@ -171,11 +174,12 @@ const GuestManagementPage = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
           {[
             { label: 'Total Guests', value: filteredGuests.reduce((acc, g) => acc + (g.guestCount || 1), 0), icon: <Users />, color: 'blue' },
-            { label: 'Attending', value: filteredGuests.filter(g => g.rsvpStatus === 'attending').length, icon: <CheckCircle />, color: 'green' },
+            { label: 'Confirmed', value: filteredGuests.filter(g => g.rsvpStatus === 'attending').length, icon: <CheckCircle />, color: 'green' },
             { label: 'Pending', value: filteredGuests.filter(g => g.rsvpStatus === 'pending').length, icon: <XCircle />, color: 'yellow' },
+            { label: 'Declined', value: filteredGuests.filter(g => g.rsvpStatus === 'declined').length, icon: <XCircle />, color: 'red' },
             { label: 'Invites Sent', value: filteredGuests.filter(g => g.invitationSent).length, icon: <Mail />, color: 'pink' },
           ].map((stat, i) => (
             <motion.div
@@ -185,11 +189,13 @@ const GuestManagementPage = () => {
               key={i}
               className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
             >
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-xl ${stat.color === 'blue' ? 'bg-blue-50 text-blue-600' :
-                  stat.color === 'green' ? 'bg-green-50 text-green-600' :
-                    stat.color === 'yellow' ? 'bg-yellow-50 text-yellow-600' :
-                      'bg-pink-50 text-pink-600'
-                }`}>
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-xl ${
+                stat.color === 'blue' ? 'bg-blue-50 text-blue-600' :
+                stat.color === 'green' ? 'bg-green-50 text-green-600' :
+                stat.color === 'yellow' ? 'bg-yellow-50 text-yellow-600' :
+                stat.color === 'red' ? 'bg-red-50 text-red-600' :
+                'bg-pink-50 text-pink-600'
+              }`}>
                 {stat.icon}
               </div>
               <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</p>
@@ -259,8 +265,8 @@ const GuestManagementPage = () => {
                     </td>
                     <td data-label="RSVP Status" className="px-6 py-5">
                       <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${guest.rsvpStatus === 'attending' ? 'bg-green-100 text-green-700' :
-                          guest.rsvpStatus === 'not_attending' ? 'bg-red-100 text-red-700' :
-                            'bg-yellow-100 text-yellow-700'
+                        guest.rsvpStatus === 'not_attending' ? 'bg-red-100 text-red-700' :
+                          'bg-yellow-100 text-yellow-700'
                         }`}>
                         {guest.rsvpStatus}
                       </span>

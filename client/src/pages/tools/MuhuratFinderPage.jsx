@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { jsPDF } from 'jspdf';
 import toast from 'react-hot-toast';
-import { 
-  FiCalendar, FiMapPin, FiDownload, FiCheckCircle, FiShare2, 
-  FiPrinter, FiUser, FiPlusCircle, FiHeart, FiClock, FiSun, FiMoon 
+import {
+  FiCalendar, FiMapPin, FiDownload, FiCheckCircle, FiShare2,
+  FiPrinter, FiUser, FiPlusCircle, FiHeart, FiClock, FiSun, FiMoon
 } from 'react-icons/fi';
 import api from '../../utils/api';
 import { addDateToWeddingPlanner, addEventToWeddingTimeline, saveFavoriteMuhurat } from '../../utils/plannerIntegration';
 
 const BIHAR_CITIES = [
-  'Patna', 'Gaya', 'Muzaffarpur', 'Bhagalpur', 'Darbhanga', 
+  'Patna', 'Gaya', 'Muzaffarpur', 'Bhagalpur', 'Darbhanga',
   'Purnia', 'Begusarai', 'Arrah', 'Katihar', 'Munger', 'Samastipur', 'Chhapra'
 ];
 
@@ -92,7 +92,7 @@ export default function MuhuratFinderPage() {
   const [isFallback, setIsFallback] = useState(false);
 
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Shubh Muhurat Finder', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Shubh Muhurat Finder', action: 'viewed_tool' }).catch(() => { });
   }, []);
 
   const handleSearch = async (e) => {
@@ -108,14 +108,14 @@ export default function MuhuratFinderPage() {
       const location = `${city}, ${state}`;
       const start = new Date(year, month - 1, 1).toISOString();
       const end = new Date(year, month, 0).toISOString();
-      
-      const { data } = await api.post('/astrology/muhurat/find', { 
-        location, 
-        startDate: start, 
-        endDate: end, 
-        bride: { name: brideName || 'Bride' }, 
-        groom: { name: groomName || 'Groom' }, 
-        language: i18n.language 
+
+      const { data } = await api.post('/astrology/muhurat/find', {
+        location,
+        startDate: start,
+        endDate: end,
+        bride: { name: brideName || 'Bride' },
+        groom: { name: groomName || 'Groom' },
+        language: i18n.language
       });
       const resList = data.data.muhuratResults || data.data;
       if (resList && resList.length > 0) {
@@ -138,11 +138,11 @@ export default function MuhuratFinderPage() {
   const shareWhatsApp = () => {
     if (!muhurats || muhurats.length === 0) return;
     let text = `*ShaadiSaathi शुभ मुहूर्त (Shubh Muhurat)*%0A%0A*Match*: ${brideName || 'Bride'} & ${groomName || 'Groom'}%0A*Location*: ${city}, ${state}%0A%0A*Auspicious Wedding Dates*:%0A`;
-    
+
     muhurats.slice(0, 4).forEach((m, idx) => {
       text += `%0A${idx + 1}. ${new Date(m.date).toLocaleDateString()} (${m.hindiDate || t(m.dayKey)})%0A   *Shubh Timing*: ${m.shubhTiming}%0A   *Nakshatra*: ${m.nakshatraKey || 'Uttara Phalguni'}%0A`;
     });
-    
+
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
 
@@ -153,25 +153,25 @@ export default function MuhuratFinderPage() {
   const downloadPDF = () => {
     if (!muhurats || muhurats.length === 0) return;
     const doc = new jsPDF();
-    
+
     doc.setFontSize(22);
     doc.setTextColor(194, 24, 91);
     doc.text('Shubh Muhurat Dates - Bihar Panchang', 20, 20);
-    
+
     doc.setFontSize(12);
     doc.setTextColor(100);
     doc.text(`Couple: ${brideName || 'Bride'} & ${groomName || 'Groom'}`, 20, 30);
     doc.text(`Location: ${city}, ${state} | Period: ${month}/${year}`, 20, 38);
-    
+
     let yPos = 50;
     doc.setTextColor(0);
-    
+
     muhurats.forEach((m, idx) => {
       doc.setFontSize(14);
       doc.setTextColor(194, 24, 91);
       doc.text(`Option ${idx + 1}: ${new Date(m.date).toLocaleDateString()} (${t(m.dayKey)})`, 20, yPos);
       yPos += 8;
-      
+
       doc.setFontSize(11);
       doc.setTextColor(0);
       doc.text(`Auspicious Timing: ${m.shubhTiming}`, 25, yPos);
@@ -184,23 +184,23 @@ export default function MuhuratFinderPage() {
       yPos += 6;
       doc.text(`Rating: ${m.auspiciousRating}/10`, 25, yPos);
       yPos += 12;
-      
+
       if (yPos > 270) {
         doc.addPage();
         yPos = 20;
       }
     });
-    
+
     doc.save(`Shubh_Muhurat_${city}_${month}_${year}.pdf`);
   };
 
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0]/50 pt-24 pb-20 font-sans print:bg-white print:pt-0">
+    <div className="min-h-screen bg-[#FFF8F0]/30 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans print:bg-white print:pt-0">
       <div className="absolute inset-0 floral-pattern opacity-[0.03] pointer-events-none print:hidden" />
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        
+
         {/* Header */}
         <div className="text-center mb-16 print:mb-8">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] rounded-3xl mb-6 shadow-xl border border-gray-800 text-[#D4AF37] print:hidden">
@@ -215,16 +215,16 @@ export default function MuhuratFinderPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Input Form */}
           <div className="lg:col-span-4 space-y-8 print:hidden">
             <div className="bg-white p-8 rounded-[2.5rem] shadow-premium border border-gray-100">
               <h3 className="font-display text-xl font-black mb-6 flex items-center gap-2 text-[#1a1a1a]">
                 Search Auspicious Dates
               </h3>
-              
+
               <form onSubmit={handleSearch} className="space-y-4">
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Bride Name</label>
@@ -279,8 +279,8 @@ export default function MuhuratFinderPage() {
                   </div>
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={loading}
                   className="w-full mt-4 bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] text-[#D4AF37] py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
@@ -309,7 +309,7 @@ export default function MuhuratFinderPage() {
                 </motion.div>
               ) : (
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                  
+
                   <div className="flex flex-wrap gap-4 items-center justify-between bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 print:border-none print:shadow-none print:p-0">
                     <div>
                       <h3 className="font-display font-black text-xl text-gray-900">
@@ -342,17 +342,17 @@ export default function MuhuratFinderPage() {
                     {muhurats.map((m, idx) => {
                       const dateObj = new Date(m.date);
                       return (
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: idx * 0.05 }}
-                          key={idx} 
+                          key={idx}
                           className="bg-white p-6 md:p-8 rounded-[2rem] shadow-premium border border-pink-100/80 relative overflow-hidden group hover:-translate-y-1 transition-all print:border-gray-300 print:shadow-none"
                         >
                           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-50 to-transparent rounded-bl-full pointer-events-none print:hidden" />
-                          
+
                           <div className="flex flex-col md:flex-row items-start gap-6 relative z-10">
-                            
+
                             {/* Calendar Box */}
                             <div className="flex items-center gap-4 md:w-52 shrink-0">
                               <div className="bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d] text-white rounded-2xl p-4 text-center min-w-[90px] shadow-lg group-hover:shadow-xl transition-shadow print:bg-white print:text-black print:border">
@@ -365,7 +365,7 @@ export default function MuhuratFinderPage() {
                                 <span className="block text-[9px] uppercase tracking-widest text-gray-500 font-bold">/ 10 Rating</span>
                               </div>
                             </div>
-                            
+
                             {/* Muhurat Timing & Astrological Details */}
                             <div className="flex-1 w-full space-y-4">
                               <div>
@@ -416,7 +416,7 @@ export default function MuhuratFinderPage() {
                           <div className="mt-4 pt-3 border-t border-gray-100 relative z-10 text-xs text-gray-600 italic">
                             {t(m.significanceKey)}
                           </div>
-                          
+
                           {/* CTAs: Add to Planner, Add to Timeline, Save Date */}
                           <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-end gap-3 print:hidden">
                             <button

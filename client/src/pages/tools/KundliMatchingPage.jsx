@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { jsPDF } from 'jspdf';
 import toast from 'react-hot-toast';
-import { 
-  FiHeart, FiStar, FiDownload, FiCheckCircle, FiAlertCircle, 
-  FiShare2, FiPrinter, FiPlusCircle, FiFileText, FiMapPin, FiCalendar, FiClock 
+import {
+  FiHeart, FiStar, FiDownload, FiCheckCircle, FiAlertCircle,
+  FiShare2, FiPrinter, FiPlusCircle, FiFileText, FiMapPin, FiCalendar, FiClock
 } from 'react-icons/fi';
 import api from '../../utils/api';
 import { addDateToWeddingPlanner } from '../../utils/plannerIntegration';
@@ -67,7 +67,7 @@ export default function KundliMatchingPage() {
   const [groom, setGroom] = useState({ name: '', dob: '1998-10-22', time: '14:15', place: 'Muzaffarpur, Bihar', gender: 'Male' });
 
   useEffect(() => {
-    api.post('/tools/track', { toolName: 'Kundli Matching', action: 'viewed_tool' }).catch(() => {});
+    api.post('/tools/track', { toolName: 'Kundli Matching', action: 'viewed_tool' }).catch(() => { });
   }, []);
 
   const handleMatch = async (e) => {
@@ -80,10 +80,10 @@ export default function KundliMatchingPage() {
     setLoading(true);
     setIsFallback(false);
     try {
-      const { data } = await api.post('/astrology/kundli/match', { 
-        bride, 
+      const { data } = await api.post('/astrology/kundli/match', {
+        bride,
         groom,
-        language: i18n.language 
+        language: i18n.language
       });
       const matchRes = data.data.matchResults || data.data;
       if (matchRes && matchRes.totalScore !== undefined) {
@@ -116,39 +116,39 @@ export default function KundliMatchingPage() {
   const downloadPDF = () => {
     if (!report) return;
     const doc = new jsPDF();
-    
+
     doc.setFontSize(22);
     doc.setTextColor(194, 24, 91);
     doc.text('ShaadiSaathi Kundli Milan Report', 20, 20);
-    
+
     doc.setFontSize(12);
     doc.setTextColor(100);
     doc.text(`Match: ${report.brideDetails?.name || 'Bride'} & ${report.groomDetails?.name || 'Groom'}`, 20, 30);
-    
+
     doc.setFontSize(16);
     doc.setTextColor(0);
     doc.text(`Total Gunas: ${report.totalScore} / 36 (${report.percentage}%)`, 20, 45);
-    
+
     doc.setFontSize(11);
     const manglikText = doc.splitTextToSize(`Manglik Dosha Analysis: ${report.manglikAnalysis?.statusKey || 'No Manglik Dosha detected'}`, 170);
     doc.text(manglikText, 20, 55);
-    
+
     const conclusionText = doc.splitTextToSize(`Conclusion: ${report.conclusionKey || 'Auspicious Match'}`, 170);
     doc.text(conclusionText, 20, 70);
-    
+
     let yPos = 90;
     doc.setFontSize(14);
     doc.setTextColor(194, 24, 91);
     doc.text('Ashtakoot Guna Milan Breakdown (36 Gunas)', 20, yPos);
     yPos += 10;
-    
+
     doc.setFontSize(11);
     doc.setTextColor(0);
     Object.values(report.score).forEach((koota) => {
       doc.text(`${koota.key}: ${koota.obtained} / ${koota.max}`, 20, yPos);
       yPos += 10;
     });
-    
+
     doc.save(`Kundli_Match_${report.brideDetails?.name || 'Bride'}_${report.groomDetails?.name || 'Groom'}.pdf`);
   };
 
@@ -162,10 +162,10 @@ export default function KundliMatchingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] pt-24 pb-20 font-sans print:bg-white print:pt-0">
+    <div className="min-h-screen bg-[#FFF8F0]/30 pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans print:bg-white print:pt-0">
       <div className="absolute inset-0 floral-pattern opacity-[0.03] pointer-events-none print:hidden" />
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        
+
         {/* Header */}
         <div className="text-center mb-16 print:mb-8">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] rounded-3xl mb-6 shadow-xl border border-gray-800 text-[#D4AF37] print:hidden">
@@ -180,22 +180,22 @@ export default function KundliMatchingPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Two-Person Input Form */}
           <div className="lg:col-span-5 space-y-6 print:hidden">
             <div className="bg-white p-8 rounded-[2.5rem] shadow-premium border border-pink-100">
               <form onSubmit={handleMatch} className="space-y-6">
-                
+
                 {/* Bride Details */}
                 <div className="p-5 rounded-3xl bg-pink-50/50 border border-pink-100">
                   <h3 className="font-display text-lg font-black mb-4 flex items-center gap-2 text-[#C2185B]">
                     👰 Bride's Birth Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <InputField label="Full Name" placeholder="e.g. Priya Sharma" value={bride.name} onChange={e => setBride({...bride, name: e.target.value})} />
-                    <InputField label="Birth Place" placeholder="e.g. Patna, Bihar" value={bride.place} onChange={e => setBride({...bride, place: e.target.value})} icon={FiMapPin} />
-                    <InputField label="Date of Birth" type="date" value={bride.dob} onChange={e => setBride({...bride, dob: e.target.value})} icon={FiCalendar} />
-                    <InputField label="Time of Birth" type="time" value={bride.time} onChange={e => setBride({...bride, time: e.target.value})} icon={FiClock} />
+                    <InputField label="Full Name" placeholder="e.g. Priya Sharma" value={bride.name} onChange={e => setBride({ ...bride, name: e.target.value })} />
+                    <InputField label="Birth Place" placeholder="e.g. Patna, Bihar" value={bride.place} onChange={e => setBride({ ...bride, place: e.target.value })} icon={FiMapPin} />
+                    <InputField label="Date of Birth" type="date" value={bride.dob} onChange={e => setBride({ ...bride, dob: e.target.value })} icon={FiCalendar} />
+                    <InputField label="Time of Birth" type="time" value={bride.time} onChange={e => setBride({ ...bride, time: e.target.value })} icon={FiClock} />
                   </div>
                 </div>
 
@@ -211,15 +211,15 @@ export default function KundliMatchingPage() {
                     🤵 Groom's Birth Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <InputField label="Full Name" placeholder="e.g. Rahul Verma" value={groom.name} onChange={e => setGroom({...groom, name: e.target.value})} />
-                    <InputField label="Birth Place" placeholder="e.g. Muzaffarpur, Bihar" value={groom.place} onChange={e => setGroom({...groom, place: e.target.value})} icon={FiMapPin} />
-                    <InputField label="Date of Birth" type="date" value={groom.dob} onChange={e => setGroom({...groom, dob: e.target.value})} icon={FiCalendar} />
-                    <InputField label="Time of Birth" type="time" value={groom.time} onChange={e => setGroom({...groom, time: e.target.value})} icon={FiClock} />
+                    <InputField label="Full Name" placeholder="e.g. Rahul Verma" value={groom.name} onChange={e => setGroom({ ...groom, name: e.target.value })} />
+                    <InputField label="Birth Place" placeholder="e.g. Muzaffarpur, Bihar" value={groom.place} onChange={e => setGroom({ ...groom, place: e.target.value })} icon={FiMapPin} />
+                    <InputField label="Date of Birth" type="date" value={groom.dob} onChange={e => setGroom({ ...groom, dob: e.target.value })} icon={FiCalendar} />
+                    <InputField label="Time of Birth" type="time" value={groom.time} onChange={e => setGroom({ ...groom, time: e.target.value })} icon={FiClock} />
                   </div>
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={loading}
                   className="w-full bg-gradient-to-r from-[#C2185B] to-[#8E244D] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
@@ -248,11 +248,11 @@ export default function KundliMatchingPage() {
                 </motion.div>
               ) : (
                 <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-                  
+
                   {/* Score Card */}
                   <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] rounded-[2.5rem] p-8 md:p-10 text-white relative overflow-hidden shadow-2xl print:bg-white print:text-black print:shadow-none print:border print:border-gray-200">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#D4AF37]/20 to-transparent rounded-bl-full pointer-events-none print:hidden" />
-                    
+
                     <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
                       <div>
                         <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[#D4AF37] font-bold text-xs mb-3">
@@ -262,7 +262,7 @@ export default function KundliMatchingPage() {
                         <h2 className="text-5xl md:text-6xl font-display font-black mb-2">{report.totalScore} <span className="text-2xl text-gray-400">/ 36 Gunas</span></h2>
                         <p className="text-pink-200 font-medium print:text-gray-700">{report.conclusionKey}</p>
                       </div>
-                      
+
                       {/* Circular Compatibility Badge */}
                       <div className="w-32 h-32 rounded-full border-8 border-[#D4AF37]/30 flex items-center justify-center relative bg-white/5 shrink-0">
                         <svg className="absolute inset-0 w-full h-full -rotate-90 print:hidden">
@@ -290,9 +290,9 @@ export default function KundliMatchingPage() {
                     <button onClick={saveToProfile} className="flex-1 bg-white border border-gray-200 py-3 rounded-xl text-xs font-bold text-gray-700 hover:border-[#1a1a1a] hover:text-[#1a1a1a] transition-all flex items-center justify-center gap-1.5 shadow-sm">
                       <FiCheckCircle /> Save Result
                     </button>
-                    <button 
-                      onClick={() => addDateToWeddingPlanner({ 
-                        date: new Date().toISOString().split('T')[0], 
+                    <button
+                      onClick={() => addDateToWeddingPlanner({
+                        date: new Date().toISOString().split('T')[0],
                         title: `Wedding Plan: ${report.brideDetails.name} & ${report.groomDetails.name}`,
                         city: report.brideDetails.place || 'Bihar'
                       })}
@@ -351,9 +351,9 @@ export default function KundliMatchingPage() {
                             </span>
                           </div>
                           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden print:border print:border-gray-200">
-                            <div 
-                              className="h-full bg-gradient-to-r from-[#C2185B] to-[#D4AF37] rounded-full transition-all duration-500 print:bg-gray-700" 
-                              style={{ width: `${(koota.obtained / koota.max) * 100}%` }} 
+                            <div
+                              className="h-full bg-gradient-to-r from-[#C2185B] to-[#D4AF37] rounded-full transition-all duration-500 print:bg-gray-700"
+                              style={{ width: `${(koota.obtained / koota.max) * 100}%` }}
                             />
                           </div>
                         </div>

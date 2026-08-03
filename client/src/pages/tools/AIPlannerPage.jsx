@@ -39,7 +39,7 @@ const AIPlannerPage = () => {
         durationDays: Number(formData.durationDays),
         eventCount: Number(formData.eventCount)
       });
-      
+
       if (res.data?.success || res.data?.status === 'success') {
         const planData = res.data?.data?.plan || res.data?.data;
         if (planData) {
@@ -65,25 +65,38 @@ const AIPlannerPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0] pt-24 pb-12 font-sans">
+    <div className="min-h-screen bg-[#FFF8F0] pt-[calc(var(--navbar-height,76px)+2.5rem)] pb-28 overflow-x-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4">
-        
+
         {/* Header */}
-        <div className="text-center mb-12">
-          <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="inline-flex items-center gap-2 px-4 py-2 bg-pink-100 text-primary-700 rounded-full text-sm font-semibold mb-4">
-            <span className="text-lg">🤖</span> Powered by ShaadiSaathi AI
+        <div className="text-center mb-10">
+          <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="inline-flex items-center gap-2 px-5 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-bold mb-4 border border-purple-200 shadow-sm">
+            <span>✨</span> AI Wedding Planner
           </motion.div>
-          <motion.h1 initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 mb-4">
-            Intelligent <span className="text-primary-600">Wedding Planner</span>
+          <motion.h1 initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 mb-4 tracking-tight">
+            Plan Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C2185B] via-purple-600 to-[#D4AF37]">Dream Wedding with AI</span>
           </motion.h1>
-          <motion.p initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="text-gray-600 max-w-2xl mx-auto">
+          <motion.p initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="text-gray-600 max-w-2xl mx-auto text-lg">
             Get a complete, personalized wedding timeline, budget breakdown, and vendor recommendations generated in seconds by our expert AI.
           </motion.p>
+
+          {/* Step Progress Bar */}
+          <div className="flex items-center justify-center gap-4 mt-8 max-w-md mx-auto">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === 1 ? 'bg-[#C2185B] text-white shadow-md' : 'bg-green-100 text-green-700'}`}>
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">1</span>
+              <span>Wedding Details</span>
+            </div>
+            <div className="w-12 h-0.5 bg-gray-200" />
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === 2 ? 'bg-[#C2185B] text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">2</span>
+              <span>AI Plan Summary</span>
+            </div>
+          </div>
         </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
-            <motion.div 
+            <motion.div
               key="step1"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -91,7 +104,7 @@ const AIPlannerPage = () => {
               className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl shadow-pink-900/5 p-6 md:p-10 border border-pink-50 relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary-400 via-pink-500 to-gold-400"></div>
-              
+
               <h2 className="text-2xl font-bold text-gray-900 mb-8 font-playfair flex items-center gap-2">
                 Tell us about your dream wedding
               </h2>
@@ -163,14 +176,14 @@ const AIPlannerPage = () => {
                   </div>
                 )}
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={loading}
                   className="w-full py-4 mt-4 bg-gray-900 text-white rounded-xl font-bold text-lg shadow-xl shadow-gray-900/20 hover:-translate-y-0.5 hover:shadow-gray-900/40 transition-all flex items-center justify-center gap-2 relative overflow-hidden group"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-pink-500 translate-y-[100%] group-hover:translate-y-[0%] transition-transform duration-300"></div>
                   <span className="relative z-10 flex items-center gap-2">
-                    {loading ? <FiClock className="animate-spin" /> : '✨'} 
+                    {loading ? <FiClock className="animate-spin" /> : '✨'}
                     {loading ? 'AI is drafting your plan...' : 'Generate AI Wedding Plan'}
                   </span>
                 </button>
@@ -179,7 +192,7 @@ const AIPlannerPage = () => {
           )}
 
           {step === 2 && plan && (
-            <motion.div 
+            <motion.div
               key="step2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -193,13 +206,13 @@ const AIPlannerPage = () => {
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
-                
+
                 {/* Left Column: Budget */}
                 <div className="md:col-span-1 space-y-6">
                   <div className="bg-white rounded-3xl p-6 shadow-sm border border-pink-50 relative overflow-hidden">
                     <div className="absolute right-0 top-0 w-32 h-32 bg-primary-50 rounded-bl-full -z-10"></div>
                     <h3 className="text-xl font-black text-gray-900 flex items-center gap-2 mb-6"><FiDollarSign className="text-primary-500" /> Budget Breakdown</h3>
-                    
+
                     <div className="mb-6">
                       <p className="text-sm text-gray-500 mb-1">Total Estimated</p>
                       <p className="text-3xl font-black text-gray-900">₹{plan.budgetDetails?.totalBudget?.toLocaleString('en-IN') || '0'}</p>
@@ -243,7 +256,7 @@ const AIPlannerPage = () => {
                 <div className="md:col-span-2">
                   <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-pink-50 h-full">
                     <h3 className="text-2xl font-black text-gray-900 flex items-center gap-2 mb-8"><FiCalendar className="text-primary-500" /> Event Timeline</h3>
-                    
+
                     <div className="space-y-8">
                       {Array.isArray(plan.timeline) && plan.timeline.map((day, dIdx) => (
                         <div key={dIdx} className="relative">

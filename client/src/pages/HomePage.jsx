@@ -289,7 +289,7 @@ export default function HomePage() {
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
             >
               <button
-                onClick={() => navigate('/tools')}
+                onClick={() => navigate('/tools/ai-planner')}
                 className="bg-gradient-to-r from-[#D4AF37] to-[#B38D22] hover:from-[#B38D22] hover:to-[#927116] text-white h-[42px] sm:h-[44px] rounded-full text-xs sm:text-sm font-black uppercase tracking-wider transition-all shadow-md hover:shadow-xl text-center flex-shrink-0 flex items-center justify-center whitespace-nowrap px-4 sm:px-5 gap-1.5 border border-white/20 active:scale-95"
               >
                 <span>✨ Plan Your Wedding</span>

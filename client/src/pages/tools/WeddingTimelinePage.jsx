@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { 
-  FiCalendar, FiClock, FiPlus, FiEdit2, FiTrash2, FiCheckCircle, 
+import {
+  FiCalendar, FiClock, FiPlus, FiEdit2, FiTrash2, FiCheckCircle,
   FiCircle, FiArrowLeft, FiAlertCircle, FiCheck, FiX, FiMapPin, FiRefreshCw
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
@@ -296,7 +296,7 @@ export default function WeddingTimelinePage() {
   const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans pb-24">
+    <div className="min-h-screen bg-[#FAFAFA] pt-[calc(var(--navbar-height,76px)+1rem)] font-sans pb-28 overflow-x-hidden">
       {/* ── 1. HERO HEADER ── */}
       <div className="bg-gradient-to-r from-[#8E244D] via-[#C2185B] to-[#9c1349] text-white py-12 md:py-16 px-4 relative overflow-hidden shadow-lg">
         <div className="absolute inset-0 floral-pattern opacity-10 pointer-events-none" />
@@ -348,31 +348,28 @@ export default function WeddingTimelinePage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${
-                filter === 'all'
+              className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${filter === 'all'
                   ? 'bg-[#C2185B] text-white shadow-md'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               All Events ({totalCount})
             </button>
             <button
               onClick={() => setFilter('upcoming')}
-              className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${
-                filter === 'upcoming'
+              className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${filter === 'upcoming'
                   ? 'bg-[#C2185B] text-white shadow-md'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Upcoming ({totalCount - completedCount})
             </button>
             <button
               onClick={() => setFilter('completed')}
-              className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${
-                filter === 'completed'
+              className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${filter === 'completed'
                   ? 'bg-[#C2185B] text-white shadow-md'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Completed ({completedCount})
             </button>
@@ -425,11 +422,11 @@ export default function WeddingTimelinePage() {
               {filteredEvents.map((event, index) => {
                 const eventDateFormatted = event.date
                   ? new Date(event.date).toLocaleDateString('en-IN', {
-                      weekday: 'short',
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric'
-                    })
+                    weekday: 'short',
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                  })
                   : 'Date TBD';
 
                 return (
@@ -451,11 +448,10 @@ export default function WeddingTimelinePage() {
                     {/* Timeline Node Circle */}
                     <button
                       onClick={() => handleToggleComplete(event._id, event.isCompleted)}
-                      className={`absolute left-[14px] md:left-[178px] top-4 w-7 h-7 rounded-full flex items-center justify-center border-4 border-[#FAFAFA] shadow-md z-10 transition-transform hover:scale-110 ${
-                        event.isCompleted
+                      className={`absolute left-[14px] md:left-[178px] top-4 w-7 h-7 rounded-full flex items-center justify-center border-4 border-[#FAFAFA] shadow-md z-10 transition-transform hover:scale-110 ${event.isCompleted
                           ? 'bg-emerald-500 text-white'
                           : 'bg-white text-[#C2185B] ring-2 ring-[#C2185B]/30'
-                      }`}
+                        }`}
                       title={event.isCompleted ? 'Mark incomplete' : 'Mark complete'}
                     >
                       {event.isCompleted ? <FiCheck size={14} /> : <div className="w-2.5 h-2.5 rounded-full bg-[#C2185B]" />}
@@ -463,18 +459,16 @@ export default function WeddingTimelinePage() {
 
                     {/* Event Card Content */}
                     <div
-                      className={`flex-1 w-full bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all border ${
-                        event.isCompleted
+                      className={`flex-1 w-full bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all border ${event.isCompleted
                           ? 'border-emerald-100 bg-emerald-50/20 opacity-80'
                           : 'border-pink-100/80 hover:border-pink-300'
-                      }`}
+                        }`}
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
                         <div className="flex items-center gap-3">
                           <h3
-                            className={`text-lg md:text-xl font-bold ${
-                              event.isCompleted ? 'line-through text-gray-500' : 'text-gray-900'
-                            }`}
+                            className={`text-lg md:text-xl font-bold ${event.isCompleted ? 'line-through text-gray-500' : 'text-gray-900'
+                              }`}
                           >
                             {event.title}
                           </h3>

@@ -410,11 +410,10 @@ export default function BaraatCabsPage() {
               <button
                 key={cat.id}
                 onClick={() => setFilters({ ...filters, category: cat.id })}
-                className={`px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
-                  filters.category === cat.id
+                className={`px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-all duration-300 flex-shrink-0 ${filters.category === cat.id
                     ? 'bg-[#0B1021] text-[#D4AF37] shadow-lg scale-105 border border-[#D4AF37]/40'
                     : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-                }`}
+                  }`}
               >
                 {cat.label}
               </button>
@@ -451,7 +450,7 @@ export default function BaraatCabsPage() {
               <button onClick={() => setFilters({ ...filters, category: 'All', city: '' })} className="bg-gray-900 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-black transition-colors">
                 Clear Filters
               </button>
-              <button 
+              <button
                 onClick={() => setIsConsultationModalOpen(true)}
                 className="ml-4 bg-transparent border border-gray-300 text-gray-900 px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-gray-100 transition-colors"
               >
@@ -615,7 +614,7 @@ export default function BaraatCabsPage() {
               <button onClick={() => window.scrollTo({ top: 800, behavior: 'smooth' })} className="bg-gradient-to-r from-[#D4AF37] to-[#B38D22] text-[#0B1021] px-10 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all">
                 Explore Baraat Rides
               </button>
-              <button 
+              <button
                 onClick={() => setIsConsultationModalOpen(true)}
                 className="bg-white/10 backdrop-blur-md border border-white/20 px-10 py-5 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white/20 transition-all flex items-center justify-center gap-2"
               >
