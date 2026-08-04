@@ -13,16 +13,12 @@ import api from '../utils/api'
 import { getSocket } from '../utils/socket'
 import { useTranslation } from 'react-i18next'
 
+import { HERO_IMAGES, CATEGORY_IMAGES } from '../utils/weddingImages';
+
 // Lazy load below-the-fold components
 const PackageSection = lazy(() => import('../components/packages/PackageSection'))
 const PremiumTestimonials = lazy(() => import('../components/home/PremiumTestimonials'))
 const WhyShaadiSaathi = lazy(() => import('../components/home/WhyShaadiSaathi'))
-
-const HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1587271636175-90d58cdad458?auto=format&fit=crop&w=1200&q=70', // Wedding Mandap
-  'https://images.unsplash.com/photo-1587271407850-8d438ca9fdf2?auto=format&fit=crop&w=1200&q=70', // Indian Bride
-  'https://plus.unsplash.com/premium_photo-1682092018999-2c8fcfe944f3?auto=format&fit=crop&w=1200&q=70', // Palace Wedding
-]
 
 const getStaticServices = (isEnglish) => [
   {
@@ -31,7 +27,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Wedding films, candid shoots & albums' : 'शादी के अनमोल पलों को हमेशा के लिए संजोएं',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=photography',
-    slug: 'photography'
+    slug: 'photography',
+    image: CATEGORY_IMAGES.photography
   },
   {
     icon: '🍽️',
@@ -39,7 +36,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Authentic Bihari feasts & gourmet dining' : 'स्वादिष्ट बिहारी पकवान और बेहतरीन शादी का खाना',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=catering',
-    slug: 'catering'
+    slug: 'catering',
+    image: CATEGORY_IMAGES.catering
   },
   {
     icon: '✨',
@@ -47,7 +45,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Stunning stage, floral & mandap decor' : 'शानदार मंडप, स्टेज और फूलों की सजावट',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=event-planners',
-    slug: 'event-planners'
+    slug: 'event-planners',
+    image: CATEGORY_IMAGES['event-planners']
   },
   {
     icon: '🏛️',
@@ -55,7 +54,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Premium banquet halls, resorts & lawns' : 'शानदार मैरिज हॉल, रिसॉर्ट्स और लॉन',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=venues',
-    slug: 'venues'
+    slug: 'venues',
+    image: CATEGORY_IMAGES.venues
   },
   {
     icon: '🤲',
@@ -63,7 +63,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Intricate bridal & guest mehndi designs' : 'दुल्हन और मेहमानों के लिए खूबसूरत मेहंदी डिज़ाइन',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=mehndi',
-    slug: 'mehndi'
+    slug: 'mehndi',
+    image: CATEGORY_IMAGES.mehndi
   },
   {
     icon: '💄',
@@ -71,7 +72,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Flawless bridal makeup & styling experts' : 'दुल्हन के लिए प्रोफेशनल ब्राइडल मेकअप और स्टाइलिंग',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=bridal-makeup',
-    slug: 'bridal-makeup'
+    slug: 'bridal-makeup',
+    image: CATEGORY_IMAGES['bridal-makeup']
   },
   {
     icon: '🎪',
@@ -79,7 +81,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Complete lighting, sound & tent setups' : 'शादी के लिए प्रीमियम टेंट, लाइट और साउंड व्यवस्था',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=tent-house',
-    slug: 'tent-house'
+    slug: 'tent-house',
+    image: CATEGORY_IMAGES['tent-house']
   },
   {
     icon: '🕉️',
@@ -87,7 +90,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'Experienced Vedic priests for rituals' : 'वैदिक रीति-रिवाजों से विवाह संपन्न कराने वाले पंडित जी',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=pandit',
-    slug: 'pandit'
+    slug: 'pandit',
+    image: CATEGORY_IMAGES.pandit
   },
   {
     icon: '🎵',
@@ -95,7 +99,8 @@ const getStaticServices = (isEnglish) => [
     desc: isEnglish ? 'High-energy music & sangeet setups' : 'संगीत और बारात के लिए शानदार साउंड सिस्टम',
     cta: isEnglish ? 'Explore →' : 'देखें →',
     to: '/services?category=dj',
-    slug: 'dj'
+    slug: 'dj',
+    image: CATEGORY_IMAGES.dj
   },
   {
     icon: '🚗',
@@ -105,7 +110,8 @@ const getStaticServices = (isEnglish) => [
     to: '/baraat-cabs',
     slug: 'baraat-cabs',
     isSpecial: true,
-    badge: isEnglish ? 'Popular' : 'पॉपुलर'
+    badge: isEnglish ? 'Popular' : 'पॉपुलर',
+    image: CATEGORY_IMAGES['baraat-cabs']
   }
 ];
 
@@ -347,49 +353,47 @@ export default function HomePage() {
               <Link
                 key={service.slug}
                 to={service.to}
-                className={`group relative flex flex-col items-center justify-between p-4 sm:p-5 md:p-6 rounded-[24px] transition-all duration-300 active:scale-95 text-center overflow-hidden w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.625rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)] xl:w-[calc(20%-1.2rem)] ${
-                  service.isSpecial
-                    ? 'bg-gradient-to-br from-[#FFFDF8] via-[#FFF9EE] to-[#FFF2DF] border-2 border-[#D4AF37]/60 shadow-md hover:shadow-2xl hover:border-[#D4AF37] hover:-translate-y-1.5'
-                    : 'bg-white/95 border border-pink-100/80 shadow-sm hover:shadow-xl hover:border-[#C2185B]/40 hover:-translate-y-1.5'
-                }`}
+                className={`group relative flex flex-col items-center justify-between p-4 sm:p-5 md:p-6 rounded-[24px] transition-all duration-300 active:scale-95 text-center overflow-hidden w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.625rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)] xl:w-[calc(20%-1.2rem)] ${service.isSpecial
+                  ? 'bg-gradient-to-br from-[#FFFDF8] via-[#FFF9EE] to-[#FFF2DF] border-2 border-[#D4AF37]/60 shadow-md hover:shadow-2xl hover:border-[#D4AF37] hover:-translate-y-1.5'
+                  : 'bg-white/95 border border-pink-100/80 shadow-sm hover:shadow-xl hover:border-[#C2185B]/40 hover:-translate-y-1.5'
+                  }`}
               >
                 {/* Top Shimmer Accent Line on Hover / Active */}
                 <div
-                  className={`absolute top-0 left-0 w-full h-1 transition-opacity duration-300 ${
-                    service.isSpecial
-                      ? 'bg-gradient-to-r from-[#D4AF37] via-[#FF4D6D] to-[#D4AF37] opacity-100'
-                      : 'bg-gradient-to-r from-pink-500 to-[#C2185B] opacity-0 group-hover:opacity-100'
-                  }`}
+                  className={`absolute top-0 left-0 w-full h-1 transition-opacity duration-300 ${service.isSpecial
+                    ? 'bg-gradient-to-r from-[#D4AF37] via-[#FF4D6D] to-[#D4AF37] opacity-100'
+                    : 'bg-gradient-to-r from-pink-500 to-[#C2185B] opacity-0 group-hover:opacity-100'
+                    }`}
                 />
 
                 {/* Popular Badge for Baraat Ride */}
                 {service.isSpecial && (
-                  <div className="absolute top-3 right-3 bg-gradient-to-r from-[#D4AF37] to-[#B38D22] text-white text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">
+                  <div className="absolute top-3 right-3 z-20 bg-gradient-to-r from-[#D4AF37] to-[#B38D22] text-white text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">
                     {service.badge}
                   </div>
                 )}
 
-                {/* Service Icon */}
-                <div
-                  className={`w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl mb-3.5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${
-                    service.isSpecial
-                      ? 'bg-gradient-to-br from-[#FFF0D0] to-[#FFE2A4] shadow-sm'
-                      : 'bg-[#FFF8F0] group-hover:bg-pink-50'
-                  }`}
-                >
-                  <span role="img" aria-label={service.name}>
-                    {service.icon}
-                  </span>
+                {/* Service Visual Thumbnail Image */}
+                <div className="w-full h-28 sm:h-32 md:h-36 rounded-[18px] overflow-hidden relative mb-3.5 shadow-sm group-hover:shadow-md transition-all flex-shrink-0">
+                  <img
+                    src={service.image}
+                    alt={service.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
+                  <div className="absolute bottom-2 left-2.5 w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-xl sm:text-2xl shadow-md border border-white/40 group-hover:scale-110 transition-transform">
+                    <span role="img" aria-label={service.name}>{service.icon}</span>
+                  </div>
                 </div>
 
                 {/* Title & Short Description */}
                 <div className="flex flex-col items-center gap-1.5 mb-4 flex-1">
                   <h3
-                    className={`font-black uppercase tracking-wide text-xs sm:text-sm md:text-base transition-colors ${
-                      service.isSpecial
-                        ? 'text-[#B38D22] group-hover:text-[#927116]'
-                        : 'text-gray-900 group-hover:text-[#C2185B]'
-                    }`}
+                    className={`font-black uppercase tracking-wide text-xs sm:text-sm md:text-base transition-colors ${service.isSpecial
+                      ? 'text-[#B38D22] group-hover:text-[#927116]'
+                      : 'text-gray-900 group-hover:text-[#C2185B]'
+                      }`}
                   >
                     {service.name}
                   </h3>
@@ -400,11 +404,10 @@ export default function HomePage() {
 
                 {/* CTA Footer Link */}
                 <div
-                  className={`text-xs sm:text-sm font-bold flex items-center justify-center gap-1 transition-all duration-300 group-hover:translate-x-1 ${
-                    service.isSpecial
-                      ? 'text-[#B38D22] group-hover:text-[#927116]'
-                      : 'text-gray-600 group-hover:text-[#C2185B]'
-                  }`}
+                  className={`text-xs sm:text-sm font-bold flex items-center justify-center gap-1 transition-all duration-300 group-hover:translate-x-1 ${service.isSpecial
+                    ? 'text-[#B38D22] group-hover:text-[#927116]'
+                    : 'text-gray-600 group-hover:text-[#C2185B]'
+                    }`}
                 >
                   <span>{service.cta}</span>
                   <FiArrowRight className="w-3.5 h-3.5 flex-shrink-0" />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../../utils/api';
 import { LuStar, LuMapPin, LuArrowRight } from 'react-icons/lu';
+import { getCategoryFallbackImage } from '../../utils/weddingImages';
 
 export default function VendorRecommendations({ planId }) {
   const { t } = useTranslation();
@@ -15,18 +16,28 @@ export default function VendorRecommendations({ planId }) {
 
   const fetchRecommendations = async () => {
     try {
-      const { data } = await api.get(`/weddings/${planId}/recommendations`);
-      setVendors(data.vendors || []);
+      setLoading(true);
+      const response = await api.get(`/features/recommendations?planId=${planId}`);
+      if (response.data && response.data.success) {
+        setVendors(response.data.data || []);
+      }
     } catch (error) {
-      console.error('Failed to fetch recommendations:', error);
+      console.error('Error fetching recommendations:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading recommendations...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="w-8 h-8 border-4 border-[#C2185B] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   if (vendors.length === 0) return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+    <div className="text-center py-12 bg-gray-50 rounded-2xl">
       <h3 className="text-xl font-bold text-gray-900 mb-2">No local vendors found yet</h3>
       <p className="text-gray-500 mb-6">We couldn't find vendors matching your specific location right now. Explore the main directory.</p>
       <Link to="/vendors" className="bg-[#C2185B] text-white px-6 py-2 rounded-xl font-bold">Explore All Vendors</Link>
@@ -38,9 +49,9 @@ export default function VendorRecommendations({ planId }) {
       {vendors.map((vendor) => (
         <div key={vendor._id} className="bg-white rounded-[1.5rem] border border-gray-100 overflow-hidden hover:shadow-xl transition-all group">
           <div className="h-48 overflow-hidden relative">
-            <img 
-              src={vendor.profileImage?.url || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80'} 
-              alt={vendor.businessName} 
+            <img
+              src={vendor.profileImage?.url || getCategoryFallbackImage(vendor.category?.slug || vendor.category?.name)}
+              alt={vendor.businessName}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             {vendor.averageRating > 0 && (

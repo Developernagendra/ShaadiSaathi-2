@@ -34,7 +34,7 @@ export default function ServicesPage() {
   const [debouncedSearch, setDebouncedSearch] = useState(searchInput)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1)
-  
+
   const { categorySlug: paramCategorySlug } = useParams()
   const categorySlug = paramCategorySlug || searchParams.get('category') || ''
 
@@ -161,12 +161,12 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-[#FFFBF9] font-sans pb-20">
-      
+
       {/* ── 1. HERO SECTION ── */}
       <section className="relative pt-28 pb-16 px-4 bg-[#FFF0F5] overflow-hidden">
         {/* Subtle premium gradient/pattern */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FFF0F5] via-[#FFF8F0] to-[#FDFDFD] z-0" />
-        
+
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <p className="text-[10px] md:text-xs font-black text-[#C2185B] uppercase tracking-[0.2em] mb-4 inline-block bg-white/50 px-4 py-1.5 rounded-full border border-pink-100">
             ✨ अपनी शादी के लिए बेस्ट VENDOR खोजें
@@ -195,7 +195,7 @@ export default function ServicesPage() {
                 </button>
               )}
             </div>
-            
+
             <div className="flex-1 flex items-center px-4 py-3 w-full">
               <FiMapPin className="text-[#C2185B] text-lg mr-3 shrink-0" />
               <select
@@ -209,8 +209,8 @@ export default function ServicesPage() {
               <FiChevronDown className="text-gray-400 pointer-events-none" />
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full md:w-auto bg-[#C2185B] hover:bg-[#9c1349] text-white px-8 py-4 rounded-[1.5rem] font-bold text-sm transition-colors whitespace-nowrap mt-2 md:mt-0"
             >
               Vendors खोजें →
@@ -244,11 +244,11 @@ export default function ServicesPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 pt-8">
-        
+
         {/* ── 3. FILTER BAR ── */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white p-4 rounded-[1.5rem] shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
           <div className="flex items-center gap-4 w-full md:w-auto">
-            
+
             {/* Desktop Quick Filters */}
             <div className="hidden lg:flex items-center gap-3">
               <select
@@ -265,7 +265,7 @@ export default function ServicesPage() {
               >
                 <FiCheck /> Verified
               </button>
-              
+
               <button
                 onClick={() => { setLocalFilters(prev => ({ ...prev, premium: !prev.premium })); setPage(1) }}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold border flex items-center gap-2 transition-colors ${localFilters.premium ? 'bg-amber-50 border-amber-200 text-amber-700' : 'bg-gray-50 border-gray-200 text-gray-600'}`}
@@ -275,7 +275,7 @@ export default function ServicesPage() {
             </div>
 
             {/* Mobile Filter Button */}
-            <button 
+            <button
               onClick={() => setFiltersOpen(true)}
               className="lg:hidden flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-700 flex items-center justify-center gap-2"
             >
@@ -305,7 +305,7 @@ export default function ServicesPage() {
                 <p className="text-sm text-gray-500 mt-1 hidden sm:block">Meet some of the most trusted wedding professionals on ShaadiSaathi.</p>
               </div>
             </div>
-            
+
             <div className="flex overflow-x-auto gap-6 hide-scrollbar pb-6 snap-x snap-mandatory">
               {featuredVendors.map(v => (
                 <div key={`featured-${v._id}`} className="min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] snap-center shrink-0">
@@ -336,21 +336,21 @@ export default function ServicesPage() {
             <div className="bg-white rounded-[3rem] p-12 md:p-20 text-center shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col items-center justify-center">
               <div className="w-32 h-32 mb-6">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="50" cy="50" r="40" fill="#FFF0F5"/>
-                  <path d="M50 25C36.2 25 25 36.2 25 50C25 63.8 36.2 75 50 75C63.8 75 75 63.8 75 50C75 36.2 63.8 25 50 25ZM50 68.8C39.7 68.8 31.2 60.3 31.2 50C31.2 39.7 39.7 31.2 50 31.2C60.3 31.2 68.8 39.7 68.8 50C68.8 60.3 60.3 68.8 50 68.8Z" fill="#C2185B" opacity="0.2"/>
-                  <path d="M53.1 46.9L62.5 37.5" stroke="#C2185B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M37.5 62.5L46.9 53.1" stroke="#C2185B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="43.8" cy="43.8" r="6.2" stroke="#C2185B" strokeWidth="4"/>
+                  <circle cx="50" cy="50" r="40" fill="#FFF0F5" />
+                  <path d="M50 25C36.2 25 25 36.2 25 50C25 63.8 36.2 75 50 75C63.8 75 75 63.8 75 50C75 36.2 63.8 25 50 25ZM50 68.8C39.7 68.8 31.2 60.3 31.2 50C31.2 39.7 39.7 31.2 50 31.2C60.3 31.2 68.8 39.7 68.8 50C68.8 60.3 60.3 68.8 50 68.8Z" fill="#C2185B" opacity="0.2" />
+                  <path d="M53.1 46.9L62.5 37.5" stroke="#C2185B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M37.5 62.5L46.9 53.1" stroke="#C2185B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="43.8" cy="43.8" r="6.2" stroke="#C2185B" strokeWidth="4" />
                 </svg>
               </div>
               <h3 className="font-serif font-bold text-2xl text-gray-900 mb-2">Oops! We couldn't find vendors matching your search.</h3>
               <p className="text-gray-500 mb-8 max-w-md mx-auto">Try changing your location, category, or removing some filters to see more results.</p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button onClick={handleClearFilters} className="bg-white border border-gray-200 text-gray-700 font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-xl hover:bg-gray-50 transition-colors">
                   Clear Filters
                 </button>
-                <button onClick={() => { handleClearFilters(); setLocalFilters(prev => ({...prev, categorySlug: ''})) }} className="bg-[#C2185B] text-white font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-xl hover:bg-[#9c1349] transition-colors shadow-md">
+                <button onClick={() => { handleClearFilters(); setLocalFilters(prev => ({ ...prev, categorySlug: '' })) }} className="bg-[#C2185B] text-white font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-xl hover:bg-[#9c1349] transition-colors shadow-md">
                   Explore All Vendors
                 </button>
               </div>
@@ -409,18 +409,18 @@ export default function ServicesPage() {
       <AnimatePresence>
         {filtersOpen && (
           <>
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }} 
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden" 
-              onClick={() => setFiltersOpen(false)} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden"
+              onClick={() => setFiltersOpen(false)}
             />
-            <motion.div 
-              initial={{ y: '100%' }} 
-              animate={{ y: 0 }} 
-              exit={{ y: '100%' }} 
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed bottom-0 left-0 right-0 bg-white rounded-t-[2rem] z-[100] max-h-[90vh] flex flex-col shadow-2xl"
             >
               <div className="flex justify-between items-center p-6 border-b border-gray-100">
@@ -429,13 +429,13 @@ export default function ServicesPage() {
                   <FiX size={16} />
                 </button>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 <div>
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 block mb-3">Minimum Rating</label>
-                  <select 
-                    value={localFilters.rating} 
-                    onChange={e => setLocalFilters(prev => ({ ...prev, rating: e.target.value }))} 
+                  <select
+                    value={localFilters.rating}
+                    onChange={e => setLocalFilters(prev => ({ ...prev, rating: e.target.value }))}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-700 outline-none"
                   >
                     {RATING_OPTIONS.map(o => <option key={o.label} value={o.value}>{o.label}</option>)}
@@ -446,19 +446,19 @@ export default function ServicesPage() {
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 block mb-3">Vendor Badges</label>
                   <div className="flex flex-col gap-3">
                     <label className="flex items-center gap-3 p-3 border border-gray-100 rounded-xl bg-gray-50">
-                      <input 
-                        type="checkbox" 
-                        checked={localFilters.verified} 
-                        onChange={() => setLocalFilters(prev => ({ ...prev, verified: !prev.verified }))} 
+                      <input
+                        type="checkbox"
+                        checked={localFilters.verified}
+                        onChange={() => setLocalFilters(prev => ({ ...prev, verified: !prev.verified }))}
                         className="w-5 h-5 rounded border-gray-300 text-[#C2185B] focus:ring-[#C2185B]"
                       />
                       <span className="text-sm font-bold text-gray-700 flex items-center gap-2"><FiCheck className="text-green-600" /> Verified Partners</span>
                     </label>
                     <label className="flex items-center gap-3 p-3 border border-gray-100 rounded-xl bg-gray-50">
-                      <input 
-                        type="checkbox" 
-                        checked={localFilters.premium} 
-                        onChange={() => setLocalFilters(prev => ({ ...prev, premium: !prev.premium }))} 
+                      <input
+                        type="checkbox"
+                        checked={localFilters.premium}
+                        onChange={() => setLocalFilters(prev => ({ ...prev, premium: !prev.premium }))}
                         className="w-5 h-5 rounded border-gray-300 text-[#C2185B] focus:ring-[#C2185B]"
                       />
                       <span className="text-sm font-bold text-gray-700 flex items-center gap-2"><FiAward className="text-amber-500" /> Premium Vendors</span>
@@ -468,14 +468,14 @@ export default function ServicesPage() {
               </div>
 
               <div className="p-6 border-t border-gray-100 flex gap-4 bg-white">
-                <button 
-                  onClick={() => { handleClearFilters(); setFiltersOpen(false); }} 
+                <button
+                  onClick={() => { handleClearFilters(); setFiltersOpen(false); }}
                   className="flex-1 bg-gray-100 text-gray-700 font-bold uppercase tracking-widest text-[11px] py-4 rounded-xl"
                 >
                   Clear
                 </button>
-                <button 
-                  onClick={() => { loadVendors(); setFiltersOpen(false); }} 
+                <button
+                  onClick={() => { loadVendors(); setFiltersOpen(false); }}
                   className="flex-[2] bg-[#C2185B] text-white font-bold uppercase tracking-widest text-[11px] py-4 rounded-xl shadow-md"
                 >
                   Apply Filters

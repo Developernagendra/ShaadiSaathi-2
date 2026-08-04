@@ -8,6 +8,7 @@ import { FaTruck } from 'react-icons/fa';
 import { motion } from 'framer-motion'
 import { getSocket } from '../../utils/socket'
 import toast from 'react-hot-toast'
+import BookingStatusBadge from '../../components/booking/BookingStatusBadge'
 
 export default function CabBookingDetailPage() {
   const { id } = useParams()
@@ -102,9 +103,7 @@ export default function CabBookingDetailPage() {
                 <p className="text-gray-400 font-bold uppercase tracking-widest text-xs mb-2">{booking.serviceName || 'Baraat Cab Booking'}</p>
                 <p className="font-mono font-black text-2xl md:text-3xl text-white tracking-widest bg-white/10 w-fit px-4 py-1.5 rounded-xl border border-white/20">{booking.bookingId}</p>
               </div>
-              <div className={`px-6 py-2.5 rounded-xl text-sm font-black uppercase tracking-widest shadow-lg ${statusColor}`}>
-                {booking.status?.replace('_', ' ')}
-              </div>
+              <BookingStatusBadge status={booking.status} size="lg" />
             </div>
           </div>
 
@@ -347,13 +346,7 @@ export default function CabBookingDetailPage() {
           
           <div className="flex items-center justify-between mb-8">
             <h3 className="font-display font-black text-2xl">Fare Breakdown</h3>
-            <div className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${
-              booking.status === 'confirmed' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
-              booking.status === 'pending' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
-              'bg-red-500/20 text-red-400 border border-red-500/30'
-            }`}>
-              {booking.status?.replace('_', ' ')}
-            </div>
+            <BookingStatusBadge status={booking.status} size="sm" />
           </div>
           
           <div className="space-y-4 mb-10">

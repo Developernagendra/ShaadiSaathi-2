@@ -1,6 +1,3 @@
-// Centralized ShaadiSaathi Wedding Services Constants
-// Reusable across Tools, Homepage, Dashboards, and Navigators
-
 export const STATIC_SERVICES = [
   { name: 'Photography', nameHi: 'फोटोग्राफी (Photography)', icon: '📸', slug: 'photography', to: '/services?category=photography' },
   { name: 'Catering', nameHi: 'कैटरिंग (Catering)', icon: '🍽️', slug: 'catering', to: '/services?category=catering' },

@@ -5,6 +5,7 @@ import { toggleWishlist } from '../../store/slices/authSlice'
 import { formatPrice } from '../../utils/helpers'
 import { FiHeart, FiMapPin, FiCheckCircle } from 'react-icons/fi';
 import { toast } from 'react-hot-toast'
+import { getCategoryFallbackImage } from '../../utils/weddingImages'
 
 export default function VendorCard({ vendor }) {
   const dispatch = useDispatch()
@@ -47,6 +48,11 @@ export default function VendorCard({ vendor }) {
     dispatch(toggleWishlist(vendor._id))
   }
 
+  const getVendorInitials = (name) => {
+    if (!name) return 'V'
+    return name.charAt(0).toUpperCase()
+  }
+
   return (
     <div
       onClick={() => navigate(`/vendors/${vendor._id}`)}
@@ -62,9 +68,12 @@ export default function VendorCard({ vendor }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <span className="text-4xl opacity-30">{vendor.category?.icon || '✨'}</span>
-          </div>
+          <img
+            src={getCategoryFallbackImage(vendor.category?.slug || vendor.category?.name)}
+            alt={vendor.businessName}
+            className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] md:group-hover:scale-105"
+            loading="lazy"
+          />
         )}
 
         {/* Gradient Overlay for Top Content */}
@@ -103,7 +112,7 @@ export default function VendorCard({ vendor }) {
 
       {/* ── CONTENT ── */}
       <div className="p-5 flex flex-col flex-1">
-        
+
         {/* Name and Basic Info */}
         <div className="mb-3">
           <div className="flex items-start justify-between gap-3 mb-1">
@@ -115,7 +124,7 @@ export default function VendorCard({ vendor }) {
               <span className="text-gray-900 font-bold text-xs">{vendor.rating?.average || '4.9'}</span>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
             <span className="flex items-center gap-1 shrink-0">
               {vendor.category?.icon} <span className="truncate max-w-[120px]">{vendor.category?.name || 'Service'}</span>
@@ -151,9 +160,9 @@ export default function VendorCard({ vendor }) {
               {formatPrice(vendor.basePrice || vendor.packages?.[0]?.price || 25000)}
             </p>
           </div>
-          
+
           <div className="flex items-center gap-2">
-            <button 
+            <button
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
@@ -163,7 +172,7 @@ export default function VendorCard({ vendor }) {
             >
               View Details
             </button>
-            <button 
+            <button
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()

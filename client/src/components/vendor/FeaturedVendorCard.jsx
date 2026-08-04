@@ -7,6 +7,7 @@ import { formatPrice, getWhatsAppLink } from '../../utils/helpers'
 import { FiHeart, FiMapPin, FiCheckCircle, FiTrendingUp } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { toast } from 'react-hot-toast'
+import { getCategoryFallbackImage } from '../../utils/weddingImages'
 
 export default function FeaturedVendorCard({ vendor }) {
   const dispatch = useDispatch()
@@ -103,9 +104,12 @@ export default function FeaturedVendorCard({ vendor }) {
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50">
-              <span className="text-6xl opacity-50 group-hover:scale-110 transition-transform duration-500">{vendor.category?.icon || '✨'}</span>
-            </div>
+            <img
+              src={getCategoryFallbackImage(vendor.category?.slug || vendor.category?.name)}
+              alt={vendor.businessName}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+              loading="lazy"
+            />
           )}
 
           {/* Elegant Gradient Overlay */}
@@ -149,7 +153,7 @@ export default function FeaturedVendorCard({ vendor }) {
 
         {/* Content Section */}
         <div className="p-4 md:p-5 flex flex-col flex-1 relative z-10 bg-white">
-          
+
           {/* Rating Badge (Floating between image and content) */}
           <div className="absolute right-4 md:right-5 -top-5 z-30">
             <div className="bg-white rounded-xl px-3 py-2 flex flex-col items-center shadow-lg border border-gray-50">

@@ -64,14 +64,16 @@ export const INDIAN_CITIES = [
   'Madhubani', 'Munger'
 ]
 
+import { BARAAT_VEHICLE_IMAGES } from './weddingImages';
+
 export const VEHICLE_TYPES = [
-  { value: 'sedan', label: 'Executive Sedan', icon: '🚗', capacity: 4, desc: 'Ideal for small families', rating: 4.8, baseRate: 15, image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=400' },
-  { value: 'suv', label: 'Luxury SUV', icon: '🚙', capacity: 7, desc: 'Spacious & Comfortable', rating: 4.9, baseRate: 22, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400' },
-  { value: 'luxury_car', label: 'Premium Luxury', icon: '🏎️', capacity: 4, desc: 'BMW, Audi, Mercedes', rating: 5.0, baseRate: 45, image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400' },
-  { value: 'vintage_car', label: 'Vintage Classic', icon: '📽️', capacity: 2, desc: 'Classic royal look', rating: 4.9, baseRate: 150, image: 'https://images.unsplash.com/photo-1517524204709-440d89f4b1d5?w=400' },
-  { value: 'bus', label: 'Luxury Bus', icon: '🚌', capacity: 45, desc: 'Ideal for guests', rating: 4.7, baseRate: 85, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400' },
-  { value: 'tempo_traveller', label: 'Tempo Traveller', icon: '🚐', capacity: 17, desc: 'The baraat favorite', rating: 4.8, baseRate: 35, image: 'https://images.unsplash.com/photo-1623945227418-348574163013?w=400' },
-  { value: 'horse_carriage', label: 'Horse Carriage', icon: '🎠', capacity: 4, desc: 'The royal wedding entry', rating: 5.0, baseRate: 200, image: 'https://images.unsplash.com/photo-1621349071018-0f0c058782a2?w=400' },
+  { value: 'sedan', label: 'Executive Sedan', icon: '🚗', capacity: 4, desc: 'Ideal for small families', rating: 4.8, baseRate: 15, image: BARAAT_VEHICLE_IMAGES.sedan },
+  { value: 'suv', label: 'Luxury SUV', icon: '🚙', capacity: 7, desc: 'Spacious & Comfortable', rating: 4.9, baseRate: 22, image: BARAAT_VEHICLE_IMAGES.suv },
+  { value: 'luxury_car', label: 'Premium Luxury', icon: '🏎️', capacity: 4, desc: 'BMW, Audi, Mercedes', rating: 5.0, baseRate: 45, image: BARAAT_VEHICLE_IMAGES.luxury_car },
+  { value: 'vintage_car', label: 'Vintage Classic', icon: '📽️', capacity: 2, desc: 'Classic royal look', rating: 4.9, baseRate: 150, image: BARAAT_VEHICLE_IMAGES.vintage_car },
+  { value: 'bus', label: 'Luxury Bus', icon: '🚌', capacity: 45, desc: 'Ideal for guests', rating: 4.7, baseRate: 85, image: BARAAT_VEHICLE_IMAGES.bus },
+  { value: 'tempo_traveller', label: 'Tempo Traveller', icon: '🚐', capacity: 17, desc: 'The baraat favorite', rating: 4.8, baseRate: 35, image: BARAAT_VEHICLE_IMAGES.tempo_traveller },
+  { value: 'horse_carriage', label: 'Horse Carriage', icon: '🎠', capacity: 4, desc: 'The royal wedding entry', rating: 5.0, baseRate: 200, image: BARAAT_VEHICLE_IMAGES.horse_carriage },
 ]
 
 export const optimizeImage = (url, width = 800) => {

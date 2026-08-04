@@ -9,6 +9,7 @@ import PackageDetailsModal from './PackageDetailsModal';
 import QuoteFormModal from './QuoteFormModal';
 import ExpertConsultationModal from './ExpertConsultationModal';
 import { useNavigate } from 'react-router-dom';
+import { PACKAGE_IMAGES } from '../../utils/weddingImages';
 
 export default function PackageSection() {
   const dispatch = useDispatch();
@@ -36,12 +37,12 @@ export default function PackageSection() {
 
         {/* ── SECTION HEADER ── */}
         <div className="text-center mb-16 relative">
-          
+
           {/* Decorative Floating Elements */}
           <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -top-10 left-[10%] md:left-[20%] text-3xl opacity-60">✨</motion.div>
           <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute top-10 right-[15%] md:right-[25%] text-4xl opacity-50">🌸</motion.div>
           <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 6, repeat: Infinity }} className="absolute top-24 left-[15%] md:left-[25%] text-2xl opacity-40">💍</motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -91,33 +92,33 @@ export default function PackageSection() {
             <>
               {/* Silver (Index 0 or fallback) */}
               <div className="w-full lg:w-1/3 flex justify-center lg:justify-end lg:mt-8">
-                <PackageCard 
-                  pkg={packages[0] || null} 
-                  tier="silver" 
-                  onOpenDetails={setSelectedDetails} 
-                  onOpenQuote={setSelectedQuote} 
+                <PackageCard
+                  pkg={packages[0] || null}
+                  tier="silver"
+                  onOpenDetails={setSelectedDetails}
+                  onOpenQuote={setSelectedQuote}
                   onOpenExpert={setSelectedExpertContext}
                 />
               </div>
 
               {/* Gold (Index 1 or fallback) - Elevated */}
               <div className="w-full lg:w-1/3 flex justify-center z-10">
-                <PackageCard 
-                  pkg={packages[1] || null} 
-                  tier="gold" 
-                  onOpenDetails={setSelectedDetails} 
-                  onOpenQuote={setSelectedQuote} 
+                <PackageCard
+                  pkg={packages[1] || null}
+                  tier="gold"
+                  onOpenDetails={setSelectedDetails}
+                  onOpenQuote={setSelectedQuote}
                   onOpenExpert={setSelectedExpertContext}
                 />
               </div>
 
               {/* Royal (Index 2 or fallback) */}
               <div className="w-full lg:w-1/3 flex justify-center lg:justify-start lg:mt-8">
-                <PackageCard 
-                  pkg={packages[2] || null} 
-                  tier="royal" 
-                  onOpenDetails={setSelectedDetails} 
-                  onOpenQuote={setSelectedQuote} 
+                <PackageCard
+                  pkg={packages[2] || null}
+                  tier="royal"
+                  onOpenDetails={setSelectedDetails}
+                  onOpenQuote={setSelectedQuote}
                   onOpenExpert={setSelectedExpertContext}
                 />
               </div>
@@ -127,7 +128,7 @@ export default function PackageSection() {
 
 
         {/* ── CUSTOM PACKAGE CTA BANNER ── */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -135,9 +136,9 @@ export default function PackageSection() {
         >
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
-            <img 
-              src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=2000" 
-              alt="Custom Wedding Package" 
+            <img
+              src={PACKAGE_IMAGES.customBanner}
+              alt="Custom Wedding Package"
               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0B1021]/95 via-[#0B1021]/80 to-transparent" />
@@ -155,15 +156,15 @@ export default function PackageSection() {
                 Build your own wedding package with only the services you need.
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto shrink-0">
-              <button 
+              <button
                 onClick={handleCustomPackage}
                 className="w-full sm:w-auto bg-gradient-to-r from-[#D4AF37] to-[#B38D22] text-white px-8 py-4 rounded-xl font-black text-[11px] uppercase tracking-widest hover:shadow-[0_10px_20px_rgba(212,175,55,0.3)] transition-all flex items-center justify-center gap-2"
               >
                 Create Custom Package <FiArrowRight size={16} />
               </button>
-              <button 
+              <button
                 onClick={() => setSelectedExpertContext('custom')}
                 className="w-full sm:w-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-white/20 transition-all flex items-center justify-center gap-2"
               >

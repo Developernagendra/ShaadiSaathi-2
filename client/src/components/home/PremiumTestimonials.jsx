@@ -227,7 +227,7 @@ export default function PremiumTestimonials() {
                   <div className="flex items-center gap-4 mb-6 relative z-10 pt-4">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#D4AF37] overflow-hidden shrink-0 shadow-md">
                       <img
-                        src={testimonials[currentIndex]?.image || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80'}
+                        src={testimonials[currentIndex]?.image || 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80'}
                         alt="Couple"
                         className="w-full h-full object-cover"
                         loading="lazy"
