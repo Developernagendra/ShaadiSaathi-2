@@ -156,8 +156,8 @@ exports.createBooking = catchAsync(async (req, res, next) => {
 
   const bookingId = `SS-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
 
-  // Determine final price and populate service metadata
-  let finalPrice = amount;
+  // Determine final price and populate service metadata from authoritative DB models
+  let finalPrice = 0;
   let serviceName = '';
   let serviceCategory = '';
 
@@ -165,9 +165,13 @@ exports.createBooking = catchAsync(async (req, res, next) => {
     const { Service } = require('../models/index');
     const service = await Service.findById(serviceId).populate('category');
     if (service) {
-      if (packageSelected && packageSelected.price) {
-        finalPrice = packageSelected.price;
-      } else {
+      if (packageSelected && packageSelected.name && Array.isArray(service.packages)) {
+        const dbPkg = service.packages.find(p => p.name === packageSelected.name);
+        if (dbPkg && dbPkg.price) {
+          finalPrice = dbPkg.price;
+        }
+      }
+      if (!finalPrice) {
         finalPrice = service.price || service.startingPrice || 0;
       }
       serviceName =
@@ -177,6 +181,19 @@ exports.createBooking = catchAsync(async (req, res, next) => {
         (service.category && (service.category.name || service.category)) ||
         'Wedding Service';
       serviceCategory = service.category ? (service.category.name || service.category.toString()) : '';
+    }
+  }
+
+  // If booked directly via vendor profile
+  if (!finalPrice && vendor) {
+    if (packageSelected && packageSelected.name && Array.isArray(vendor.packages)) {
+      const dbPkg = vendor.packages.find(p => p.name === packageSelected.name);
+      if (dbPkg && dbPkg.price) {
+        finalPrice = dbPkg.price;
+      }
+    }
+    if (!finalPrice) {
+      finalPrice = vendor.basePrice || vendor.price || Number(amount) || 0;
     }
   }
 

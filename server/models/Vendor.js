@@ -188,8 +188,23 @@ vendorSchema.index({ views: -1 });
 vendorSchema.index({ businessName: 'text', description: 'text', tagline: 'text' });
 
 vendorSchema.pre('save', function (next) {
-  if (this.basePrice !== undefined) {
+  if (this.basePrice !== undefined && this.basePrice !== null && !isNaN(this.basePrice) && Number(this.basePrice) > 0) {
+    this.basePrice = Number(this.basePrice);
     this.price = this.basePrice;
+  } else if (this.price !== undefined && this.price !== null && !isNaN(this.price) && Number(this.price) > 0) {
+    this.price = Number(this.price);
+    this.basePrice = this.price;
+  }
+
+  if (Array.isArray(this.packages) && this.packages.length > 0) {
+    const validPrices = this.packages.map(p => Number(p.price)).filter(p => !isNaN(p) && p > 0);
+    if (validPrices.length > 0) {
+      const minPrice = Math.min(...validPrices);
+      if (!this.basePrice || this.basePrice <= 0) {
+        this.basePrice = minPrice;
+        this.price = minPrice;
+      }
+    }
   }
 
   if (this.subscription) {

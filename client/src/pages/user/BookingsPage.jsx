@@ -48,7 +48,7 @@ export default function BookingsPage() {
 
   useEffect(() => {
     if (!socket) return;
-    
+
     const handleUpdate = (data) => {
       const booking = data?.booking || data;
       if (booking) {

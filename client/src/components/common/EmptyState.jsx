@@ -3,9 +3,9 @@ import { motion } from 'framer-motion'
 
 export default function EmptyState({ icon = '🔍', title, message, actionLabel, actionTo, onAction, className = '' }) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }} 
-      animate={{ opacity: 1, scale: 1 }} 
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
       className={`flex flex-col items-center justify-center py-24 px-6 text-center bg-white/40 backdrop-blur-md rounded-[3rem] border border-pink-50 shadow-premium ${className}`}
     >
       <div className="relative mb-8 group">
@@ -16,7 +16,7 @@ export default function EmptyState({ icon = '🔍', title, message, actionLabel,
       </div>
       <h3 className="font-display text-3xl font-black text-gray-900 mb-3 tracking-tight">{title}</h3>
       {message && <p className="text-gray-500 max-w-sm mb-10 font-medium leading-relaxed">{message}</p>}
-      
+
       <div className="flex gap-4">
         {(actionLabel && actionTo) && (
           <Link to={actionTo} className="btn-primary">{actionLabel}</Link>

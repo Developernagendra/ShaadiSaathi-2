@@ -29,8 +29,8 @@ export default function DashboardLayout() {
 
     if (path.includes('/admin/users')) return 'User Registry'
     if (path.includes('/admin/vendors')) return 'Partner Management'
-    if (path.includes('/admin/vendor-approvals')) return 'Vendor Verifications'
-    if (path.includes('/admin/service-moderation')) return 'Service Moderation'
+    if (path.includes('/admin/vendor-approvals') || path.includes('/admin/pending-approval') || path.includes('/admin/services/pending')) return 'Pending Approvals & Verification'
+    if (path.includes('/admin/service-moderation') || path.includes('/admin/services-approval')) return 'Service Moderation'
     if (path.includes('/admin/categories')) return 'Platform Categories'
     if (path.includes('/admin/bookings')) return 'Platform Bookings'
     if (path.includes('/admin/imperial-fleet')) return 'Imperial Fleet'

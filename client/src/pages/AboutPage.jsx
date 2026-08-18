@@ -45,7 +45,7 @@ export default function AboutPage() {
     { title: 'Trusted Vendors', desc: 'Handpicked and verified professionals for your big day.', icon: <FiShield /> },
     { title: 'Premium Baraat Cabs', desc: 'India’s first bulk transportation engine for weddings.', icon: '🚗' },
     { title: 'AI Wedding Planner', desc: 'Smart tools to organize your tasks and timeline.', icon: <FiGrid /> },
-    { title: 'Budget Tools', desc: 'Keep track of every penny with our simple budget calculator.', icon: <FiCalendar /> },
+    { title: 'Budget Tools', desc: 'Keep track of every penny with our simple budget planner.', icon: <FiCalendar /> },
   ];
 
   const timeline = [

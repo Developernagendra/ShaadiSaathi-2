@@ -223,7 +223,17 @@ const vendorSlice = createSlice({
       .addCase(updateVendorProfile.pending, (state) => { state.actionLoading = true })
       .addCase(updateVendorProfile.fulfilled, (state, action) => {
         state.actionLoading = false
-        state.myVendorProfile = action.payload.vendor
+        const updated = action.payload.vendor
+        state.myVendorProfile = updated
+        if (state.dashboard && state.dashboard.vendor) {
+          state.dashboard.vendor = { ...state.dashboard.vendor, ...updated }
+        }
+        if (state.currentVendor && state.currentVendor._id === updated?._id) {
+          state.currentVendor = updated
+        }
+        if (Array.isArray(state.vendors)) {
+          state.vendors = state.vendors.map(v => v._id === updated?._id ? { ...v, ...updated } : v)
+        }
         toast.success('Profile updated!')
       })
       .addCase(updateVendorProfile.rejected, (state) => { state.actionLoading = false })

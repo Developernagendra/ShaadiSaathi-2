@@ -111,6 +111,24 @@ const register = catchAsync(async (req, res, next) => {
   // Auto create vendor profile
   if (userRole === 'vendor') {
     const Vendor = require('../models/Vendor');
+    const { Category } = require('../models/index');
+    
+    // Resolve category
+    let categoryId = undefined;
+    if (req.body.category) {
+      const mongoose = require('mongoose');
+      if (mongoose.Types.ObjectId.isValid(req.body.category)) {
+        categoryId = req.body.category;
+      } else {
+        const catObj = await Category.findOne({
+          $or: [
+            { slug: req.body.category.toLowerCase().replace(/\s+/g, '-') },
+            { name: { $regex: new RegExp(`^${req.body.category}$`, 'i') } }
+          ]
+        });
+        if (catObj) categoryId = catObj._id;
+      }
+    }
 
     const vendorProfile = await Vendor.create({
       user: user._id,
@@ -120,9 +138,10 @@ const register = catchAsync(async (req, res, next) => {
       phone: normalizedPhone || '0000000000',
       approvalStatus: 'pending',
       profileCompletion: 0,
+      category: categoryId,
     });
 
-    console.log(`[REGISTRATION] ✅ Vendor Created successfully with type: ${vendorType}`);
+    console.log(`[REGISTRATION] ✅ Vendor Created successfully with type: ${vendorType}, category: ${categoryId}`);
     console.log('VENDOR PROFILE CREATED');
 
     user.vendorProfile = vendorProfile._id;

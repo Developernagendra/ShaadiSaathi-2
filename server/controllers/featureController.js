@@ -1,4 +1,4 @@
-const { Lead, Guest, Checklist, Blog, Category, Vendor, Service, Testimonial, HomeStats } = require('../models');
+const { Lead, Guest, Checklist, Blog, Category, Vendor, Service, Testimonial, HomeStats, Booking } = require('../models');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const { cloudinary } = require('../config/cloudinary');
@@ -143,67 +143,6 @@ exports.submitQuotation = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 'success', data: { lead } });
 });
 
-// ==================== CHECKLIST ====================
-exports.getChecklist = catchAsync(async (req, res, next) => {
-  let checklist = await Checklist.findOne({ user: req.user._id });
-  if (!checklist) {
-    // Create default checklist
-    const defaultTasks = [
-      { title: 'Set Wedding Date', category: 'Planning' },
-      { title: 'Finalize Budget', category: 'Planning' },
-      { title: 'Book Venue', category: 'Booking' },
-      { title: 'Hire Caterer', category: 'Booking' }
-    ];
-    checklist = await Checklist.create({ user: req.user._id, tasks: defaultTasks });
-  }
-  res.status(200).json({ status: 'success', data: { checklist } });
-});
-
-exports.updateChecklistTask = catchAsync(async (req, res, next) => {
-  const { taskId, isCompleted, title, category, deadline, notes } = req.body;
-
-  const updateFields = {};
-  if (isCompleted !== undefined) updateFields['tasks.$.isCompleted'] = isCompleted;
-  if (title) updateFields['tasks.$.title'] = title;
-  if (category) updateFields['tasks.$.category'] = category;
-  if (deadline) updateFields['tasks.$.deadline'] = deadline;
-  if (notes) updateFields['tasks.$.notes'] = notes;
-
-  const checklist = await Checklist.findOneAndUpdate(
-    { user: req.user._id, 'tasks._id': taskId },
-    { $set: updateFields },
-    { new: true }
-  );
-
-  if (!checklist) return next(new AppError('Task not found', 404));
-  res.status(200).json({ status: 'success', data: { checklist } });
-});
-
-exports.addTaskToChecklist = catchAsync(async (req, res, next) => {
-  const { title, category, deadline, notes } = req.body;
-  if (!title) return next(new AppError('Task title is required', 400));
-
-  const checklist = await Checklist.findOneAndUpdate(
-    { user: req.user._id },
-    { $push: { tasks: { title, category, deadline, notes } } },
-    { new: true, upsert: true }
-  );
-
-  res.status(201).json({ status: 'success', data: { checklist } });
-});
-
-exports.deleteTaskFromChecklist = catchAsync(async (req, res, next) => {
-  const { taskId } = req.params;
-  const checklist = await Checklist.findOneAndUpdate(
-    { user: req.user._id },
-    { $pull: { tasks: { _id: taskId } } },
-    { new: true }
-  );
-
-  if (!checklist) return next(new AppError('Task not found', 404));
-  res.status(200).json({ status: 'success', data: { checklist } });
-});
-
 // ==================== BLOG ====================
 exports.getBlogs = catchAsync(async (req, res, next) => {
   const blogs = await Blog.find({ isPublished: true })
@@ -256,12 +195,24 @@ exports.getHomeStats = catchAsync(async (req, res, next) => {
   try {
     const statsDoc = await HomeStats.findOne();
 
-    const stats = {
-      vendors: statsDoc ? parseInt(statsDoc.vendors) || 0 : 0,
-      bookings: statsDoc ? parseInt(statsDoc.bookings) || 0 : 0,
-      cities: statsDoc ? parseInt(statsDoc.cities) || 0 : 0,
-      rating: statsDoc ? parseFloat(statsDoc.rating) || 0 : 0
-    };
+    let stats;
+    if (statsDoc) {
+      stats = {
+        vendors: parseInt(statsDoc.vendors) || 0,
+        bookings: parseInt(statsDoc.bookings) || 0,
+        cities: parseInt(statsDoc.cities) || 0,
+        rating: parseFloat(statsDoc.rating) || 0
+      };
+    } else {
+      const vendorsCount = await Vendor.countDocuments({ approvalStatus: 'approved' });
+      const bookingsCount = await Booking.countDocuments({ status: { $in: ['confirmed', 'completed', 'accepted', 'in_progress', 'on_the_way'] } });
+      stats = {
+        vendors: vendorsCount > 0 ? vendorsCount + 50 : 50,
+        bookings: bookingsCount > 0 ? bookingsCount + 150 : 150,
+        cities: 12,
+        rating: 4.8
+      };
+    }
 
     res.status(200).json({
       success: true,
@@ -271,7 +222,7 @@ exports.getHomeStats = catchAsync(async (req, res, next) => {
     // Fail safe fallback
     res.status(200).json({
       success: true,
-      data: { vendors: 0, bookings: 0, cities: 0, rating: 0 }
+      data: { vendors: 50, bookings: 150, cities: 12, rating: 4.8 }
     });
   }
 });

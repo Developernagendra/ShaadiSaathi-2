@@ -325,7 +325,7 @@ const emailTemplates = {
          <p style="margin: 8px 0;">✨ <strong>Browse Vendors</strong> — Find photographers, caterers, decorators & more</p>
          <p style="margin: 8px 0;">📅 <strong>Book Services</strong> — Secure your wedding vendors with instant booking</p>
          <p style="margin: 8px 0;">💬 <strong>Chat with Vendors</strong> — Discuss requirements directly</p>
-         <p style="margin: 8px 0;">🔧 <strong>Wedding Tools</strong> — Budget planner, checklist, guest manager & more</p>
+         <p style="margin: 8px 0;">🔧 <strong>Wedding Tools</strong> — Budget planner, timeline, guest manager & more</p>
        </div>
        <div style="text-align: center; margin: 30px 0;">
          <a href="${CLIENT_URL}/services" style="display: inline-block; background-color: ${COLORS.primary}; color: #ffffff; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: bold;">Explore Vendors</a>

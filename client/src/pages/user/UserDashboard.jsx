@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { getSocket } from '../../utils/socket'
 import { fetchUserDashboard } from '../../store/slices/bookingSlice'
 import { fetchUnreadChatCount } from '../../store/slices/chatSlice'
@@ -11,6 +12,7 @@ import { motion } from 'framer-motion'
 import Badge from '../../components/common/Badge'
 
 export default function UserDashboard() {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const [searchParams] = useSearchParams()
   const userIdFromQuery = searchParams.get('userId')
@@ -46,10 +48,10 @@ export default function UserDashboard() {
   const { unreadCount: chatUnread } = useSelector(s => s.chat)
 
   const stats = [
-    { icon: <FiCalendar />, label: 'Total Bookings', value: userDashboard?.stats?.totalBookings || 0, link: '/bookings', color: 'blue' },
-    { icon: <FiHeart />, label: 'Wishlist', value: user?.wishlist?.length || 0, link: '/wishlist', color: 'pink' },
-    { icon: <FiMessageCircle />, label: 'Messages', value: chatUnread || 0, link: '/chat', color: 'green' },
-    { icon: <FiBell />, label: 'Notifications', value: unreadCount || 0, link: '/notifications', color: 'orange' },
+    { icon: <FiCalendar />, label: t('userDashboard.totalBookings', 'Total Bookings'), value: userDashboard?.stats?.totalBookings || 0, link: '/bookings', color: 'blue' },
+    { icon: <FiHeart />, label: t('userDashboard.savedVendors', 'Saved Vendors'), value: user?.wishlist?.length || 0, link: '/wishlist', color: 'pink' },
+    { icon: <FiMessageCircle />, label: t('userDashboard.messages', 'Messages'), value: chatUnread || 0, link: '/chat', color: 'green' },
+    { icon: <FiBell />, label: t('userDashboard.notifications', 'Notifications'), value: unreadCount || 0, link: '/notifications', color: 'orange' },
   ]
 
   const colorMap = {
@@ -91,23 +93,23 @@ export default function UserDashboard() {
             <div className="text-center md:text-left flex-1">
               <div className="divider-luxe !justify-start mb-6 !gap-3">
                 <div className="divider-line !bg-[#D4AF37]/30 !w-8" />
-                <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-[0.4em] italic">मेरी शादी Dashboard</span>
+                <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-[0.4em] italic">{t('userDashboard.myDashboard', 'My Wedding Dashboard')}</span>
                 <div className="divider-line !bg-[#D4AF37]/30 !w-8" />
               </div>
               <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-black mb-4 tracking-tighter leading-none">
-                Namaste, <span className="text-[#D4AF37]">{user?.name?.split(' ')[0]}</span> 👋
+                {t('userDashboard.welcome', 'Namaste')}, <span className="text-[#D4AF37]">{user?.name?.split(' ')[0]}</span> 👋
               </h1>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-4 mt-2">
-                <p className="text-white/80 font-medium text-sm md:text-base">आपकी शादी की सारी planning, एक ही जगह ❤️</p>
+                <p className="text-white/80 font-medium text-sm md:text-base">{t('userDashboard.tagline', 'All your wedding planning, in one place ❤️')}</p>
               </div>
 
               {user?.weddingDate && (
                 <div className="mt-6 md:mt-8 inline-flex items-center gap-4 bg-white/5 backdrop-blur-md border border-white/10 px-6 md:px-8 py-3.5 md:py-4 rounded-2xl shadow-xl max-w-full">
                   <span className="text-xl md:text-2xl">💍</span>
                   <div className="text-left">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37]">Wedding Date</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37]">{t('userDashboard.weddingDate', 'Wedding Date')}</p>
                     <p className="text-white font-display font-black text-base md:text-lg tracking-tight">
-                      {formatDateShort(user?.weddingDate)} <span className="text-white/40 font-normal">in</span> {user?.weddingCity || 'your city'}
+                      {formatDateShort(user?.weddingDate)} <span className="text-white/40 font-normal">{t('userDashboard.inCity', 'in')}</span> {user?.weddingCity || t('userDashboard.yourCity', 'your city')}
                     </p>
                   </div>
                 </div>
@@ -120,10 +122,15 @@ export default function UserDashboard() {
         <div className="bg-white rounded-2xl md:rounded-[2rem] p-6 md:p-8 shadow-premium mb-8 md:mb-12 border border-pink-50 overflow-hidden relative">
           <div className="absolute inset-0 floral-pattern opacity-[0.03]" />
           <h3 className="font-display text-xl md:text-2xl font-black text-gray-900 mb-6 text-center md:text-left tracking-tight relative z-10">
-            Your Wedding Journey
+            {t('userDashboard.journeyTitle', 'Your Wedding Journey')}
           </h3>
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 relative z-10">
-            {['Planning Started', 'Vendors Selected', 'Bookings Confirmed', 'Wedding Day 🎉'].map((step, idx) => (
+            {[
+              t('userDashboard.step1', 'Planning Started'),
+              t('userDashboard.step2', 'Vendors Selected'),
+              t('userDashboard.step3', 'Bookings Confirmed'),
+              t('userDashboard.step4', 'Wedding Day 🎉')
+            ].map((step, idx) => (
               <div key={idx} className="flex flex-col items-center flex-1 relative w-full md:w-auto">
                 {idx < 3 && <div className="hidden md:block absolute top-6 left-1/2 w-full h-[2px] bg-gray-100"><div className="h-full bg-[#C2185B] w-[50%]" /></div>}
                 <div className="w-12 h-12 rounded-full bg-[#C2185B] text-white flex items-center justify-center font-black shadow-lg relative z-10 mb-3 border-4 border-white">
@@ -144,7 +151,7 @@ export default function UserDashboard() {
                 <span className="text-2xl">{s.icon}</span>
               </div>
               <p className="font-display text-5xl font-black text-gray-900 tracking-tighter mb-2">{s.value}</p>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37] italic">{s.label === 'Wishlist' ? 'Saved Vendors' : s.label}</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37] italic">{s.label}</p>
             </Link>
           ))}
         </div>
@@ -155,9 +162,9 @@ export default function UserDashboard() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFF8F0] rounded-bl-full opacity-40" />
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 md:mb-10 relative z-10">
-              <h2 className="font-display text-2xl md:text-3xl font-black text-gray-900 tracking-tight">मेरी Upcoming Bookings</h2>
+              <h2 className="font-display text-2xl md:text-3xl font-black text-gray-900 tracking-tight">{t('userDashboard.upcomingBookings', 'My Upcoming Bookings')}</h2>
               <Link to="/bookings" className="text-[10px] font-black text-[#C2185B] uppercase tracking-[0.3em] flex items-center gap-3 hover:gap-5 transition-all italic">
-                सभी Bookings देखें <FiArrowRight size={18} />
+                {t('userDashboard.viewAllBookings', 'View All Bookings')} <FiArrowRight size={18} />
               </Link>
             </div>
 
@@ -165,9 +172,9 @@ export default function UserDashboard() {
               {allRecentBookings.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-12 bg-[#FFF8F0]/30 rounded-[2rem] border border-dashed border-pink-100 min-h-[350px]">
                   <span className="text-6xl mb-6">📅</span>
-                  <h3 className="font-display text-2xl font-black text-gray-900 mb-2 tracking-tight">अभी तक कोई service book नहीं की है.</h3>
-                  <p className="text-gray-400 font-medium italic mb-8 max-w-xs">Browse our trusted vendors to start planning your perfect wedding.</p>
-                  <Link to="/services" className="bg-[#C2185B] text-white font-black text-[10px] uppercase tracking-[0.4em] py-5 px-12 rounded-2xl shadow-xl hover:scale-105 transition-all">Wedding Services खोजें →</Link>
+                  <h3 className="font-display text-2xl font-black text-gray-900 mb-2 tracking-tight">{t('userDashboard.noBookingsTitle', 'No services booked yet.')}</h3>
+                  <p className="text-gray-400 font-medium italic mb-8 max-w-xs">{t('userDashboard.noBookingsDesc', 'Browse our trusted vendors to start planning your perfect wedding.')}</p>
+                  <Link to="/services" className="bg-[#C2185B] text-white font-black text-[10px] uppercase tracking-[0.4em] py-5 px-12 rounded-2xl shadow-xl hover:scale-105 transition-all">{t('userDashboard.findServices', 'Explore Wedding Services →')}</Link>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -181,7 +188,7 @@ export default function UserDashboard() {
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[9px] font-black text-[#D4AF37] uppercase tracking-[0.3em] mb-2 italic">{b?.vehicles ? 'Baraat Cab' : (b?.vendor?.category?.name || 'Vendor')}</p>
+                          <p className="text-[9px] font-black text-[#D4AF37] uppercase tracking-[0.3em] mb-2 italic">{b?.vehicles ? t('nav.baraatRide', 'Baraat Ride') : (b?.vendor?.category?.name || 'Vendor')}</p>
                           <p className="font-display text-xl sm:text-2xl font-black text-gray-900 truncate group-hover:text-[#C2185B] transition-colors leading-none mb-3">{b?.vendor?.businessName || (b?.vehicles ? `${b?.vehicles?.length || 0} Vehicle(s)` : 'Wedding Service')}</p>
                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-3 italic">
                             <FiCalendar className="text-[#C2185B]" /> {formatDateShort(b?.eventDate)}
@@ -207,16 +214,16 @@ export default function UserDashboard() {
             {/* Quick Actions List */}
             <div className="bg-white rounded-2xl md:rounded-[2.5rem] shadow-premium border border-pink-50 p-6 md:p-10 relative overflow-hidden">
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-pink-50/20 rounded-tl-full" />
-              <h3 className="font-display text-2xl font-black text-gray-900 mb-6 md:mb-8 tracking-tight relative z-10">Quick Actions</h3>
+              <h3 className="font-display text-2xl font-black text-gray-900 mb-6 md:mb-8 tracking-tight relative z-10">{t('userDashboard.quickActions', 'Quick Actions')}</h3>
               <div className="space-y-4 relative z-10">
                 {[
-                  { to: '/services', icon: '🔍', label: 'Browse Vendors', color: '#C2185B' },
-                  { to: '/baraat-cabs', icon: '🚗', label: 'Imperial Fleet', color: '#8E244D' },
-                  { to: '/tools', icon: '🛠️', label: 'Wedding Tools', color: '#ec4899' },
-                  { to: '/astrology-reports', icon: '✨', label: 'My Astrology', color: '#6366f1' },
-                  { to: '/wishlist', icon: '❤️', label: 'मेरे पसंदीदा Vendors', color: '#D4AF37' },
-                  { to: '/profile', icon: '👤', label: 'My Profile', color: '#10b981' },
-                  { to: '/chat', icon: '💬', label: 'My Messages', color: '#10b981' },
+                  { to: '/services', icon: '🔍', label: t('userDashboard.browseVendors', 'Browse Vendors'), color: '#C2185B' },
+                  { to: '/baraat-cabs', icon: '🚗', label: t('nav.baraatRide', 'Baraat Ride'), color: '#8E244D' },
+                  { to: '/tools', icon: '🛠️', label: t('nav.weddingTools', 'Wedding Tools'), color: '#ec4899' },
+                  { to: '/astrology-reports', icon: '✨', label: t('userDashboard.myAstrology', 'My Astrology'), color: '#6366f1' },
+                  { to: '/wishlist', icon: '❤️', label: t('userDashboard.savedVendors', 'Saved Vendors'), color: '#D4AF37' },
+                  { to: '/profile', icon: '👤', label: t('userDashboard.myProfile', 'My Profile'), color: '#10b981' },
+                  { to: '/chat', icon: '💬', label: t('userDashboard.myMessages', 'My Messages'), color: '#10b981' },
                 ].map(({ to, icon, label, color }) => (
                   <Link key={to} to={to} className="flex items-center gap-6 p-5 rounded-[1.5rem] hover:bg-[#FFF8F0] border border-transparent hover:border-pink-50 transition-all duration-500 group">
                     <span className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-white shadow-sm group-hover:scale-110 group-hover:rotate-6 transition-all`}>
@@ -246,18 +253,18 @@ export default function UserDashboard() {
             <div className="flex-1 relative z-10 text-center md:text-left">
               <div className="inline-flex items-center gap-2 bg-[#FFF8F0] px-4 py-1.5 rounded-full mb-4 border border-[#D4AF37]/30 shadow-sm">
                 <span className="text-lg">💌</span>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C2185B]">Wedding Invitation Studio</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C2185B]">{t('userDashboard.invitationStudio', 'Wedding Invitation Studio')}</span>
               </div>
               <p className="text-gray-500 font-medium text-lg mb-6 max-w-lg mx-auto md:mx-0">
-                Create beautiful wedding invitations and share them instantly with your guests.
+                {t('userDashboard.invitationDesc', 'Create beautiful wedding invitations and share them instantly with your guests.')}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Link to="/invitation-creator/new" className="w-full sm:w-auto bg-gray-900 text-white font-bold text-sm py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
-                  ✨ Create Invitation
+                  {t('userDashboard.createInvitation', '✨ Create Invitation')}
                 </Link>
                 <Link to="/invitation-creator" className="w-full sm:w-auto bg-gray-100 text-gray-700 font-bold text-sm py-4 px-8 rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
-                  📂 My Invitations
+                  {t('userDashboard.myInvitations', '📂 My Invitations')}
                 </Link>
               </div>
             </div>
@@ -265,15 +272,15 @@ export default function UserDashboard() {
             <div className="w-full md:w-auto flex flex-col sm:flex-row md:flex-col flex-wrap gap-4 relative z-10 justify-center">
               <div className="bg-gray-50 rounded-xl p-4 text-center min-w-[120px] flex-1">
                 <p className="font-display text-3xl font-black text-gray-900">{userDashboard?.stats?.invitationsCreated || 0}</p>
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Total Invitations</p>
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t('userDashboard.totalInvitations', 'Total Invitations')}</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4 text-center min-w-[120px] flex-1">
                 <p className="font-display text-3xl font-black text-gray-900">{userDashboard?.stats?.invitationViews || 0}</p>
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Total Views</p>
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t('userDashboard.totalViews', 'Total Views')}</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4 text-center min-w-[120px] flex-1">
                 <p className="font-display text-3xl font-black text-emerald-600">{userDashboard?.stats?.rsvpReceived || 0}</p>
-                <p className="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest">RSVP Responses</p>
+                <p className="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest">{t('userDashboard.rsvpResponses', 'RSVP Responses')}</p>
               </div>
             </div>
           </motion.div>

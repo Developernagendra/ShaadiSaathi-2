@@ -6,20 +6,44 @@ export default function BrandLogo({
   asLink = true,
   onClick,
   isDark = false,
-  showTagline = true
+  showTagline = true,
+  taglineText = "शादी का सच्चा साथी"
 }) {
   const content = (
-    <div className={`flex items-center gap-2 md:gap-3 group max-w-full overflow-hidden ${className}`}>
-      <div className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-[1rem] md:rounded-2xl flex items-center justify-center text-xl md:text-2xl lg:text-3xl transition-all shadow-xl rotate-3 group-hover:rotate-0 ${isDark ? 'bg-white/10 backdrop-blur-md border border-white/20' : 'bg-gradient-to-br from-[#C2185B] to-[#8E244D] text-white shadow-[#C2185B]/20'}`}>
-        <span className="drop-shadow-md">💒</span>
-      </div>
-      <div className="flex flex-col min-w-0">
-        <span className={`font-display font-black text-xl md:text-2xl lg:text-3xl tracking-tighter transition-colors leading-none flex items-center gap-1 md:gap-2 truncate whitespace-nowrap ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          Shaadi<span className="text-[#D4AF37]">Saathi</span>
+    <div className={`flex items-center gap-2.5 sm:gap-3 group max-w-full select-none ${className}`}>
+      {/* Wedding Emblem */}
+      <div
+        className={`relative flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl md:text-2xl transition-all duration-300 shadow-md group-hover:scale-105 ${
+          isDark
+            ? 'bg-gradient-to-br from-sky-500/20 to-amber-400/20 border border-white/20 text-white backdrop-blur-md'
+            : 'bg-gradient-to-br from-sky-600 via-sky-700 to-[#0369a1] text-white shadow-sky-600/20 ring-2 ring-sky-100'
+        }`}
+      >
+        <span className="drop-shadow-sm select-none">💒</span>
+        {/* Subtle gold crown/sparkle micro badge */}
+        <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-400 border border-white flex items-center justify-center text-[7px] text-amber-950 font-black shadow-xs">
+          ✨
         </span>
+      </div>
+
+      {/* Brand Typography & Tagline */}
+      <div className="flex flex-col min-w-0 justify-center">
+        <div className="flex items-center gap-1 leading-none">
+          <span
+            className={`font-display font-black text-lg sm:text-xl md:text-2xl tracking-tight transition-colors ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}
+          >
+            Shaadi<span className="text-[#D4AF37] font-black">Saathi</span>
+          </span>
+        </div>
         {showTagline && (
-          <span className={`text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-widest mt-1 lg:mt-1.5 transition-opacity italic leading-tight ${isDark ? 'text-[#D4AF37]' : 'text-primary-600'}`} style={{ textWrap: 'balance' }}>
-            Shaadi Ki Saccha Saathi
+          <span
+            className={`text-[9px] sm:text-[10px] font-semibold tracking-wider transition-colors mt-0.5 leading-tight ${
+              isDark ? 'text-amber-300/90' : 'text-sky-700'
+            }`}
+          >
+            {taglineText}
           </span>
         )}
       </div>
@@ -28,14 +52,14 @@ export default function BrandLogo({
 
   if (asLink) {
     return (
-      <Link to="/" onClick={onClick}>
+      <Link to="/" onClick={onClick} aria-label="ShaadiSaathi Home" className="focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-lg">
         {content}
       </Link>
     );
   }
 
   return (
-    <div onClick={onClick}>
+    <div onClick={onClick} className="cursor-pointer">
       {content}
     </div>
   );

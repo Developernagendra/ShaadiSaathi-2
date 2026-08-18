@@ -385,7 +385,7 @@ export default function AboutUsPage() {
               {
                 icon: '🤖',
                 title: 'AI Wedding Planner',
-                desc: 'Smart budget allocation & step-by-step checklist generation tailored to Indian rituals.',
+                desc: 'Smart budget allocation & step-by-step planning tailored to Indian rituals.',
                 badge: 'Live in Codebase',
                 badgeColor: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
                 to: '/ai-planner'
@@ -420,7 +420,7 @@ export default function AboutUsPage() {
                 desc: 'Automated itinerary management across Haldi, Mehndi, Sangeet, and Ceremony.',
                 badge: 'Live in Codebase',
                 badgeColor: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
-                to: '/checklist'
+                to: '/wedding-timeline'
               },
               {
                 icon: '🚕',

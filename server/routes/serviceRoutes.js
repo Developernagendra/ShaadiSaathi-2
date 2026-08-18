@@ -193,26 +193,54 @@ router.post('/', protect, restrictTo('vendor', 'admin'), verified, restrictToApp
     targetVendorId = vendor._id;
   }
 
+  // ── Duplicate Check ──
+  const normalizedTitle = (req.body.title || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (normalizedTitle) {
+    const existingService = await Service.findOne({
+      vendor: targetVendorId,
+      category,
+      normalizedTitle
+    }).lean();
+    if (existingService) {
+      return res.status(409).json({
+        success: false,
+        status: 'fail',
+        code: 'SERVICE_ALREADY_EXISTS',
+        message: 'This service is already listed. You already have a service with this name in the selected category.'
+      });
+    }
+  }
+
   const cvIdx = coverImageIndex !== undefined ? Number(coverImageIndex) : 0;
   const coverImage = images.length > 0 ? (images[cvIdx]?.url || images[0].url) : req.body.coverImage;
 
-  const service = await Service.create({
-    ...req.body,
-    category,
-    vendor: targetVendorId,
-    images,
-    coverImage,
-    videos,
-    packages,
-    features,
-    status: 'pending'
-  });
+  let service;
+  try {
+    service = await Service.create({
+      ...req.body,
+      category,
+      vendor: targetVendorId,
+      images,
+      coverImage,
+      videos,
+      packages,
+      features,
+      status: 'pending'
+    });
+  } catch (createErr) {
+    // Handle race-condition duplicate key error gracefully
+    if (createErr.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        status: 'fail',
+        code: 'SERVICE_ALREADY_EXISTS',
+        message: 'This service is already listed. You already have a service with this name in the selected category.'
+      });
+    }
+    throw createErr;
+  }
 
-  console.log('SERVICE CREATED');
-  console.log('SERVICE SAVED');
-  console.log('CATEGORY SAVED:', service.category);
-  console.log('CATEGORY POPULATED:', service.category);
-  console.log('SERVICE CATEGORY:', service.category);
+  console.log('SERVICE CREATED:', service._id);
 
   // Link category to vendor profile if vendor has no category
   try {
@@ -220,7 +248,6 @@ router.post('/', protect, restrictTo('vendor', 'admin'), verified, restrictToApp
     if (vendorProfile && !vendorProfile.category) {
       vendorProfile.category = service.category;
       await vendorProfile.save({ validateBeforeSave: false });
-      console.log('LINKED VENDOR CATEGORY DURING ADD SERVICE:', service.category);
     }
   } catch (vendorErr) {
     console.error('Failed to link category to vendor profile:', vendorErr);
@@ -336,13 +363,44 @@ router.put('/:id', protect, restrictTo('vendor', 'admin'), verified, restrictToA
   Object.assign(service, updateData);
   service.status = 'pending'; // Requires re-moderation
 
+  // ── Duplicate Check on Update (title/category change) ──
+  const newTitle = updateData.title || service.title;
+  const newCategory = updateData.category || service.category;
+  const normalizedTitle = newTitle.trim().toLowerCase().replace(/\s+/g, ' ');
+  const duplicateOnUpdate = await Service.findOne({
+    vendor: service.vendor,
+    category: newCategory,
+    normalizedTitle,
+    _id: { $ne: service._id }
+  }).lean();
+  if (duplicateOnUpdate) {
+    return res.status(409).json({
+      success: false,
+      status: 'fail',
+      code: 'SERVICE_ALREADY_EXISTS',
+      message: 'This service is already listed. You already have a service with this name in the selected category.'
+    });
+  }
+
   // Sync cover image using coverImageIndex
   const cvIdx = req.body.coverImageIndex !== undefined ? Number(req.body.coverImageIndex) : 0;
   if (service.images?.length > 0) {
     service.coverImage = service.images[cvIdx]?.url || service.images[0].url;
   }
 
-  await service.save();
+  try {
+    await service.save();
+  } catch (saveErr) {
+    if (saveErr.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        status: 'fail',
+        code: 'SERVICE_ALREADY_EXISTS',
+        message: 'This service is already listed. You already have a service with this name in the selected category.'
+      });
+    }
+    throw saveErr;
+  }
 
   try {
     const { sendNotification } = require('../services/notificationService');

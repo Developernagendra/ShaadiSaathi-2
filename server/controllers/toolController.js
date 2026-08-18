@@ -1,6 +1,6 @@
 const ToolAnalytics = require('../models/ToolAnalytics');
 const Vendor = require('../models/Vendor');
-const { WeddingPlan, BudgetPlan, CostPrediction, BaraatBookingRequest } = require('../models/ToolModels');
+const { WeddingPlan, BudgetPlan, CostPrediction } = require('../models/ToolModels');
 const { Lead } = require('../models/FeatureModels');
 const catchAsync = require('../utils/catchAsync');
 
@@ -120,44 +120,6 @@ exports.predictCost = catchAsync(async (req, res) => {
   });
 });
 
-// Baraat Calculator Logic
-exports.baraatCalculator = catchAsync(async (req, res) => {
-  const { guestCount } = req.body;
-  
-  if (!guestCount) return res.status(400).json({ success: false, message: 'Guest count required' });
-
-  // Rough estimation:
-  // 1 Luxury Bus = 40 guests = ₹15,000
-  // 1 Sedan = 4 guests = ₹3,000
-  
-  const busesNeeded = Math.floor(guestCount / 40);
-  const remainingGuests = guestCount % 40;
-  const sedansNeeded = Math.ceil(remainingGuests / 4);
-
-  const estimatedCost = (busesNeeded * 15000) + (sedansNeeded * 3000);
-
-  await ToolAnalytics.create({
-    toolName: 'Baraat Calculator',
-    action: 'calculated_fleet',
-    user: req.user ? req.user._id : null,
-    metadata: { guestCount }
-  });
-
-  res.status(200).json({
-    success: true,
-    data: {
-      totalCapacity: (busesNeeded * 40) + (sedansNeeded * 4),
-      breakdown: {
-        buses: busesNeeded,
-        sedans: sedansNeeded,
-        suvs: 0
-      },
-      totalVehicles: busesNeeded + sedansNeeded,
-      estimatedCost
-    }
-  });
-});
-
 // Vendor Availability Checker
 exports.vendorAvailability = catchAsync(async (req, res) => {
   const { category, date, city } = req.query;
@@ -234,33 +196,6 @@ exports.saveCostPrediction = catchAsync(async (req, res) => {
 exports.getCostPredictions = catchAsync(async (req, res) => {
   const predictions = await CostPrediction.find({ user: req.user._id }).sort('-createdAt');
   res.status(200).json({ success: true, data: predictions });
-});
-
-// ==================== BARAAT BOOKING REQUEST ====================
-exports.createBaraatBooking = catchAsync(async (req, res) => {
-  const { guestCount, distance, breakdown, estimatedCost } = req.body;
-  const booking = await BaraatBookingRequest.create({
-    user: req.user._id,
-    guestCount, distance, breakdown, estimatedCost
-  });
-  
-  // Also create a Lead for backend tracking
-  await Lead.create({
-    user: req.user._id,
-    serviceType: new (require('mongoose').Types.ObjectId)(), // generic or specific category
-    budget: estimatedCost || 0,
-    city: 'N/A',
-    eventDate: new Date(),
-    description: `Baraat Fleet Booking Request: ${guestCount} guests. Need ${breakdown?.buses||0} buses, ${breakdown?.sedans||0} sedans.`,
-    status: 'open'
-  });
-
-  res.status(201).json({ success: true, data: booking });
-});
-
-exports.getBaraatBookings = catchAsync(async (req, res) => {
-  const bookings = await BaraatBookingRequest.find({ user: req.user._id }).sort('-createdAt');
-  res.status(200).json({ success: true, data: bookings });
 });
 
 // ==================== BUDGET PLAN CRUD ====================

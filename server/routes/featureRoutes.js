@@ -52,12 +52,6 @@ router.route('/guests/:id')
   .patch(featureController.updateGuest)
   .delete(featureController.deleteGuest);
 
-// Checklist
-router.get('/checklist', featureController.getChecklist);
-router.post('/checklist/task', featureController.addTaskToChecklist);
-router.patch('/checklist/task', featureController.updateChecklistTask);
-router.delete('/checklist/task/:taskId', featureController.deleteTaskFromChecklist);
-
 // Leads
 router.route('/leads')
   .get(featureController.getLeads)

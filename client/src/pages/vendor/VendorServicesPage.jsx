@@ -8,6 +8,7 @@ import Modal from '../../components/common/Modal'
 import EmptyState from '../../components/common/EmptyState'
 import { formatPrice } from '../../utils/helpers'
 import { FiPlus, FiEdit, FiTrash2, FiX, FiInfo, FiAlertTriangle, FiCamera, FiVideo, FiChevronLeft, FiChevronRight, FiRefreshCw, FiSearch, FiStar, FiMapPin, FiClock, FiLayers, FiEye, FiCheckCircle, FiActivity } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 
 // --- Helpers ---
 const optimizeImage = (url, width = 400) => {
@@ -92,9 +93,15 @@ const ServiceCard = memo(({ service, onEdit, onDelete, onView }) => {
               <FiMapPin className="text-[#D4AF37]" size={14} /> {service.city || 'Pan India'}
             </span>
             <span className="flex items-center gap-1">
-              <FiStar className="fill-[#D4AF37] text-[#D4AF37]" size={14} />
-              <span className="text-gray-900 font-bold">{service.rating?.average || '4.8'}</span>
-              <span className="text-[9px] text-gray-400">({service.rating?.count || 12})</span>
+              {(service.rating?.average > 0) ? (
+                <>
+                  <FiStar className="fill-[#D4AF37] text-[#D4AF37]" size={14} />
+                  <span className="text-gray-900 font-bold">{service.rating.average}</span>
+                  <span className="text-[9px] text-gray-400">({service.rating?.count || 0})</span>
+                </>
+              ) : (
+                <span className="text-[9px] text-gray-400 italic">No reviews yet</span>
+              )}
             </span>
           </div>
 
@@ -163,6 +170,7 @@ ServiceCard.displayName = 'ServiceCard';
 
 export default function VendorServicesPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { myVendorProfile: vendor, categories } = useSelector(s => s.vendor)
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
@@ -174,9 +182,15 @@ export default function VendorServicesPage() {
 
   // Search & Filter & Sort States
   const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all') // 'all', 'active', 'pending', 'rejected'
   const [sortBy, setSortBy] = useState('latest') // 'latest', 'price_asc', 'price_desc', 'bookings'
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchQuery), 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const [form, setForm] = useState({
     title: '',
@@ -267,10 +281,11 @@ export default function VendorServicesPage() {
   // Combined client side search, filter, and sort logic
   const filteredAndSortedServices = useMemo(() => {
     let result = services.filter(s => {
-      const matchesSearch = !searchQuery ? true : (
-        s.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.city?.toLowerCase().includes(searchQuery.toLowerCase())
+      const q = debouncedSearch.trim().toLowerCase();
+      const matchesSearch = !q || (
+        s.title?.toLowerCase().includes(q) ||
+        s.description?.toLowerCase().includes(q) ||
+        s.city?.toLowerCase().includes(q)
       );
 
       const matchesCategory = selectedCategory === 'all' ||
@@ -296,7 +311,7 @@ export default function VendorServicesPage() {
     }
 
     return result;
-  }, [services, searchQuery, selectedCategory, statusFilter, sortBy]);
+  }, [services, debouncedSearch, selectedCategory, statusFilter, sortBy]);
 
   const handleOpenModal = useCallback((service = null) => {
     if (service) {
@@ -486,7 +501,13 @@ export default function VendorServicesPage() {
       }
       setModal(false)
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Something went wrong. Please try again.')
+      const errCode = err.response?.data?.code;
+      const errMsg = err.response?.data?.message;
+      if (err.response?.status === 409 || errCode === 'SERVICE_ALREADY_EXISTS') {
+        toast.error(errMsg || t('services.duplicateError', 'This service is already listed.'));
+      } else {
+        toast.error(errMsg || 'Something went wrong. Please try again.');
+      }
     } finally {
       setSubmitting(false)
       setUploadProgress(0)

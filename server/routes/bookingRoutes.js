@@ -29,7 +29,7 @@ router.get('/vendor/cabs', restrictTo('vendor', 'admin'), restrictToApproved, ge
 router.get('/vendor', restrictTo('vendor', 'admin'), restrictToApproved, getVendorBookings);
 router.get('/admin-bookings', restrictTo('admin'), getAdminBookings);
 router.get('/admin', restrictTo('admin'), getAdminBookings);
-router.get('/:id', verified, getBookingById);
+router.get('/:id', getBookingById);
 router.patch('/:id/status', restrictTo('vendor', 'admin'), verified, restrictToApproved, updateBookingStatus);
 router.patch('/:id/cancel', verified, cancelBooking);
 router.delete('/:id', restrictTo('admin', 'vendor'), deleteBooking);

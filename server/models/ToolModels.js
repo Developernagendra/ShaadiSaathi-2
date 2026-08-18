@@ -77,23 +77,6 @@ const costPredictionSchema = new mongoose.Schema({
 costPredictionSchema.index({ user: 1 });
 const CostPrediction = mongoose.model('CostPrediction', costPredictionSchema);
 
-// ==================== BARAAT BOOKING REQUEST MODEL ====================
-const baraatBookingRequestSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  guestCount: { type: Number, required: true },
-  distance: { type: Number, default: 0 },
-  breakdown: {
-    buses: { type: Number, default: 0 },
-    sedans: { type: Number, default: 0 },
-    suvs: { type: Number, default: 0 },
-  },
-  estimatedCost: { type: Number },
-  status: { type: String, enum: ['pending', 'contacted', 'confirmed', 'cancelled'], default: 'pending' },
-}, { timestamps: true });
-
-baraatBookingRequestSchema.index({ user: 1 });
-const BaraatBookingRequest = mongoose.model('BaraatBookingRequest', baraatBookingRequestSchema);
-
 // ==================== SAVED KUNDLI REPORT ====================
 const savedKundliSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -128,7 +111,6 @@ module.exports = {
   WeddingBudget,
   BudgetPlan,
   CostPrediction,
-  BaraatBookingRequest,
   SavedKundli,
   SavedMuhurat
 };

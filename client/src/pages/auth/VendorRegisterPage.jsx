@@ -15,21 +15,7 @@ import { toast } from 'react-hot-toast';
 import { useNotificationSound } from '../../context/NotificationSoundContext';
 import BrandLogo from '../../components/common/BrandLogo';
 
-// ── VENDOR CATEGORIES LIST ──────────────────────────────────────────────
-const VENDOR_CATEGORIES = [
-  { id: 'Photography', label: 'Photography', hindi: 'फोटोग्राफी & वीडियो', icon: '📸', vendorType: 'service' },
-  { id: 'Baraat Ride', label: 'Baraat Ride', hindi: 'बारात कार & घोड़ी', icon: '🚗', vendorType: 'cab' },
-  { id: 'Venue', label: 'Venue', hindi: 'मैरिज हॉल & रिसॉर्ट', icon: '🏨', vendorType: 'service' },
-  { id: 'Catering', label: 'Catering', hindi: 'केटरिंग & पकवान', icon: '🍽️', vendorType: 'service' },
-  { id: 'Decoration', label: 'Tent & Decoration', hindi: 'टेंट & फूलों की सजावट', icon: '🎪', vendorType: 'service' },
-  { id: 'DJ & Music', label: 'DJ & Music', hindi: 'डीजे, साउंड & शहनाई', icon: '🎵', vendorType: 'service' },
-  { id: 'Makeup', label: 'Makeup Artist', hindi: 'ब्राइडल मेकअप', icon: '💄', vendorType: 'service' },
-  { id: 'Mehndi', label: 'Mehndi', hindi: 'मेहंदी आर्टिस्ट', icon: '🌿', vendorType: 'service' },
-  { id: 'Florist', label: 'Florist', hindi: 'जयमाला & फूल', icon: '🌸', vendorType: 'service' },
-  { id: 'Bridal Wear', label: 'Bridal & Groom Wear', hindi: 'लहंगा, शेरवानी & पगड़ी', icon: '👗', vendorType: 'service' },
-  { id: 'Horse & Baraat', label: 'Horse & Baraat', hindi: 'रथ, बैंड & आतिशबाज़ी', icon: '🐎', vendorType: 'service' },
-  { id: 'Wedding Planner', label: 'Wedding Expert', hindi: 'वेडिंग प्लानर & मैनेजर', icon: '🧑‍💼', vendorType: 'service' },
-];
+import { fetchCategories } from '../../store/slices/vendorSlice';
 
 // ── WHY JOIN SHAADISAATHI FEATURES ─────────────────────────────────────
 const BENEFITS_LIST = [
@@ -107,7 +93,14 @@ export default function VendorRegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector((s) => s.auth || {});
+  const { categories } = useSelector((s) => s.vendor || {});
   const { playSound } = useNotificationSound();
+
+  React.useEffect(() => {
+    if (!categories || categories.length === 0) {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, categories?.length]);
 
   // References for smooth scrolling
   const formSectionRef = useRef(null);
@@ -118,7 +111,7 @@ export default function VendorRegisterPage() {
   const [vendorType, setVendorType] = useState('service');
   const [form, setForm] = useState({
     businessName: '',
-    category: 'Photography',
+    category: '',
     description: '',
     name: '',
     phone: '',
@@ -168,11 +161,11 @@ export default function VendorRegisterPage() {
 
   // Select Category from UI Cards
   const handleCategorySelect = (categoryObj) => {
-    setForm((prev) => ({ ...prev, category: categoryObj.id }));
-    setVendorType(categoryObj.vendorType || 'service');
+    setForm((prev) => ({ ...prev, category: categoryObj._id }));
+    setVendorType(categoryObj.slug === 'cab-service' ? 'cab' : 'service');
     scrollToRegistration();
-    toast.success(`${categoryObj.label} selected! Complete registration below.`, {
-      icon: categoryObj.icon,
+    toast.success(`${categoryObj.name} selected! Complete registration below.`, {
+      icon: categoryObj.icon || '✨',
     });
   };
 
@@ -466,11 +459,11 @@ export default function VendorRegisterPage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {VENDOR_CATEGORIES.map((cat) => {
-              const isSelected = form.category === cat.id;
+            {(categories || []).map((cat) => {
+              const isSelected = form.category === cat._id;
               return (
                 <motion.div
-                  key={cat.id}
+                  key={cat._id}
                   whileHover={{ y: -4 }}
                   onClick={() => handleCategorySelect(cat)}
                   className={`p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer flex flex-col items-center text-center relative overflow-hidden group ${
@@ -479,14 +472,12 @@ export default function VendorRegisterPage() {
                       : 'bg-gray-50/70 hover:bg-white border-gray-200 hover:border-pink-300 hover:shadow-md'
                   }`}
                 >
-                  <div className="text-4xl sm:text-5xl mb-3 group-hover:scale-110 transition-transform">
-                    {cat.icon}
+                  <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                    {cat.icon || '✨'}
                   </div>
-                  <h3 className="font-display font-black text-gray-900 text-base sm:text-lg">
-                    {cat.label}
+                  <h3 className={`font-bold text-[13px] sm:text-[15px] mb-1 ${isSelected ? 'text-[#C2185B]' : 'text-gray-900'}`}>
+                    {cat.name}
                   </h3>
-                  <p className="text-xs text-gray-500 font-medium mt-1">{cat.hindi}</p>
-                  
                   {isSelected && (
                     <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#C2185B] text-white font-bold text-[10px] uppercase tracking-wider">
                       <FiCheck size={12} /> Selected
@@ -966,25 +957,26 @@ export default function VendorRegisterPage() {
                       <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
                         Business Category <span className="text-[#C2185B]">*</span>
                       </label>
-                      <select
-                        name="category"
-                        value={form.category}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setForm((prev) => ({ ...prev, category: val }));
-                          const catObj = VENDOR_CATEGORIES.find((c) => c.id === val);
-                          if (catObj) {
-                            setVendorType(catObj.vendorType || 'service');
-                          }
-                        }}
-                        className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 font-medium focus:outline-none focus:border-[#C2185B] transition-all"
-                      >
-                        {VENDOR_CATEGORIES.map((cat) => (
-                          <option key={cat.id} value={cat.id}>
-                            {cat.icon} {cat.label} ({cat.hindi})
-                          </option>
-                        ))}
-                      </select>
+                        <select
+                          name="category"
+                          value={form.category}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setForm((prev) => ({ ...prev, category: val }));
+                            const catObj = (categories || []).find((c) => c._id === val);
+                            if (catObj) {
+                              setVendorType(catObj.slug === 'cab-service' ? 'cab' : 'service');
+                            }
+                          }}
+                          className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 font-medium focus:outline-none focus:border-[#C2185B] transition-all"
+                        >
+                          <option value="">Select Category</option>
+                          {(categories || []).map((cat) => (
+                            <option key={cat._id} value={cat._id}>
+                              {cat.icon || '✨'} {cat.name}
+                            </option>
+                          ))}
+                        </select>
                     </div>
 
                     <div>
@@ -1347,7 +1339,7 @@ export default function VendorRegisterPage() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-gray-400 uppercase">Category</p>
-                        <p className="font-bold text-gray-900">{form.category} ({vendorType === 'cab' ? 'Baraat Cab' : 'Service Provider'})</p>
+                        <p className="font-bold text-gray-900">{(categories || []).find(c => c._id === form.category)?.name || form.category} ({vendorType === 'cab' ? 'Baraat Cab' : 'Service Provider'})</p>
                       </div>
                       <div>
                         <p className="text-xs font-bold text-gray-400 uppercase">Contact Person</p>

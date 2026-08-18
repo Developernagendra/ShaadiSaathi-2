@@ -79,7 +79,7 @@ export default function Sidebar({ closeSidebar, isCollapsed }) {
     { to: '/admin', label: 'Dashboard', icon: <FiHome /> },
     { to: '/admin/users', label: 'Manage Users', icon: <FiUsers /> },
     { to: '/admin/vendors', label: 'Manage Vendors', icon: <FiBriefcase /> },
-    { to: '/admin/vendor-approvals', label: 'Vendor Approvals', icon: <FiActivity /> },
+    { to: '/admin/pending-approval', label: 'Pending Approvals', icon: <FiCheckSquare /> },
     { to: '/admin/subscriptions', label: 'Subscriptions', icon: <FiDollarSign /> },
     { to: '/admin/service-moderation', label: 'Service Moderation', icon: <FiCheckSquare /> },
     { to: '/admin/real-weddings', label: 'Real Weddings', icon: <FiHeart /> },

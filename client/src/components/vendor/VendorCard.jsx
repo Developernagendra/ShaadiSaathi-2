@@ -53,6 +53,11 @@ export default function VendorCard({ vendor }) {
     return name.charAt(0).toUpperCase()
   }
 
+  const startingPrice = vendor.basePrice || vendor.price || (Array.isArray(vendor.packages) && vendor.packages[0]?.price) || null
+  const ratingAverage = vendor.dynamicRating?.average || vendor.rating?.average || 0
+  const ratingCount = vendor.dynamicRating?.count || vendor.rating?.count || 0
+  const bookingsCount = vendor.totalBookings || 0
+
   return (
     <div
       onClick={() => navigate(`/vendors/${vendor._id}`)}
@@ -121,7 +126,9 @@ export default function VendorCard({ vendor }) {
             </h3>
             <div className="bg-gray-50 px-2 py-1 rounded-lg flex items-center gap-1 shrink-0 border border-gray-100">
               <span className="text-yellow-500 text-xs">⭐</span>
-              <span className="text-gray-900 font-bold text-xs">{vendor.rating?.average || '4.9'}</span>
+              <span className="text-gray-900 font-bold text-xs">
+                {ratingAverage > 0 ? ratingAverage.toFixed(1) : 'New'}
+              </span>
             </div>
           </div>
 
@@ -140,11 +147,17 @@ export default function VendorCard({ vendor }) {
         {/* Social Proof Tags */}
         <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold text-gray-600 mb-5">
           <span className="bg-gray-50 px-2 py-1 rounded border border-gray-100">
-            {vendor.rating?.count > 0 ? `${vendor.rating.count} Reviews` : '120 Reviews'}
+            {ratingCount > 0 ? `${ratingCount} Reviews` : 'Verified Vendor'}
           </span>
-          <span className="bg-gray-50 px-2 py-1 rounded border border-gray-100 flex items-center gap-1">
-            <span className="text-red-500">❤️</span> 50+ Bookings
-          </span>
+          {bookingsCount > 0 ? (
+            <span className="bg-gray-50 px-2 py-1 rounded border border-gray-100 flex items-center gap-1">
+              <span className="text-red-500">❤️</span> {bookingsCount}+ Bookings
+            </span>
+          ) : (
+            <span className="bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100 flex items-center gap-1">
+              <span className="text-emerald-500">●</span> Available
+            </span>
+          )}
           {(vendor.badges?.includes('quickResponder') || vendor.subscription?.plan === 'premium') && (
             <span className="bg-blue-50/50 text-blue-700 px-2 py-1 rounded border border-blue-100/50 flex items-center gap-1">
               ⚡ Responds Quickly
@@ -155,9 +168,11 @@ export default function VendorCard({ vendor }) {
         {/* Footer: Price & CTAs */}
         <div className="mt-auto pt-4 border-t border-gray-100">
           <div className="mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">Starting from</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">
+              {startingPrice ? 'Starting from' : 'Pricing'}
+            </p>
             <p className="font-serif text-xl font-black text-gray-900 leading-none">
-              {formatPrice(vendor.basePrice || vendor.packages?.[0]?.price || 25000)}
+              {formatPrice(startingPrice)}
             </p>
           </div>
 
@@ -176,7 +191,7 @@ export default function VendorCard({ vendor }) {
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                navigate(`/vendors/${vendor._id}`)
+                navigate(`/vendors/${vendor._id}?action=book`)
               }}
               className="flex-1 bg-gradient-to-r from-[#C2185B] to-[#9c1349] hover:from-[#9c1349] hover:to-[#C2185B] text-white py-3 rounded-xl text-[11px] font-bold uppercase tracking-wider shadow-md transition-all active:scale-95 border-none"
             >

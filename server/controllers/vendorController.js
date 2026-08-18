@@ -45,6 +45,41 @@ const INDIAN_CITIES = [
   'Siwan', 'Kishanganj', 'Jamalpur', 'Buxar', 'Jehanabad', 'Aurangabad'
 ];
 
+// In-memory cache for high-frequency static/config queries (5-min TTL)
+let cachedSystemConfig = null;
+let cachedSystemConfigExpiry = 0;
+const getSystemConfigCached = async () => {
+  const now = Date.now();
+  if (cachedSystemConfig && now < cachedSystemConfigExpiry) {
+    return cachedSystemConfig;
+  }
+  try {
+    const SystemConfig = mongoose.model('SystemConfig');
+    cachedSystemConfig = await SystemConfig.findOne().lean();
+    cachedSystemConfigExpiry = now + 5 * 60 * 1000;
+  } catch (e) {
+    cachedSystemConfig = null;
+  }
+  return cachedSystemConfig;
+};
+
+let cachedCategories = null;
+let cachedCategoriesExpiry = 0;
+const getCategoriesCached = async () => {
+  const now = Date.now();
+  if (cachedCategories && now < cachedCategoriesExpiry) {
+    return cachedCategories;
+  }
+  try {
+    const { Category } = require('../models/index');
+    cachedCategories = await Category.find({}).select('name slug').lean();
+    cachedCategoriesExpiry = now + 10 * 60 * 1000; // 10 min TTL
+  } catch (e) {
+    cachedCategories = [];
+  }
+  return cachedCategories || [];
+};
+
 // @desc    Create vendor profile
 // @route   POST /api/vendors
 // @access  Private (vendor role)
@@ -220,6 +255,20 @@ const updateVendorProfile = catchAsync(async (req, res, next) => {
     delete req.body.pincode;
   }
 
+  // Handle category if sent as slug
+  if (req.body.category) {
+    const mongoose = require('mongoose');
+    if (!mongoose.Types.ObjectId.isValid(req.body.category)) {
+      const Category = require('../models/Category');
+      const catObj = await Category.findOne({ slug: req.body.category.toLowerCase() });
+      if (catObj) {
+        req.body.category = catObj._id;
+      } else {
+        return next(new AppError('Invalid category selected.', 400));
+      }
+    }
+  }
+
   // Handle social links if sent flat
   if (req.body.instagram !== undefined || req.body.facebook !== undefined || req.body.website !== undefined || req.body.youtube !== undefined) {
     if (!vendor.socialLinks) vendor.socialLinks = {};
@@ -272,6 +321,18 @@ const updateVendorProfile = catchAsync(async (req, res, next) => {
 
     // Remove from req.body so Object.assign below doesn't overwrite it
     delete req.body.packages;
+  }
+
+  // Handle price and basePrice explicitly
+  if (req.body.basePrice !== undefined || req.body.price !== undefined) {
+    const rawPrice = req.body.basePrice !== undefined ? req.body.basePrice : req.body.price;
+    const numPrice = Number(rawPrice);
+    if (!isNaN(numPrice) && numPrice >= 0) {
+      vendor.basePrice = numPrice;
+      vendor.price = numPrice;
+      delete req.body.basePrice;
+      delete req.body.price;
+    }
   }
 
   Object.assign(vendor, req.body);
@@ -463,8 +524,7 @@ const getAllVendors = catchAsync(async (req, res, next) => {
 
   if (search) {
     const searchTerms = search.trim().split(/\s+/).filter(Boolean);
-    const { Category } = require('../models/index');
-    const allCategories = await Category.find({}).select('name slug');
+    const allCategories = await getCategoriesCached();
 
     for (const term of searchTerms) {
       const termLower = term.toLowerCase();
@@ -488,7 +548,7 @@ const getAllVendors = catchAsync(async (req, res, next) => {
         const slugLower = cat.slug.toLowerCase();
         if (catLower.includes(termLower) || slugLower.includes(termLower)) return true;
         if (cat.name.length > 4 && (
-          Levenshtein.get(catLower, termLower) <= 2 || 
+          Levenshtein.get(catLower, termLower) <= 2 ||
           Levenshtein.get(slugLower, termLower) <= 2
         )) return true;
         return false;
@@ -689,8 +749,7 @@ const getAllVendors = catchAsync(async (req, res, next) => {
   ]);
 
   // Redact addresses on lists when contact protection is enabled
-  const SystemConfig = mongoose.model('SystemConfig');
-  const config = await SystemConfig.findOne();
+  const config = await getSystemConfigCached();
   const showContactAfterBookingOnly = config ? config.showContactAfterBookingOnly : true;
 
   if (showContactAfterBookingOnly) {

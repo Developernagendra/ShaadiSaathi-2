@@ -352,7 +352,7 @@ export default function AdminServicesApprovalPage() {
                       <td data-label="Vendor Business" className="py-6 px-8">
                         <div className="flex flex-col">
                           <span className="font-bold text-gray-900 leading-snug">{s.vendor?.businessName || 'Independent Vendor'}</span>
-                          <span className="text-[9px] text-gray-400 font-semibold uppercase flex items-center gap-1"><FiMapPin size={9} /> {s.city || 'Delhi'}</span>
+                          <span className="text-[9px] text-gray-400 font-semibold uppercase flex items-center gap-1"><FiMapPin size={9} /> {s.city || s.vendor?.location?.city || 'Not Specified'}</span>
                         </div>
                       </td>
                       <td data-label="Category" className="py-6 px-8">
@@ -542,7 +542,7 @@ export default function AdminServicesApprovalPage() {
                            {[
                              { label: 'Listing Title', val: selectedService.title },
                              { label: 'Service Category', val: selectedService.category?.name || 'Uncategorized' },
-                             { label: 'Registered City', val: selectedService.city || 'Delhi' },
+                             { label: 'Registered City', val: selectedService.city || selectedService.vendor?.location?.city || 'Not Specified' },
                              { label: 'Starting Price', val: formatPrice(selectedService.startingPrice || selectedService.price || 0) },
                              { label: 'Vendor Partner', val: selectedService.vendor?.businessName || 'Independent Vendor' },
                              { label: 'Vendor Contact Phone', val: selectedService.vendor?.phone || 'N/A' },

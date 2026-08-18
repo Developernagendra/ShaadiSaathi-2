@@ -69,19 +69,6 @@ export const exportGuests = createAsyncThunk(
   }
 );
 
-export const fetchChecklist = createAsyncThunk(
-  'feature/fetchChecklist',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await api.get('/features/checklist');
-      return response.data.data.checklist;
-    } catch (error) {
-      const msg = error?.message || error?.response?.data?.message || (typeof error === 'string' ? error : 'Failed to fetch checklist');
-      return rejectWithValue(msg);
-    }
-  }
-);
-
 export const fetchLeads = createAsyncThunk(
   'feature/fetchLeads',
   async (_, { rejectWithValue }) => {
@@ -175,26 +162,12 @@ export const submitQuotation = createAsyncThunk(
   }
 );
 
-export const updateChecklistTask = createAsyncThunk(
-  'feature/updateChecklistTask',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await api.patch('/features/checklist/task', data);
-      return response.data.data.checklist;
-    } catch (error) {
-      const msg = error?.message || error?.response?.data?.message || (typeof error === 'string' ? error : 'Failed to update checklist task');
-      return rejectWithValue(msg);
-    }
-  }
-);
-
 const featureSlice = createSlice({
   name: 'feature',
   initialState: {
     aiRecommendations: null,
     guests: [],
     leads: [],
-    checklist: null,
     blogs: [],
     testimonials: [],
     stats: null,
@@ -220,17 +193,11 @@ const featureSlice = createSlice({
       .addCase(fetchGuests.fulfilled, (state, action) => {
         state.guests = action.payload;
       })
-      .addCase(fetchChecklist.fulfilled, (state, action) => {
-        state.checklist = action.payload;
-      })
       .addCase(fetchLeads.fulfilled, (state, action) => {
         state.leads = action.payload;
       })
       .addCase(fetchNearbyLeads.fulfilled, (state, action) => {
         state.leads = action.payload;
-      })
-      .addCase(updateChecklistTask.fulfilled, (state, action) => {
-        state.checklist = action.payload;
       })
       .addCase(createLead.fulfilled, (state, action) => {
         state.leads.unshift(action.payload);

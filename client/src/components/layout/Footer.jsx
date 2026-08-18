@@ -169,14 +169,17 @@ export default function Footer() {
   const quickLinks = [
     { to: '/', label: 'Home' },
     { to: '/services', label: 'Vendors' },
-    { to: '/packages', label: 'Packages' },
+    { to: '/real-weddings', label: 'Inspiration & Real Weddings' },
+    { to: '/gallery', label: 'Photo Gallery' },
+    { to: '/blog', label: 'Wedding Blog' },
     { to: '/baraat-cabs', label: 'Baraat Ride' },
+    { to: '/packages', label: 'Packages' },
     { to: '/about-us', label: 'About Us' }
   ]
 
   const weddingTools = [
     { to: '/ai-planner', label: 'AI Wedding Planner' },
-    { to: '/checklist', label: 'Wedding Checklist' },
+    { to: '/shubh-muhurat', label: 'Shubh Muhurat' },
     { to: '/budget-calculator', label: 'Budget Planner' },
     { to: '/expert-consultation', label: 'Expert Consultation' }
   ]

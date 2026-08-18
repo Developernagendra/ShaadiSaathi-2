@@ -178,6 +178,19 @@ export default defineConfig({
             return 'vendor-icons'
           }
 
+          // PDF and canvas generators — heavy, isolated
+          if (id.includes('node_modules/jspdf') ||
+              id.includes('node_modules/html2canvas')) {
+            return 'vendor-pdf'
+          }
+
+          // Charting libraries
+          if (id.includes('node_modules/recharts') ||
+              id.includes('node_modules/d3-') ||
+              id.includes('node_modules/victory')) {
+            return 'vendor-charts'
+          }
+
           // i18n
           if (id.includes('node_modules/i18next') ||
               id.includes('node_modules/react-i18next')) {

@@ -103,12 +103,10 @@ const BudgetCalculatorPage = lazy(() => import('./pages/BudgetCalculatorPage'))
 const ToolsHubPage = lazy(() => import('./pages/tools/ToolsHubPage'))
 const VendorAvailabilityCheckerPage = lazy(() => import('./pages/tools/VendorAvailabilityCheckerPage'))
 const VendorComparePage = lazy(() => import('./pages/tools/VendorComparePage'))
-const BaraatCalculatorPage = lazy(() => import('./pages/tools/BaraatCalculatorPage'))
 const CostPredictorPage = lazy(() => import('./pages/tools/CostPredictorPage'))
 const KundliMatchingPage = lazy(() => import('./pages/tools/KundliMatchingPage'))
 const MuhuratFinderPage = lazy(() => import('./pages/tools/MuhuratFinderPage'))
 const GuestManagementPage = lazy(() => import('./pages/GuestManagementPage'))
-const ChecklistPage = lazy(() => import('./pages/ChecklistPage'))
 const MyInvitationsPage = lazy(() => import('./pages/invitation/MyInvitationsPage'))
 const SimpleInvitationBuilder = lazy(() => import('./pages/invitation/SimpleInvitationBuilder'))
 const PublicInvitationPage = lazy(() => import('./pages/invitation/PublicInvitationPage'))
@@ -117,7 +115,6 @@ const VendorSubscriptionPage = lazy(() => import('./pages/VendorSubscriptionPage
 const PackagesPage = lazy(() => import('./pages/PackagesPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const WeddingTimelinePage = lazy(() => import('./pages/tools/WeddingTimelinePage'))
-const VenuePlanningPage = lazy(() => import('./pages/tools/VenuePlanningPage'))
 const ExpertConsultationPage = lazy(() => import('./pages/tools/ExpertConsultationPage'))
 
 // Wedding Planner Pages
@@ -141,7 +138,7 @@ const VendorNotificationsPage = lazy(() => import('./pages/vendor/VendorNotifica
 const VendorSettingsPage = lazy(() => import('./pages/vendor/VendorSettingsPage'))
 
 // Admin Sub-Pages
-// Deleted duplicate AdminApprovalsPage
+const AdminPendingApprovalPage = lazy(() => import('./pages/admin/AdminPendingApprovalPage'))
 const AdminBlogsPage = lazy(() => import('./pages/admin/AdminBlogsPage'))
 const AdminLeadsPage = lazy(() => import('./pages/admin/AdminLeadsPage'))
 const AdminManageCabsPage = lazy(() => import('./pages/admin/AdminManageCabsPage'))
@@ -251,14 +248,11 @@ export default function App() {
                 <Route path="/budget-calculator" element={<BudgetCalculatorPage />} />
                 <Route path="/wedding-budget" element={<BudgetCalculatorPage />} />
                 <Route path="/guest-manager" element={<GuestManagementPage />} />
-                <Route path="/checklist" element={<ChecklistPage />} />
-                <Route path="/wedding-checklist" element={<ChecklistPage />} />
                 <Route path="/vendor-availability" element={<VendorAvailabilityCheckerPage />} />
                 <Route path="/package-builder" element={<CustomPackageBuilderPage />} />
                 <Route path="/invitation-generator" element={<SimpleInvitationBuilder />} />
                 <Route path="/invitation-builder" element={<SimpleInvitationBuilder />} />
                 <Route path="/vendor-compare" element={<VendorComparePage />} />
-                <Route path="/baraat-calculator" element={<BaraatCalculatorPage />} />
                 <Route path="/cost-predictor" element={<CostPredictorPage />} />
                 <Route path="/kundli-matching" element={<KundliMatchingPage />} />
                 <Route path="/muhurat-finder" element={<MuhuratFinderPage />} />
@@ -266,26 +260,20 @@ export default function App() {
                 <Route path="/wedding-packages" element={<PackagesPage />} />
                 <Route path="/wedding-timeline" element={<WeddingTimelinePage />} />
                 <Route path="/timeline" element={<WeddingTimelinePage />} />
-                <Route path="/venue-planning" element={<VenuePlanningPage />} />
-                <Route path="/venue-planner" element={<VenuePlanningPage />} />
-                <Route path="/venue" element={<VenuePlanningPage />} />
                 <Route path="/expert-consultation" element={<ExpertConsultationPage />} />
                 <Route path="/tools" element={<ToolsHubPage />} />
                 <Route path="/tools/ai-planner" element={<AIPlannerPage />} />
                 <Route path="/tools/budget-planner" element={<BudgetCalculatorPage />} />
                 <Route path="/tools/guest-manager" element={<GuestManagementPage />} />
-                <Route path="/tools/checklist" element={<ChecklistPage />} />
                 <Route path="/tools/vendor-availability" element={<VendorAvailabilityCheckerPage />} />
                 <Route path="/tools/package-builder" element={<CustomPackageBuilderPage />} />
                 <Route path="/tools/invitation-generator" element={<SimpleInvitationBuilder />} />
                 <Route path="/tools/vendor-compare" element={<VendorComparePage />} />
-                <Route path="/tools/baraat-calculator" element={<BaraatCalculatorPage />} />
                 <Route path="/tools/cost-predictor" element={<CostPredictorPage />} />
                 <Route path="/tools/kundli-matching" element={<KundliMatchingPage />} />
                 <Route path="/tools/muhurat-finder" element={<MuhuratFinderPage />} />
                 <Route path="/tools/shubh-muhurat" element={<MuhuratFinderPage />} />
                 <Route path="/tools/wedding-budget" element={<BudgetCalculatorPage />} />
-                <Route path="/tools/wedding-checklist" element={<ChecklistPage />} />
                 <Route path="/tools/wedding-packages" element={<PackagesPage />} />
                 <Route path="/tools/baraat-ride" element={
                   <Suspense fallback={<BaraatCabsSkeleton />}>
@@ -297,9 +285,6 @@ export default function App() {
                 <Route path="/tools/planning" element={<BihariPlannerPage />} />
                 <Route path="/tools/wedding-timeline" element={<WeddingTimelinePage />} />
                 <Route path="/tools/timeline" element={<WeddingTimelinePage />} />
-                <Route path="/tools/venue-planning" element={<VenuePlanningPage />} />
-                <Route path="/tools/venue-planner" element={<VenuePlanningPage />} />
-                <Route path="/tools/venue" element={<VenuePlanningPage />} />
                 <Route path="/tools/expert-consultation" element={<ExpertConsultationPage />} />
                 {/* Baraat Cabs Routes — use skeleton fallback, NOT global LoadingScreen */}
                 <Route path="/baraat-cabs" element={
@@ -388,11 +373,8 @@ export default function App() {
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/bookings" element={<BookingsPage />} />
                   <Route path="/dashboard/my-bookings" element={<BookingsPage />} />
-                  <Route path="/bookings/:id" element={<BookingDetailPage />} />
-                  <Route path="/cab-booking/:id" element={<CabBookingDetailPage />} />
                   <Route path="/wishlist" element={<WishlistPage />} />
                   <Route path="/guests" element={<GuestManagementPage />} />
-                  <Route path="/checklist" element={<ChecklistPage />} />
                   <Route path="/invitation-creator" element={<MyInvitationsPage />} />
                   <Route path="/invitation-creator/new" element={<SimpleInvitationBuilder />} />
                   <Route path="/invitation-creator/edit/:id" element={<SimpleInvitationBuilder />} />
@@ -402,6 +384,12 @@ export default function App() {
                   <Route path="/leads" element={<LeadMarketplacePage />} />
                   <Route path="/astrology-reports" element={<MyAstrologyReportsPage />} />
                   <Route path="/user/wedding-dashboard" element={<PlannerDashboard />} />
+                </Route>
+
+                {/* Booking Detail Routes — accessible by user, vendor AND admin (auth handled by backend controller) */}
+                <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+                  <Route path="/bookings/:id" element={<BookingDetailPage />} />
+                  <Route path="/cab-booking/:id" element={<CabBookingDetailPage />} />
                 </Route>
 
                 <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
@@ -443,9 +431,13 @@ export default function App() {
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/admin/users" element={<AdminUsersPage />} />
                   <Route path="/admin/vendors" element={<AdminVendorsPage />} />
-                  <Route path="/admin/vendor-approvals" element={<AdminVendorsPage defaultTab="pending" title="Review Approvals" />} />
+                  <Route path="/admin/vendor-approvals" element={<AdminPendingApprovalPage />} />
+                  <Route path="/admin/pending-approval" element={<AdminPendingApprovalPage />} />
+                  <Route path="/admin/pending-approvals" element={<AdminPendingApprovalPage />} />
+                  <Route path="/admin/services/pending" element={<AdminPendingApprovalPage />} />
                   <Route path="/admin/subscriptions" element={<AdminSubscriptionsPage />} />
                   <Route path="/admin/service-moderation" element={<AdminServicesApprovalPage />} />
+                  <Route path="/admin/services-approval" element={<AdminServicesApprovalPage />} />
                   <Route path="/admin/services/pending/:id" element={<ServiceApprovalDetails />} />
                   <Route path="/admin/categories" element={<AdminCategoriesPage />} />
                   <Route path="/admin/bookings" element={<AdminBookingsPage />} />

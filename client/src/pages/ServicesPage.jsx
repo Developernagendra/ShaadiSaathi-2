@@ -159,6 +159,11 @@ export default function ServicesPage() {
     return (vendors || []).filter(v => v.isFeatured || v.rating?.average >= 4.5).slice(0, 6)
   }, [vendors])
 
+  const activeCategory = useMemo(() => {
+    if (!categories || !localFilters.categorySlug) return null;
+    return categories.find(c => c.slug === localFilters.categorySlug);
+  }, [categories, localFilters.categorySlug]);
+
   return (
     <div className="min-h-screen bg-[#FFFBF9] font-sans pb-20">
 
@@ -168,15 +173,35 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#FFF0F5] via-[#FFF8F0] to-[#FDFDFD] z-0" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <p className="text-[10px] md:text-xs font-black text-[#C2185B] uppercase tracking-[0.2em] mb-4 inline-block bg-white/50 px-4 py-1.5 rounded-full border border-pink-100">
-            ✨ अपनी शादी के लिए बेस्ट VENDOR खोजें
-          </p>
-          <h1 className="font-serif text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight leading-tight">
-            अपनी शादी के लिए चुनें सबसे बेहतरीन Vendors
-          </h1>
-          <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto mb-10">
-            भरोसेमंद वेडिंग प्रोफेशनल्स को खोजें, उनकी Services और पोर्टफोलियो देखें और अपनी शादी के लिए सही Vendor बुक करें।
-          </p>
+          {activeCategory ? (
+             <div className="mb-6 md:mb-10 flex flex-col items-center">
+                <motion.div 
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="w-20 h-20 bg-white rounded-full shadow-[0_10px_40px_rgba(194,24,91,0.15)] flex items-center justify-center text-4xl mb-4 border border-pink-100"
+                >
+                  {activeCategory.icon || '✨'}
+                </motion.div>
+                <h1 className="font-serif text-3xl md:text-5xl font-bold text-[#9c1349] mb-3 tracking-tight">
+                  {activeCategory.name} Vendors
+                </h1>
+                <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto">
+                  Find and book the most trusted {activeCategory.name} professionals for your dream wedding. Browse portfolios, compare prices, and connect directly.
+                </p>
+             </div>
+          ) : (
+            <>
+              <p className="text-[10px] md:text-xs font-black text-[#C2185B] uppercase tracking-[0.2em] mb-4 inline-block bg-white/50 px-4 py-1.5 rounded-full border border-pink-100">
+                ✨ अपनी शादी के लिए बेस्ट VENDOR खोजें
+              </p>
+              <h1 className="font-serif text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight leading-tight">
+                अपनी शादी के लिए चुनें सबसे बेहतरीन Vendors
+              </h1>
+              <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto mb-10">
+                भरोसेमंद वेडिंग प्रोफेशनल्स को खोजें, उनकी Services और पोर्टफोलियो देखें और अपनी शादी के लिए सही Vendor बुक करें।
+              </p>
+            </>
+          )}
 
           {/* Search Bar */}
           <form onSubmit={handleSearchSubmit} className="bg-white rounded-[2rem] p-2 shadow-[0_10px_40px_rgba(194,24,91,0.08)] flex flex-col md:flex-row items-center border border-pink-100/50 max-w-4xl mx-auto">

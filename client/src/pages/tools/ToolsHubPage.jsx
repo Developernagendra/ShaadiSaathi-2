@@ -54,18 +54,6 @@ export default function ToolsHubPage() {
       featured: true
     },
     {
-      id: 'venue-planner',
-      title: t('tools_hub.tool_venue_title', 'Venue Planning'),
-      description: t('tools_hub.tool_venue_desc', 'Discover and organize your wedding venue requirements.'),
-      category: 'Wedding',
-      icon: <LuMapPin />,
-      path: '/tools/venue-planning',
-      color: 'from-rose-500 to-pink-500',
-      bg: 'bg-rose-50',
-      text: 'text-rose-600',
-      featured: true
-    },
-    {
       id: 'shubh-muhurat',
       title: t('tools_hub.tool_muhurat_title', 'Shubh Muhurat'),
       description: t('tools_hub.tool_muhurat_desc', 'Find auspicious wedding dates and timings.'),
@@ -99,18 +87,6 @@ export default function ToolsHubPage() {
       color: 'from-emerald-500 to-teal-600',
       bg: 'bg-emerald-50',
       text: 'text-emerald-600',
-      featured: true
-    },
-    {
-      id: 'checklist',
-      title: t('tools_hub.tool_checklist_title', 'Wedding Checklist'),
-      description: t('tools_hub.tool_checklist_desc', 'Never miss an important wedding task.'),
-      category: 'Planning',
-      icon: <FiCheckSquare />,
-      path: '/tools/wedding-checklist',
-      color: 'from-blue-500 to-cyan-600',
-      bg: 'bg-blue-50',
-      text: 'text-blue-600',
       featured: true
     },
     {
@@ -210,18 +186,6 @@ export default function ToolsHubPage() {
       featured: true
     },
     {
-      id: 'baraat-calculator',
-      title: 'Baraat Distance & Timing',
-      description: 'Calculate travel distance, timing, and costs for your royal Baraat procession.',
-      category: 'Other',
-      icon: <LuCar />,
-      path: '/tools/baraat-calculator',
-      color: 'from-red-500 to-orange-600',
-      bg: 'bg-red-50',
-      text: 'text-red-600',
-      featured: true
-    },
-    {
       id: 'invitation',
       title: t('tools_hub.tool_invite_title', 'Invitation Generator'),
       description: t('tools_hub.tool_invite_desc', 'Create beautiful digital wedding invitations.'),
@@ -249,8 +213,8 @@ export default function ToolsHubPage() {
     },
     {
       id: 'cost-predictor',
-      title: t('tools_hub.tool_calc_budget_title', 'Budget Calculator'),
-      description: t('tools_hub.tool_calc_budget_desc', 'Calculate your estimated wedding expenses.'),
+      title: t('tools_hub.tool_cost_title', 'Cost Predictor'),
+      description: t('tools_hub.tool_cost_desc', 'Predict your wedding costs based on city and requirements.'),
       category: 'Budget',
       icon: <LuTrendingUp />,
       path: '/tools/cost-predictor',
@@ -263,7 +227,7 @@ export default function ToolsHubPage() {
 
   const biharTools = [
     { icon: '🪷', title: t('tools_hub.bihar_mithila', 'Mithila Wedding Planner'), path: '/tools/mithila-planner' },
-    { icon: '🐎', title: t('tools_hub.bihar_baraat', 'Baraat Planner'), path: '/tools/baraat-calculator' },
+    { icon: '🐎', title: t('tools_hub.bihar_baraat', 'Baraat Ride'), path: '/baraat-cabs' },
     { icon: '🥁', title: t('tools_hub.bihar_dj', 'DJ & Band Planner'), path: '/vendors?category=dj' },
     { icon: '🍛', title: t('tools_hub.bihar_catering', 'Bihari Catering Planner'), path: '/vendors?category=catering' },
     { icon: '🏛️', title: t('tools_hub.bihar_vivah', 'Vivah Bhawan Finder'), path: '/vendors?category=venues' },

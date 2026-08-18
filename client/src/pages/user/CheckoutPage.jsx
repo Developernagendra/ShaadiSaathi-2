@@ -73,6 +73,42 @@ const pkg = vendor?.packages?.[selectedPkg]
     if (isSubmitting) return
     setIsSubmitting(true)
 
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+
+    // ── DEV MODE: If no Razorpay key, skip payment and create booking directly ──
+    if (!razorpayKey || razorpayKey === 'dummy_key' || razorpayKey === '') {
+      console.warn('[DEV MODE] No Razorpay key configured. Creating booking without payment.')
+      try {
+        const payload = {
+          vendorId: vendor?._id || service?.vendor?._id || service?.vendor || targetId,
+          packageSelected: pkg ? { name: pkg.name, price: pkg.price, features: pkg.features } : null,
+          amount,
+          paymentId: `dev_skip_${Date.now()}`,
+          bookingType: 'service',
+          serviceName: service ? service.title : (vendor?.businessName || 'Wedding Service'),
+          serviceCategory: service?.category?.name || vendor?.category?.name || 'Wedding Service',
+          ...values,
+          contactName: user?.name || values.contactName,
+          contactPhone: user?.phone || values.contactPhone,
+          contactEmail: user?.email || values.contactEmail,
+        }
+        if (service) payload.serviceId = service._id
+        const result = await dispatch(createBooking(payload))
+        if (!result.error) {
+          setOrderConfirmed(true)
+          toast.success('Booking Submitted! (Dev Mode — Payment skipped)')
+          setTimeout(() => navigate('/dashboard/my-bookings'), 3000)
+        } else {
+          toast.error(result.error?.message || 'Booking failed')
+        }
+      } catch (err) {
+        toast.error(err?.message || 'Booking failed')
+      } finally {
+        setIsSubmitting(false)
+      }
+      return
+    }
+
     const res = await loadRazorpayScript()
     if (!res) {
       toast.error('Razorpay SDK failed to load. Are you online?')
@@ -88,12 +124,19 @@ const pkg = vendor?.packages?.[selectedPkg]
       });
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'dummy_key',
+        key: razorpayKey,
         amount: data.order.amount,
         currency: data.order.currency,
         name: 'ShaadiSaathi',
         description: `Booking for ${service ? service.title : vendor?.businessName}`,
         order_id: data.order.id,
+        modal: {
+          ondismiss: function() {
+            // User closed the Razorpay modal without completing payment
+            toast.error('Payment cancelled. Please try again.')
+            setIsSubmitting(false)
+          }
+        },
         handler: async function (response) {
           // 2. Verify payment on backend
           try {
@@ -130,6 +173,8 @@ const pkg = vendor?.packages?.[selectedPkg]
                 setOrderConfirmed(true)
                 toast.success('Payment Successful & Booking Submitted!')
                 setTimeout(() => navigate('/dashboard/my-bookings'), 3000)
+              } else {
+                toast.error(result.error?.message || 'Booking creation failed after payment.')
               }
             }
           } catch(err) {

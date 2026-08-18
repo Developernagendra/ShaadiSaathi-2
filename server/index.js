@@ -427,11 +427,14 @@ const repairCategories = async () => {
       return 'photography'; // fallback
     };
 
-    // 2. Repair Services missing category
+    const validCategoryIds = allCategories.map(c => c._id);
+
+    // 2. Repair Services missing category or with invalid category
     const servicesToRepair = await Service.find({
       $or: [
         { category: null },
-        { category: { $exists: false } }
+        { category: { $exists: false } },
+        { category: { $nin: validCategoryIds } }
       ]
     });
 
@@ -447,11 +450,12 @@ const repairCategories = async () => {
       }
     }
 
-    // 3. Repair Vendors missing category
+    // 3. Repair Vendors missing category or with invalid category
     const vendorsToRepair = await Vendor.find({
       $or: [
         { category: null },
-        { category: { $exists: false } }
+        { category: { $exists: false } },
+        { category: { $nin: validCategoryIds } }
       ]
     });
 

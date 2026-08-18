@@ -6,7 +6,6 @@ const { protect, restrictTo, adminOnly, vendorOnly, userOnly, verified, optional
 // Public or semi-public Tools API
 router.post('/track', toolController.trackAction);
 router.post('/predict-cost', toolController.predictCost);
-router.post('/baraat-calc', toolController.baraatCalculator);
 router.get('/vendor-availability', toolController.vendorAvailability);
 router.get('/vendor-compare', toolController.compareVendors);
 
@@ -19,10 +18,6 @@ router.get('/analytics', protect, restrictTo('admin'), toolController.getAnalyti
 // Cost Predictor
 router.post('/predict-cost/save', protect, userOnly, toolController.saveCostPrediction);
 router.get('/predict-cost/history', protect, userOnly, toolController.getCostPredictions);
-
-// Baraat Booking
-router.post('/baraat-calc/book', protect, userOnly, toolController.createBaraatBooking);
-router.get('/baraat-calc/bookings', protect, userOnly, toolController.getBaraatBookings);
 
 // Budget Planner
 router.post('/budget', protect, userOnly, toolController.saveBudgetPlan);

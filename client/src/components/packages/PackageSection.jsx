@@ -10,10 +10,12 @@ import QuoteFormModal from './QuoteFormModal';
 import ExpertConsultationModal from './ExpertConsultationModal';
 import { useNavigate } from 'react-router-dom';
 import { PACKAGE_IMAGES } from '../../utils/weddingImages';
+import { useTranslation } from 'react-i18next';
 
 export default function PackageSection() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { packages, loading, error } = useSelector(state => state.packages);
 
   const [selectedDetails, setSelectedDetails] = useState(null);
@@ -59,8 +61,8 @@ export default function PackageSection() {
             transition={{ delay: 0.1 }}
             className="font-serif text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight max-w-3xl mx-auto"
           >
-            अपनी शादी के लिए चुनें <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#C2185B] italic">बेस्ट Package</span>
+            {t('packages.headingLine1', 'Choose the Best Package')} <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#C2185B] italic">{t('packages.headingLine2', 'for Your Wedding')}</span>
           </motion.h2>
 
           <motion.p
@@ -70,7 +72,7 @@ export default function PackageSection() {
             transition={{ delay: 0.2 }}
             className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto mt-6 font-medium leading-relaxed"
           >
-            छोटे समारोह से लेकर शानदार राजशाही शादी तक, अपने बजट और पसंद के अनुसार package चुनें।
+            {t('packages.subheading', 'From intimate ceremonies to grand royal weddings — choose a package that fits your budget and vision.')}
           </motion.p>
         </div>
 

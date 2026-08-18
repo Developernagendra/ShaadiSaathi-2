@@ -76,3 +76,57 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
     message: 'Category deleted.'
   });
 });
+
+// @desc    Get category by slug
+// @route   GET /api/categories/slug/:slug
+// @access  Public
+exports.getCategoryBySlug = catchAsync(async (req, res, next) => {
+  const category = await Category.findOne({ slug: req.params.slug, isActive: true });
+  if (!category) return next(new AppError('Category not found.', 404));
+  
+  // Get live vendor count
+  const Vendor = require('../models/Vendor');
+  const vendorCount = await Vendor.countDocuments({
+    category: category._id,
+    approvalStatus: 'approved',
+    isActive: true
+  });
+  
+  const categoryObj = category.toObject();
+  categoryObj.vendorCount = vendorCount;
+  
+  res.status(200).json({
+    success: true,
+    status: 'success',
+    category: categoryObj
+  });
+});
+
+// @desc    Get categories with vendor counts
+// @route   GET /api/categories/with-counts
+// @access  Public
+exports.getCategoriesWithCounts = catchAsync(async (req, res, next) => {
+  const categories = await Category.find({ isActive: true }).sort({ order: 1, name: 1 }).lean();
+  
+  const Vendor = require('../models/Vendor');
+  const counts = await Vendor.aggregate([
+    { $match: { approvalStatus: 'approved', isActive: true, category: { $ne: null } } },
+    { $group: { _id: '$category', count: { $sum: 1 } } }
+  ]);
+  
+  const countMap = {};
+  counts.forEach(c => {
+    countMap[c._id.toString()] = c.count;
+  });
+  
+  const categoriesWithCounts = categories.map(cat => ({
+    ...cat,
+    vendorCount: countMap[cat._id.toString()] || 0
+  }));
+  
+  res.status(200).json({
+    success: true,
+    status: 'success',
+    categories: categoriesWithCounts
+  });
+});

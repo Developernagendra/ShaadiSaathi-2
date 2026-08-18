@@ -159,10 +159,16 @@ export default function FeaturedVendorCard({ vendor }) {
             <div className="bg-white rounded-xl px-3 py-2 flex flex-col items-center shadow-lg border border-gray-50">
               <div className="flex items-center gap-1 mb-0.5">
                 <span className="text-[#D4AF37] text-sm">⭐</span>
-                <span className="text-gray-900 font-black text-sm leading-none">{vendor.rating?.average || '4.9'}</span>
+                <span className="text-gray-900 font-black text-sm leading-none">
+                  {(vendor.dynamicRating?.average || vendor.rating?.average || 0) > 0
+                    ? (vendor.dynamicRating?.average || vendor.rating?.average).toFixed(1)
+                    : 'New'}
+                </span>
               </div>
               <span className="text-gray-500 text-[9px] font-bold uppercase tracking-widest leading-none">
-                {vendor.rating?.count > 0 ? `${vendor.rating.count} Revs` : '50+ Revs'}
+                {(vendor.dynamicRating?.count || vendor.rating?.count || 0) > 0
+                  ? `${vendor.dynamicRating?.count || vendor.rating?.count} Revs`
+                  : 'Verified'}
               </span>
             </div>
           </div>
@@ -181,7 +187,7 @@ export default function FeaturedVendorCard({ vendor }) {
                   <FiCheckCircle size={10} className="text-green-500" strokeWidth={3} /> Verified
                 </span>
                 <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-[0.1em] text-[#C2185B] bg-pink-50/70 px-2.5 py-1 rounded-md border border-pink-100">
-                  <span>🏆</span> {vendor.experienceYears ? `${vendor.experienceYears} Yrs Exp` : 'Verified Exp'}
+                  <span>🏆</span> {vendor.yearsOfExperience || vendor.experienceYears ? `${vendor.yearsOfExperience || vendor.experienceYears} Yrs Exp` : 'Verified Exp'}
                 </span>
                 {(vendor.badges?.includes('quickResponder') || vendor.subscription?.plan === 'premium') && (
                   <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-[0.1em] text-gray-600 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-100">
@@ -194,21 +200,31 @@ export default function FeaturedVendorCard({ vendor }) {
 
           {/* Bookings / Popularity indicator */}
           <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold text-gray-600 mb-5">
-            <div className="flex items-center gap-1 bg-[#FFF5F8] px-2.5 py-1 rounded-md text-[#C2185B]">
-              <span>❤️</span> 10+ Bookings
-            </div>
-            <div className="flex items-center gap-1 bg-[#FFF8F0] px-2.5 py-1 rounded-md text-[#D4AF37]">
-              <span>🔥</span> Popular Choice
-            </div>
+            {vendor.totalBookings > 0 ? (
+              <div className="flex items-center gap-1 bg-[#FFF5F8] px-2.5 py-1 rounded-md text-[#C2185B]">
+                <span>❤️</span> {vendor.totalBookings}+ Bookings
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 bg-[#F0FDF4] px-2.5 py-1 rounded-md text-emerald-700">
+                <span>●</span> Available for Booking
+              </div>
+            )}
+            {vendor.isFeatured && (
+              <div className="flex items-center gap-1 bg-[#FFF8F0] px-2.5 py-1 rounded-md text-[#D4AF37]">
+                <span>🔥</span> Featured Choice
+              </div>
+            )}
           </div>
 
           {/* Price & Actions Row */}
           <div className="mt-auto pt-4 border-t border-gray-100 flex flex-col gap-4 w-full">
             <div className="flex items-end justify-between w-full">
               <div>
-                <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Starting Price</p>
+                <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                  {(vendor.basePrice || vendor.price || vendor.packages?.[0]?.price) ? 'Starting Price' : 'Pricing'}
+                </p>
                 <p className="font-display font-black text-gray-900 text-2xl tracking-tight leading-none">
-                  {formatPrice(vendor.basePrice || vendor.packages?.[0]?.price || 15000)}
+                  {formatPrice(vendor.basePrice || vendor.price || vendor.packages?.[0]?.price || null)}
                 </p>
               </div>
             </div>

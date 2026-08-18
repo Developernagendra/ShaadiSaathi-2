@@ -1,6 +1,10 @@
-export const formatPrice = (price) => {
-  if (!price && price !== 0) return 'Price unavailable'
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price)
+export const formatPrice = (price, fallback = 'Contact for Pricing') => {
+  if (price === null || price === undefined || price === '' || isNaN(Number(price))) {
+    return fallback
+  }
+  const num = Number(price)
+  if (num <= 0) return fallback
+  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num)
 }
 
 export const formatDate = (date) => {
@@ -76,15 +80,33 @@ export const VEHICLE_TYPES = [
   { value: 'horse_carriage', label: 'Horse Carriage', icon: '🎠', capacity: 4, desc: 'The royal wedding entry', rating: 5.0, baseRate: 200, image: BARAAT_VEHICLE_IMAGES.horse_carriage },
 ]
 
-export const optimizeImage = (url, width = 800) => {
-  if (!url) return ''
+export const optimizeImage = (url, width = 800, quality = 'auto') => {
+  if (!url || typeof url !== 'string') return ''
   if (url.includes('cloudinary.com')) {
-    return url.replace('/upload/', `/upload/w_${width},f_auto,q_auto/`)
+    if (url.includes('/upload/w_') || url.includes('/upload/f_auto')) {
+      return url
+    }
+    return url.replace('/upload/', `/upload/w_${width},f_auto,q_${quality}/`)
   }
   if (url.includes('unsplash.com')) {
-    return `${url.split('?')[0]}?w=${width}&q=80&auto=format`
+    const baseUrl = url.split('?')[0]
+    return `${baseUrl}?w=${width}&q=80&auto=format`
   }
   return url
+}
+
+export const getResponsiveImageProps = (url, width = 600, alt = '', className = '') => {
+  return {
+    src: optimizeImage(url, width),
+    srcSet: url && (url.includes('cloudinary.com') || url.includes('unsplash.com'))
+      ? `${optimizeImage(url, Math.round(width * 0.5))} 360w, ${optimizeImage(url, width)} 720w, ${optimizeImage(url, Math.round(width * 1.5))} 1200w`
+      : undefined,
+    sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+    alt: alt || 'Wedding service image',
+    className,
+    loading: 'lazy',
+    decoding: 'async',
+  }
 }
 
 export const getWhatsAppLink = (phone, defaultText = "Hi, I found your service on ShaadiSaathi and would like to book your service.") => {

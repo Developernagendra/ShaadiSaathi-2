@@ -188,10 +188,10 @@ export const CategoryAPI = {
 };
 
 export const FeatureAPI = {
-   blogs: () => API.get("/features/blogs"),
-   stats: () => API.get("/features/stats"),
-   testimonials: () => API.get("/features/testimonials"),
-   contactInfo: () => API.get("/features/contact-info"),
+   blogs: () => API.get("/features/blogs", { cache: true, cacheTime: 15 * 60 * 1000 }), // 15 mins
+   stats: () => API.get("/features/stats", { cache: true, cacheTime: 30 * 60 * 1000 }), // 30 mins
+   testimonials: () => API.get("/features/testimonials", { cache: true, cacheTime: 30 * 60 * 1000 }), // 30 mins
+   contactInfo: () => API.get("/features/contact-info", { cache: true, cacheTime: 60 * 60 * 1000 }), // 1 hour
 };
 
 export const NotificationAPI = {

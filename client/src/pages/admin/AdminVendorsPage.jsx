@@ -347,7 +347,7 @@ export default function AdminVendorsPage({ defaultTab = 'pending', title = 'Veri
                       </td>
                       <td data-label="Operational Base" className="py-6 px-8 text-gray-500 font-semibold text-xs">
                         <div className="flex items-center gap-1.5 uppercase">
-                          <FiMapPin className="text-[#D4AF37]" size={12} /> {v.location?.city || 'Delhi'}
+                          <FiMapPin className="text-[#D4AF37]" size={12} /> {v.location?.city || 'Not Specified'}
                         </div>
                       </td>
                       <td data-label="Registered" className="py-6 px-8 text-gray-400 font-medium text-xs whitespace-nowrap">
@@ -424,7 +424,7 @@ export default function AdminVendorsPage({ defaultTab = 'pending', title = 'Veri
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400 font-semibold">City:</span>
                     <span className="font-bold text-gray-900 uppercase flex items-center gap-1">
-                      <FiMapPin size={10} className="text-[#D4AF37]" /> {v.location?.city || 'Delhi'}
+                      <FiMapPin size={10} className="text-[#D4AF37]" /> {v.location?.city || 'Not Specified'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">

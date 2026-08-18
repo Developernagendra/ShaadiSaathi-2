@@ -44,6 +44,10 @@ const serviceSchema = new mongoose.Schema({
     trim: true,
     maxlength: 200,
   },
+  normalizedTitle: {
+    type: String,
+    index: true,
+  },
   description: { type: String, required: true, maxlength: 3000 },
   images: [{ url: String, publicId: String, caption: String }],
   coverImage: { type: String },
@@ -90,8 +94,17 @@ serviceSchema.index({ title: 'text', description: 'text' });
 serviceSchema.index({ isActive: 1 });
 serviceSchema.index({ createdAt: -1 });
 serviceSchema.index({ status: 1 });
+// Compound unique index: prevent same vendor from creating duplicate service (same title+category)
+serviceSchema.index({ vendor: 1, category: 1, normalizedTitle: 1 }, { unique: true, background: true, partialFilterExpression: { normalizedTitle: { $exists: true, $ne: null } } });
 
 serviceSchema.pre('validate', function (next) {
+  // Auto-compute normalizedTitle for duplicate detection
+  if (this.isModified('title') || !this.normalizedTitle) {
+    if (this.title) {
+      this.normalizedTitle = this.title.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+  }
+
   // Sync images to gallery array of strings
   if (this.images && this.images.length > 0) {
     this.gallery = this.images.map(img => typeof img === 'string' ? img : (img.url || ''));
@@ -179,7 +192,7 @@ const bookingSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'in_progress', 'on_the_way', 'completed', 'cancelled', 'rejected'],
+    enum: ['pending', 'confirmed', 'accepted', 'in_progress', 'on_the_way', 'completed', 'cancelled', 'rejected'],
     default: 'pending',
   },
   paymentStatus: {
@@ -307,7 +320,7 @@ const paymentSchema = new mongoose.Schema({
   vendorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   amount: { type: Number, required: true },
   currency: { type: String, default: 'INR' },
-  method: { type: String, enum: ['stripe', 'upi', 'cash', 'bank_transfer'] },
+  method: { type: String, enum: ['stripe', 'razorpay', 'upi', 'cash', 'bank_transfer', 'online'] },
   type: { type: String, enum: ['booking', 'cab_booking', 'subscription'], default: 'booking' },
   planName: { type: String },
   status: {
@@ -362,7 +375,7 @@ const notificationSchema = new mongoose.Schema({
   sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   type: {
     type: String,
-    enum: ['booking', 'review', 'chat', 'payment', 'system', 'vendor_approval', 'booking_status'],
+    enum: ['booking', 'cab_booking', 'review', 'chat', 'payment', 'system', 'vendor_approval', 'booking_status'],
     required: true,
   },
   title: { type: String, required: true },
@@ -693,7 +706,6 @@ const {
   WeddingBudget, 
   BudgetPlan, 
   CostPrediction, 
-  BaraatBookingRequest, 
   SavedKundli, 
   SavedMuhurat 
 } = require('./ToolModels');
@@ -731,7 +743,6 @@ module.exports = {
   WeddingBudget,
   BudgetPlan,
   CostPrediction,
-  BaraatBookingRequest,
   SavedKundli,
   SavedMuhurat
 };
