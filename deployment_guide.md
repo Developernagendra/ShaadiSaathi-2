@@ -61,10 +61,10 @@ Add these variables in your **Vercel Project Settings → Environment Variables*
 - **Auto-Deploy**: `Yes` (bind to your main git branch)
 
 ### B. Node Version & Engines
-The backend `package.json` specifies Node `20.x` constraints to optimize V8 execution loops on Render VMs:
+The backend `package.json` specifies Node `24.x` constraints to optimize V8 execution loops on Render VMs:
 ```json
 "engines": {
-  "node": "20.x"
+  "node": "24.x"
 }
 ```
 

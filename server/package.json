@@ -41,7 +41,7 @@
     }
   },
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
