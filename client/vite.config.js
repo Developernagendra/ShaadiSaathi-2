@@ -138,6 +138,7 @@ export default defineConfig({
     reportCompressedSize: false, // faster builds
     assetsInlineLimit: 4096, // inline assets < 4KB as base64
 
+    sourcemap: true,
     // esbuild minification — comes bundled with Vite, no install needed
     minify: 'esbuild',
     esbuildOptions: {
@@ -146,59 +147,67 @@ export default defineConfig({
 
     rollupOptions: {
       output: {
-        // Manual chunk splitting for optimal caching
+        // Manual chunk splitting with precise package boundaries to avoid circular chunk dependencies
         manualChunks: (id) => {
-          // Core React/Redux — cached longest
-          if (id.includes('node_modules/react') ||
-              id.includes('node_modules/react-dom') ||
-              id.includes('node_modules/react-redux') ||
-              id.includes('node_modules/@reduxjs') ||
-              id.includes('node_modules/redux')) {
+          if (!id.includes('node_modules')) return
+
+          // Core React & DOM
+          if (id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/scheduler/')) {
             return 'vendor-react'
           }
 
-          // Router — changes infrequently
-          if (id.includes('node_modules/react-router')) {
+          // Redux state management
+          if (id.includes('node_modules/@reduxjs/toolkit/') ||
+              id.includes('node_modules/react-redux/') ||
+              id.includes('node_modules/redux/')) {
+            return 'vendor-redux'
+          }
+
+          // Router
+          if (id.includes('node_modules/react-router/') ||
+              id.includes('node_modules/react-router-dom/') ||
+              id.includes('node_modules/@remix-run/router/')) {
             return 'vendor-router'
           }
 
-          // Framer Motion — large, isolated chunk
-          if (id.includes('node_modules/framer-motion')) {
+          // Framer Motion
+          if (id.includes('node_modules/framer-motion/')) {
             return 'vendor-motion'
           }
 
-          // Socket.io — large, used only when authenticated
-          if (id.includes('node_modules/socket.io') ||
-              id.includes('node_modules/engine.io')) {
+          // Socket.io
+          if (id.includes('node_modules/socket.io-client/') ||
+              id.includes('node_modules/engine.io-client/')) {
             return 'vendor-socket'
           }
 
-          // Icon libraries — large, isolated
-          if (id.includes('node_modules/react-icons')) {
+          // Icon libraries
+          if (id.includes('node_modules/react-icons/')) {
             return 'vendor-icons'
           }
 
-          // PDF and canvas generators — heavy, isolated
-          if (id.includes('node_modules/jspdf') ||
-              id.includes('node_modules/html2canvas')) {
+          // PDF and canvas generators
+          if (id.includes('node_modules/jspdf/') ||
+              id.includes('node_modules/html2canvas/')) {
             return 'vendor-pdf'
           }
 
           // Charting libraries
-          if (id.includes('node_modules/recharts') ||
+          if (id.includes('node_modules/recharts/') ||
               id.includes('node_modules/d3-') ||
-              id.includes('node_modules/victory')) {
+              id.includes('node_modules/victory-vendor/')) {
             return 'vendor-charts'
           }
 
           // i18n
-          if (id.includes('node_modules/i18next') ||
-              id.includes('node_modules/react-i18next')) {
+          if (id.includes('node_modules/i18next/') ||
+              id.includes('node_modules/react-i18next/') ||
+              id.includes('node_modules/i18next-browser-languagedetector/') ||
+              id.includes('node_modules/i18next-http-backend/')) {
             return 'vendor-i18n'
           }
-
-          // No catch-all — let Rollup handle other modules naturally
-          // (avoids circular dependency issues)
         },
 
         // Predictable asset filenames for better CDN caching
